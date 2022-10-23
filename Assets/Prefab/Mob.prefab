@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b004c7640333d8f42a9168f1c77610dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UpForce: 3
 --- !u!61 &7569433008082937446
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -220,7 +221,7 @@ MonoBehaviour:
   _Dog: {fileID: 9100000, guid: 6a1f6d5da34b7e94586cb3fc108a1455, type: 2}
   _Cat: {fileID: 9100000, guid: 5fefba70bff59fb48a89c8c35f06660e, type: 2}
   _Helmet: {fileID: 6229962513590710041}
-  _Stage: {fileID: 282927962002515522, guid: d74e121d056ac964087283e43b0311b1, type: 3}
+  _Stage: {fileID: 282927962002515533, guid: d74e121d056ac964087283e43b0311b1, type: 3}
   _CatReturnTime: 10
 --- !u!95 &6220604801901877350
 Animator:

@@ -48,21 +48,22 @@ public class Mob : MonoBehaviour, IPoolable
     private RuntimeAnimatorController _Dog, _Cat;
     [SerializeField]
     private Helmet _Helmet;
-    [SerializeField]
-    private Transform _Stage;
+    
+    private Stage _Stage;
     [SerializeField]
     private float _CatReturnTime = 10f;
 
     private MobType _mobType = MobType.Cat;
     private Vector3 _impulseForce = new Vector3(0, 20f);
-    private Vector3 _HelmetPosition;    
+    private Vector3 _HelmetPosition, _ReturnPosition;    
     private Rigidbody2D _Rig;
     private Animator _Animator;
 
     private StateActionMap<MobType> _SkinMob;
-    private float _ReturnTimer = 10f;
+    private float _ReturnTimer = 4f;
     private bool _WillReturn;
-    
+
+    private WTMK _Tools = WTMK.Instance;
 
     private void Awake()
     {
@@ -79,11 +80,18 @@ public class Mob : MonoBehaviour, IPoolable
         _HelmetPosition = _Helmet.transform.position;
     }
 
+    private void Start()
+    {
+        _Stage = FindObjectOfType<Stage>();
+    }
+
     private void Update()
     {
         if(_WillReturn)
         {
             _ReturnTimer -= Time.deltaTime;
+            var pos = MoveToReturnPosition();
+            transform.position = new Vector3(pos.x, transform.position.y, 0f);
             if(_ReturnTimer <= 0)
             {
                 _WillReturn = false;
@@ -163,10 +171,12 @@ public class Mob : MonoBehaviour, IPoolable
         {
             case MobType.CatWithHelmet:
                 floor.IncreaseInvasion(2);
+                SetReturnPosition();
                 StartCatReturnTimer();
                 break;
             case MobType.Cat:
-                floor.IncreaseInvasion(1);
+                SetReturnPosition();
+                floor.CatEscaped();
                 StartCatReturnTimer();
                 break;
             case MobType.Dog:
@@ -174,6 +184,24 @@ public class Mob : MonoBehaviour, IPoolable
                 Return();
                 break;
         }
+    }
+
+    private void SetReturnPosition()
+    {
+        var roll = _Tools.Rando.Next(9);
+        if (roll >= 4)
+        {
+            _ReturnPosition = _Stage.LeftWall.position;
+        }
+        else
+        {
+            _ReturnPosition = _Stage.RightWall.position;
+        }
+    }
+
+    private Vector3 MoveToReturnPosition()
+    {
+        return Vector3.MoveTowards(transform.position, _ReturnPosition, 3f * Time.deltaTime);
     }
 
     private void ReturnHelmet(Helmet helmet)
