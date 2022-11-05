@@ -7,13 +7,13 @@ public class GameScreen : State<GameState>
     public override void OnEnter() 
     {
         _View.SetActive(true);
-        _Input.OnHorizontalMovement += MoveHorizontal;
+        _View.Player.Register();
     }
 
     public override void OnExit() 
     {
         _Ready = false;
-        _Input.OnHorizontalMovement -= MoveHorizontal;
+        _View.Player.Unregister();
         _View.SetActive(false);
     }
 
@@ -38,11 +38,7 @@ public class GameScreen : State<GameState>
     private void InitGameComponets()
     {
         _Input = new InputProcessor();
-    }
-
-    private void MoveHorizontal(float moveValue)
-    {
-        Debug.Log(moveValue);
+        _View.Player.Init(_Input);
     }
 }
 
