@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -769,6 +769,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &670804341 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8920560412952644774, guid: 2afb838dad2c86b4ca238ebdcc49ec5b, type: 3}
+  m_PrefabInstance: {fileID: 3612812035225362460}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &671124878
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,6 +1667,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34db3015f7bba3343ad6f3ffd6a8313f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1340488849 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 441803143649935852, guid: 2afb838dad2c86b4ca238ebdcc49ec5b, type: 3}
+  m_PrefabInstance: {fileID: 3612812035225362460}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1347735648
 GameObject:
   m_ObjectHideFlags: 0
@@ -2908,9 +2918,21 @@ PrefabInstance:
       value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 3735538573677850211, guid: 2afb838dad2c86b4ca238ebdcc49ec5b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3735538573677850211, guid: 2afb838dad2c86b4ca238ebdcc49ec5b, type: 3}
+      propertyPath: _GunObject
+      value: 
+      objectReference: {fileID: 1340488849}
+    - target: {fileID: 3735538573677850211, guid: 2afb838dad2c86b4ca238ebdcc49ec5b, type: 3}
       propertyPath: _MovePower
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3735538573677850211, guid: 2afb838dad2c86b4ca238ebdcc49ec5b, type: 3}
+      propertyPath: _CollectorObject
+      value: 
+      objectReference: {fileID: 670804341}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2afb838dad2c86b4ca238ebdcc49ec5b, type: 3}
 --- !u!114 &3612812035225362461 stripped

@@ -13,16 +13,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Collector _Collector;
     [SerializeField]
+    private GameObject _CollectorObject;
+    [SerializeField]
     private Gun _Gun;
+    [SerializeField]
+    private GameObject _GunObject;
 
     public void Register()
     {
         _Input.OnHorizontalMovement += MoveHorizontal;
+        _Input.OnSwapToBasket += SwapToBasket;
+        _Input.OnSwapToGun += SwapToGun;
+        _Input.OnShoot += Shoot;
     }
 
     public void Unregister()
     {
         _Input.OnHorizontalMovement -= MoveHorizontal;
+        _Input.OnSwapToBasket -= SwapToBasket;
+        _Input.OnSwapToGun -= SwapToGun;
+        _Input.OnShoot -= Shoot;
     }
 
     public void Init(InputProcessor input)
@@ -31,7 +41,6 @@ public class PlayerController : MonoBehaviour
         _MoveVector = new Vector2(0, 0);
         _Gun.gameObject.SetActive(false);
     }
-
     private InputProcessor _Input;
     private Vector2 _MoveVector;
     private Vector3 _180 = new Vector3(0, 180, 0);
@@ -40,6 +49,33 @@ public class PlayerController : MonoBehaviour
     {
         _MoveVector.x = moveValue;    
     }
+
+    private void SwapToGun(float gunValue) 
+    {
+        if (gunValue != 0)
+        {
+            _GunObject.SetActive(true);
+            _CollectorObject.SetActive(false);
+            Debug.Log("GunSwapped");
+        }
+    }
+    private void SwapToBasket(float basketValue)
+    {
+        if (basketValue != 0)
+        {
+            _CollectorObject.SetActive(true);
+            _GunObject.SetActive(false);
+            Debug.Log("CollectorSwapped");
+        }
+    }
+    private void Shoot(float shootValue)
+    {
+        if (shootValue != 0)
+        {
+            Debug.Log("Gun has been fired");
+        }
+    }
+    
 
     private void Update()
     {
