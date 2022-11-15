@@ -18,7 +18,11 @@ public class PlayerController : MonoBehaviour
     private Gun _Gun;
     [SerializeField]
     private GameObject _GunObject;
-
+    [SerializeField]
+    private Shot _ShotPrefab;
+    [SerializeField]
+    private int _ShotPoolSize;
+    
     public void Register()
     {
         _Input.OnHorizontalMovement += MoveHorizontal;
@@ -35,17 +39,39 @@ public class PlayerController : MonoBehaviour
 
     public void Init(InputProcessor input)
     {
+        BuildShotPool();
+
         _Input = input;
         _MoveVector = new Vector2(0, 0);
         _Gun.gameObject.SetActive(false);
 
         _CombatState = CombatState.Collecting;
     }
+
+    private Pool _ShotPool;
+    private List<IPoolable> _Shots;
     private InputProcessor _Input;
     private Vector2 _MoveVector;
     private Vector3 _180 = new Vector3(0, 180, 0);
     private CombatState _CombatState;
 
+    private void BuildShotPool()
+    {
+        _Shots = new List<IPoolable>();
+        int count = _ShotPoolSize;
+        while (count > 0)
+        {
+            count--;
+            var clone = Instantiate(_ShotPrefab);
+            clone.transform.SetParent(transform);
+
+            var shot = clone.GetComponent<Shot>();
+            _Shots.Add(shot);
+            clone.transform.position = _Gun.ShotSpawnPoint.position;
+        }
+
+        _ShotPool = new Pool(_Shots.ToArray());
+    }
     private void MoveHorizontal(float moveValue)
     {
         _MoveVector.x = moveValue;    

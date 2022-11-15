@@ -33,6 +33,7 @@ public class Pool : IPool
             {
                 _Pool[i].OnReturnRequest += PlaceInQueue;
                 _Queue.Enqueue(_Pool[i]);
+                _Pool[i].SetActive(false);
             }
         }
     }
