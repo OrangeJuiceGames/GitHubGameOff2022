@@ -22,16 +22,14 @@ public class PlayerController : MonoBehaviour
     public void Register()
     {
         _Input.OnHorizontalMovement += MoveHorizontal;
-        _Input.OnSwapToBasket += SwapToBasket;
-        _Input.OnSwapToGun += SwapToGun;
-        _Input.OnShoot += Shoot;
+        _Input.OnF1Down += TrySwap;
+        _Input.OnMouse1Down += TryShoot;
     }
 
     public void Unregister()
     {
         _Input.OnHorizontalMovement -= MoveHorizontal;
-        _Input.OnSwapToBasket -= SwapToBasket;
-        _Input.OnSwapToGun -= SwapToGun;
+        _Input.OnF1Down -= TrySwap;
         _Input.OnShoot -= Shoot;
     }
 
@@ -40,14 +38,29 @@ public class PlayerController : MonoBehaviour
         _Input = input;
         _MoveVector = new Vector2(0, 0);
         _Gun.gameObject.SetActive(false);
+
+        _CombatState = CombatState.Collecting;
     }
     private InputProcessor _Input;
     private Vector2 _MoveVector;
     private Vector3 _180 = new Vector3(0, 180, 0);
+    private CombatState _CombatState;
 
     private void MoveHorizontal(float moveValue)
     {
         _MoveVector.x = moveValue;    
+    }
+    private void TrySwap()
+    {
+        if(_CombatState == CombatState.Collecting)
+        {
+            _CombatState = CombatState.Shooting;
+            SwapToGun(1);
+        }else if(_CombatState == CombatState.Shooting)
+        {
+            _CombatState = CombatState.Collecting;
+            SwapToBasket(1);
+        }
     }
 
     private void SwapToGun(float gunValue) 
@@ -68,6 +81,15 @@ public class PlayerController : MonoBehaviour
             Debug.Log("CollectorSwapped");
         }
     }
+
+    private void TryShoot()
+    {
+        if(_CombatState == CombatState.Shooting)
+        {
+            Shoot(1);
+        }
+    }
+
     private void Shoot(float shootValue)
     {
         if (shootValue != 0)
@@ -98,4 +120,11 @@ public class PlayerController : MonoBehaviour
             transform.eulerAngles = _180;
         }
     }
+}
+
+
+public enum CombatState
+{
+    Collecting,
+    Shooting
 }

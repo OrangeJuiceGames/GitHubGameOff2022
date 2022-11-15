@@ -10,6 +10,9 @@ public class InputProcessor : Updatable
     public event Action<float> OnSwapToBasket;
     public event Action<float> OnShoot;
 
+    public event Action OnMouse1Down;
+    public event Action OnF1Down;
+
 
     private float _Horizontal;
     private float _SwapToGun;
@@ -23,6 +26,17 @@ public class InputProcessor : Updatable
     public void Update()
     {
         _Horizontal = Input.GetAxis(_MoveAxis);
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            OnMouse1Down?.Invoke();
+        }
+
+        if(Input.GetKeyDown(KeyCode.F1))
+        {
+            OnF1Down?.Invoke();
+        }
+
         _SwapToGun = Input.GetAxis(SwapToGun);
         _SwapToBasket = Input.GetAxis(SwapToBasket);
         _Shoot = Input.GetAxis(Shoot);
