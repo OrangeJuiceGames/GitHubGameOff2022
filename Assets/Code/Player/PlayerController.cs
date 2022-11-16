@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
         {
             count--;
             var clone = Instantiate(_ShotPrefab);
-            clone.transform.SetParent(transform);
+            //clone.transform.SetParent(transform);
 
             var shot = clone.GetComponent<Shot>();
             _Shots.Add(shot);
@@ -120,7 +120,8 @@ public class PlayerController : MonoBehaviour
     {
         if (shootValue != 0)
         {
-            Debug.Log("Gun has been fired");
+            var currentShot = (Shot)_ShotPool.GetPoolable();
+            currentShot.Fire(_Gun.ShotSpawnPoint.position);
         }
     }
     
