@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 { 
     [SerializeField]
-    private SpriteRenderer _Model;
+    private SpriteRenderer _Rend;
     [SerializeField]
     private Rigidbody2D _Rig;
     [SerializeField]
@@ -26,22 +26,42 @@ public class PlayerController : MonoBehaviour
     public void Register()
     {
         _Input.OnHorizontalMovement += MoveHorizontal;
+
         _Input.OnF1Down += TrySwap;
+        _Input.OnEDown += TrySwap;
+        _Input.OnLeftShiftDown += TrySwap;
+        _Input.OnLeftControlDown += TrySwap;
+        _Input.OnLeftAltDown += TrySwap;
+
         _Input.OnMouse1Down += TryShoot;
+        _Input.OnSpaceDown += TryShoot;
+
+        _UpgradeSystem.OnUpgradeActive += LevelUp;
     }
 
     public void Unregister()
     {
         _Input.OnHorizontalMovement -= MoveHorizontal;
+
         _Input.OnF1Down -= TrySwap;
-        _Input.OnShoot -= Shoot;
+        _Input.OnEDown -= TrySwap;
+        _Input.OnLeftShiftDown -= TrySwap;
+        _Input.OnLeftControlDown -= TrySwap;
+        _Input.OnLeftAltDown -= TrySwap;
+
+        _Input.OnMouse1Down -= TryShoot;
+        _Input.OnSpaceDown -= TryShoot;
+
+        _UpgradeSystem.OnUpgradeActive -= LevelUp;
     }
 
-    public void Init(InputProcessor input)
+    public void Init(InputProcessor input, Upgrade upgradeSystem)
     {
+        _Model = new PlayerModel();
         BuildShotPool();
 
         _Input = input;
+        _UpgradeSystem = upgradeSystem;
         _MoveVector = new Vector2(0, 0);
         _Gun.gameObject.SetActive(false);
 
@@ -51,6 +71,8 @@ public class PlayerController : MonoBehaviour
     private Pool _ShotPool;
     private List<IPoolable> _Shots;
     private InputProcessor _Input;
+    private Upgrade _UpgradeSystem;
+    private PlayerModel _Model;
     private Vector2 _MoveVector;
     private Vector3 _180 = new Vector3(0, 180, 0);
     private CombatState _CombatState;
@@ -63,7 +85,6 @@ public class PlayerController : MonoBehaviour
         {
             count--;
             var clone = Instantiate(_ShotPrefab);
-            //clone.transform.SetParent(transform);
 
             var shot = clone.GetComponent<Shot>();
             _Shots.Add(shot);
@@ -125,6 +146,10 @@ public class PlayerController : MonoBehaviour
         }
     }
     
+    private void LevelUp(UpgradeResult upgrade)
+    {
+        Debug.Log("level up");
+    }
 
     private void Update()
     {

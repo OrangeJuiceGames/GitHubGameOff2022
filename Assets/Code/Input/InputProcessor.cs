@@ -12,6 +12,11 @@ public class InputProcessor : Updatable
 
     public event Action OnMouse1Down;
     public event Action OnF1Down;
+    public event Action OnEDown;
+    public event Action OnLeftShiftDown;
+    public event Action OnLeftControlDown;
+    public event Action OnLeftAltDown;
+    public event Action OnSpaceDown;
 
 
     private float _Horizontal;
@@ -37,15 +42,40 @@ public class InputProcessor : Updatable
             OnF1Down?.Invoke();
         }
 
-        _SwapToGun = Input.GetAxis(SwapToGun);
-        _SwapToBasket = Input.GetAxis(SwapToBasket);
-        _Shoot = Input.GetAxis(Shoot);
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            OnEDown?.Invoke();
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            OnLeftShiftDown?.Invoke();
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            OnLeftControlDown?.Invoke();
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            OnLeftAltDown?.Invoke();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            OnSpaceDown?.Invoke();
+        }
 
         OnHorizontalMovement?.Invoke(_Horizontal);
+
+        /*
         OnSwapToBasket?.Invoke(_SwapToBasket);
         OnSwapToGun?.Invoke(_SwapToGun);
         OnShoot?.Invoke(_Shoot);
-
-
+        _SwapToGun = Input.GetAxis(SwapToGun);
+        _SwapToBasket = Input.GetAxis(SwapToBasket);
+        _Shoot = Input.GetAxis(Shoot);
+        */
     }
 }
