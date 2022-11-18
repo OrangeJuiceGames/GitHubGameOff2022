@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1875,7 +1875,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &1389664731
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1927,8 +1927,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cca35388e451adb44b28d82255589bd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CatPrefab: {fileID: 0}
-  DogPrefab: {fileID: 0}
+  CatPrefab: {fileID: -993264314620978686, guid: 812a819eb682d64439629af2df208c7e, type: 3}
+  DogPrefab: {fileID: 5622045459485565753, guid: b83b48efa848d734f8425d424c57c85b, type: 3}
 --- !u!1 &1490456333
 GameObject:
   m_ObjectHideFlags: 0
