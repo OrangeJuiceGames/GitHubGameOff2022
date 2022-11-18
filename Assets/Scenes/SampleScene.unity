@@ -1833,7 +1833,7 @@ GameObject:
   - component: {fileID: 1389664730}
   - component: {fileID: 1389664732}
   - component: {fileID: 1389664733}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: EnemyShip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2830,7 +2830,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1933384080}
   - component: {fileID: 1933384081}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
