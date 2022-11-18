@@ -56,6 +56,7 @@ public class Upgrade
             if(_UpgradeOptions.ContainsKey(roll))
             {
                 _UpgradeOptions[roll]();
+                OnUpgradeActive?.Invoke(null);
             }
             else
             {
@@ -63,7 +64,6 @@ public class Upgrade
                 //we should never get here if things are not well
                 throw new Exception();
             }
-            //OnUpgradeActive?.Invoke(null);
         }
     }
 
@@ -99,7 +99,7 @@ public class Upgrade
     {
         var roll = _Tools.Rando.Next(_UpgradePotency.Count);
 
-        _PlayerData.RateOfFire += _UpgradePotency[roll];
+        _PlayerData.RateOfFire -= _UpgradePotency[roll];
     }
 
     private void AddPenetration()
