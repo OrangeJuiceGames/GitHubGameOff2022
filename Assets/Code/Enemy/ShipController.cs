@@ -10,7 +10,7 @@ public class ShipController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _shipMovement = new ShipMovement(this.transform.position, 1f);
+        _shipMovement = new ShipMovement(this.transform.position, 2f);
     }
 
     // Update is called once per frame

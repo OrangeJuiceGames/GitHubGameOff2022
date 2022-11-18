@@ -1832,6 +1832,7 @@ GameObject:
   - component: {fileID: 1389664731}
   - component: {fileID: 1389664730}
   - component: {fileID: 1389664732}
+  - component: {fileID: 1389664733}
   m_Layer: 0
   m_Name: EnemyShip
   m_TagString: Untagged
@@ -1914,6 +1915,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _model: {fileID: 1933384081}
+--- !u!114 &1389664733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389664728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cca35388e451adb44b28d82255589bd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CatPrefab: {fileID: 0}
+  DogPrefab: {fileID: 0}
 --- !u!1 &1490456333
 GameObject:
   m_ObjectHideFlags: 0
