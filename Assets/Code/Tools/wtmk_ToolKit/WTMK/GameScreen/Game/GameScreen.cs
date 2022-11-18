@@ -25,9 +25,9 @@ public class GameScreen : State<GameState>
 
     private GameData _GameData = GameData.Instance;
     private GameScreenView _View;
-
     // Game componets
     private InputProcessor _Input;
+    private Upgrade _UpgradeSystem;
 
     public GameScreen(GameScreenView view, GameState tag) : base(tag)
     {
@@ -38,7 +38,8 @@ public class GameScreen : State<GameState>
     private void InitGameComponets()
     {
         _Input = new InputProcessor();
-        _View.Player.Init(_Input);
+        _UpgradeSystem = new Upgrade(_View.Floor);
+        _View.Player.Init(_Input, _UpgradeSystem);
     }
 }
 
