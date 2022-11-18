@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private Shot _ShotPrefab;
     [SerializeField]
     private int _ShotPoolSize;
+
+    public PlayerModel Model => _Model;
     
     public void Register()
     {

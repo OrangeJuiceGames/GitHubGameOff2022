@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class PlayerModel 
 { 
-    public float ShotSize { get; set; }
-    public float RateOfFire { get; set; }
+    public float ShotSizeX { get; set; }
+    public float ShotSizeY { get; set; }
+    public float ShotVelocity { get; set; }
     public float Damage { get; set; }
+    public float RateOfFire { get; set; }
+    public bool Penetration { get; set; }
+    public int ShotCount { get; set; }
+    public bool Dash { get; set; }
     public float MoveSpeed { get; set; }
-    public bool CanDash { get; set; }
+    public float DashCoolDown { get; set; }
+    public bool HasShield { get; set; } //give dogs shiels until one do pops it then you loose it
 }
