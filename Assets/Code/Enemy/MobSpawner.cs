@@ -5,16 +5,19 @@ using UnityEngine;
 public class MobSpawner : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] Cat CatPrefab;
-    [SerializeField] Dog DogPrefab;
+    [SerializeField] Mob MobPrefab;
 
-    private List<(MobTypes, int)> _percentChanceOfMobs;
+    private List<(MobType, int)> _percentChanceOfMobs;
     private float _distanceBetweenSpawns = 1f;
     private Vector3 lastSpawnLocation = new Vector3();
+
+    private int _mobPoolSize = 20;
+    private Pool _mobPool;
 
     void Start()
     {
         _percentChanceOfMobs = SetMobPercentage();
+        _mobPool = BuildMobPool(_mobPoolSize);
     }
 
     // Update is called once per frame
@@ -31,6 +34,20 @@ public class MobSpawner : MonoBehaviour
         }
     }
 
+    private Pool BuildMobPool(int poolSize)
+    {
+        List<IPoolable> mobs = new List<IPoolable>();
+        while (poolSize > 0)
+        {
+            poolSize--;
+            Mob mob = Instantiate(MobPrefab);
+            mobs.Add(mob);
+            mob.transform.position = transform.position;
+        }
+
+        return new Pool(mobs.ToArray());
+    }
+
     private bool ShouldSpawnMob()
     {
         var distance = Vector3.Distance(lastSpawnLocation, transform.position);
@@ -43,7 +60,7 @@ public class MobSpawner : MonoBehaviour
         float randNum = Random.Range(0, 100);
 
         int sum = 0;
-        Mob selectedMob = null;
+        MobType selectedMobType = MobType.Cat;
 
         for (int i = 0; i < _percentChanceOfMobs.Count; i ++)
         {
@@ -51,26 +68,31 @@ public class MobSpawner : MonoBehaviour
 
             if (randNum <= sum)
             {
-                selectedMob = GetMobFromType(_percentChanceOfMobs[i].Item1);
+                selectedMobType = _percentChanceOfMobs[i].Item1;
             }
         }
 
-        Instantiate(selectedMob, transform.position, Quaternion.identity);
+        var mob = (Mob)_mobPool.GetPoolable();
+
+        mob.ChangeMobType(selectedMobType);
+        mob.transform.position = transform.position;
+        mob.SetActive(true);
+
         lastSpawnLocation = transform.position;
     }
 
-    private List<(MobTypes, int)> SetMobPercentage()
+    private List<(MobType, int)> SetMobPercentage()
     {
-        List<(MobTypes, int)> percentChances = new List<(MobTypes, int)>();
-        percentChances.Add((MobTypes.Cat, 60));
-        percentChances.Add((MobTypes.Dog, 40));
+        List<(MobType, int)> percentChances = new List<(MobType, int)>();
+        percentChances.Add((MobType.CatWithHelmet, 60));
+        percentChances.Add((MobType.Dog, 40));
 
         CheckPercentages(percentChances);
 
         return percentChances;
     }
 
-    private void CheckPercentages(List<(MobTypes, int)> mobPercentages)
+    private void CheckPercentages(List<(MobType, int)> mobPercentages)
     {
         int total = 0;
         for (int i = 0; i < mobPercentages.Count; i++)
@@ -83,13 +105,5 @@ public class MobSpawner : MonoBehaviour
         }
     }
 
-    private Mob GetMobFromType(MobTypes mobType)
-    {
-        return mobType switch
-        {
-            MobTypes.Cat => CatPrefab,
-            MobTypes.Dog => DogPrefab
-        };
-    }
 
 }
