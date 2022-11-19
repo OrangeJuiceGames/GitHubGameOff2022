@@ -6,6 +6,18 @@ public class Collector : MonoBehaviour
 {
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject.GetComponent<Mob>());    
+        Debug.Log("Collided with collector!");
+        if (collision.gameObject.name == "Cat")
+        {
+            
+        }
+        else if (collision.gameObject.name == "CatWithHelmet")
+        {
+
+        }
+        else if (collision.gameObject.name == "Dog")
+        {
+
+        }
     }
 }

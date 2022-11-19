@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private Shot _ShotPrefab;
     [SerializeField]
     private int _ShotPoolSize;
+
+    public PlayerModel Model => _Model;
     
     public void Register()
     {
@@ -57,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
     public void Init(InputProcessor input, Upgrade upgradeSystem)
     {
-        _Model = new PlayerModel();
+        SetDefaultStats();
         BuildShotPool();
 
         _Input = input;
@@ -68,6 +70,8 @@ public class PlayerController : MonoBehaviour
         _CombatState = CombatState.Collecting;
     }
 
+    
+
     private Pool _ShotPool;
     private List<IPoolable> _Shots;
     private InputProcessor _Input;
@@ -76,6 +80,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 _MoveVector;
     private Vector3 _180 = new Vector3(0, 180, 0);
     private CombatState _CombatState;
+    private bool _CanShoot = true;
+    private float _RateOfFire;
 
     private void BuildShotPool()
     {
@@ -93,6 +99,12 @@ public class PlayerController : MonoBehaviour
 
         _ShotPool = new Pool(_Shots.ToArray());
     }
+    private void SetDefaultStats()
+    {
+        _Model = new PlayerModel();
+        _Model.RateOfFire = 3f;
+    }
+
     private void MoveHorizontal(float moveValue)
     {
         _MoveVector.x = moveValue;    
@@ -131,7 +143,7 @@ public class PlayerController : MonoBehaviour
 
     private void TryShoot()
     {
-        if(_CombatState == CombatState.Shooting)
+        if(_CombatState == CombatState.Shooting && _CanShoot)
         {
             Shoot(1);
         }
@@ -141,6 +153,8 @@ public class PlayerController : MonoBehaviour
     {
         if (shootValue != 0)
         {
+            _CanShoot = false;
+            _RateOfFire = _Model.RateOfFire;
             var currentShot = (Shot)_ShotPool.GetPoolable();
             currentShot.Fire(_Gun.ShotSpawnPoint.position);
         }
@@ -154,11 +168,25 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Flip();
+        HandleFireRate();
     }
 
     private void FixedUpdate()
     {
         _Rig.velocity = _MoveVector * _MovePower;
+    }
+
+    private void HandleFireRate()
+    {
+        if(!_CanShoot)
+        {
+            _RateOfFire -= Time.deltaTime;
+
+            if(_RateOfFire <= 0)
+            {
+                _CanShoot = true;
+            }
+        }
     }
 
     private void Flip()

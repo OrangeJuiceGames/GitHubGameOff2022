@@ -38,7 +38,7 @@ public class GameScreen : State<GameState>
     private void InitGameComponets()
     {
         _Input = new InputProcessor();
-        _UpgradeSystem = new Upgrade(_View.Floor);
+        _UpgradeSystem = new Upgrade(_View.Floor, _View.Player.Model);
         _View.Player.Init(_Input, _UpgradeSystem);
     }
 }
