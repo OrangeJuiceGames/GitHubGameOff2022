@@ -72,13 +72,20 @@ public class MobSpawner : MonoBehaviour
             }
         }
 
-        var mob = (Mob)_mobPool.GetPoolable();
+        if(_mobPool.QueueCount > 0)
+        {
+            var mob = (Mob)_mobPool.GetPoolable();
 
-        mob.ChangeMobType(selectedMobType);
-        mob.transform.position = transform.position;
-        mob.SetActive(true);
+            mob.ChangeMobType(selectedMobType);
+            mob.transform.position = transform.position;
+            mob.SetActive(true);
 
-        lastSpawnLocation = transform.position;
+            lastSpawnLocation = transform.position;
+        }
+        else
+        {
+            Debug.LogError("Failed to spawn");
+        }
     }
 
     private List<(MobType, int)> SetMobPercentage()

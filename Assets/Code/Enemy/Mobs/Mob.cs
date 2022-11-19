@@ -9,11 +9,12 @@ public class Mob : MonoBehaviour, IPoolable
 
     private MobType _mobType = MobType.Cat;
     private Vector3 _impulseForce = new Vector3(0, 20f);
+    private Rigidbody2D _Rig;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        _Rig = GetComponent<Rigidbody2D>();        
     }
 
     // Update is called once per frame
@@ -26,21 +27,17 @@ public class Mob : MonoBehaviour, IPoolable
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Mob collided with " + collision.gameObject.name);
-
         switch (collision.gameObject.name)
         {
             case "Shot(Clone)":
                 AddUpwardsImpulse();
                 break;
             case "Floor":
-                if (_mobType == MobType.Cat)
+                if(_mobType == MobType.CatWithHelmet)
                 {
-                    Return();
+                    return;
                 }
-                else if (_mobType == MobType.Dog)
-                {
-                    Return();
-                }
+                Return();
                 break;
             case "collector!":
                 Return();
@@ -61,7 +58,7 @@ public class Mob : MonoBehaviour, IPoolable
 
     private void AddUpwardsImpulse()
     {
-        GetComponent<Rigidbody2D>().AddForce(_impulseForce, ForceMode2D.Impulse);
+        _Rig.AddForce(_impulseForce, ForceMode2D.Impulse);
     }
 
     public void SetActive(bool isActive)
@@ -71,6 +68,7 @@ public class Mob : MonoBehaviour, IPoolable
 
     public void Return()
     {
+        _Rig.velocity = Vector2.zero;
         OnReturnRequest?.Invoke(this);
     }
 }
