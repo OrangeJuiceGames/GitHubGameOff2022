@@ -1,37 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MobSpawner : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public event Action OnSpawnComplete;
+
+    public void SetSpawning(bool isActive)
+    {
+        _IsSpawning = isActive;
+    }
+
     [SerializeField] Mob MobPrefab;
-
     private List<(MobType, int)> _percentChanceOfMobs;
-    private float _distanceBetweenSpawns = 1f;
-    private Vector3 lastSpawnLocation = new Vector3();
 
-    private int _mobPoolSize = 20;
+    private int _mobPoolSize = 100;
     private Pool _mobPool;
+    private bool _IsSpawning;
+    private WTMK _Tool = WTMK.Instance;
 
     void Start()
     {
         _percentChanceOfMobs = SetMobPercentage();
         _mobPool = BuildMobPool(_mobPoolSize);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        RandSpawnMob();
-    }
-
-    private void RandSpawnMob()
-    {
-        if (ShouldSpawnMob())
-        {
-            SpawnMob();
-        }
     }
 
     private Pool BuildMobPool(int poolSize)
@@ -42,22 +34,16 @@ public class MobSpawner : MonoBehaviour
             poolSize--;
             Mob mob = Instantiate(MobPrefab);
             mobs.Add(mob);
+
             mob.transform.position = transform.position;
         }
 
         return new Pool(mobs.ToArray());
     }
 
-    private bool ShouldSpawnMob()
+    public void SpawnMob(Vector3 pos)
     {
-        var distance = Vector3.Distance(lastSpawnLocation, transform.position);
-
-        return distance >= _distanceBetweenSpawns;
-    }
-
-    private void SpawnMob()
-    {
-        float randNum = Random.Range(0, 100);
+        float randNum = _Tool.Rando.Next(0, 100);
 
         int sum = 0;
         MobType selectedMobType = MobType.Cat;
@@ -75,12 +61,8 @@ public class MobSpawner : MonoBehaviour
         if(_mobPool.QueueCount > 0)
         {
             var mob = (Mob)_mobPool.GetPoolable();
-
-            mob.ChangeMobType(selectedMobType);
-            mob.transform.position = transform.position;
-            mob.SetActive(true);
-
-            lastSpawnLocation = transform.position;
+            mob.Spawn(selectedMobType, pos);
+            OnSpawnComplete?.Invoke();
         }
         else
         {

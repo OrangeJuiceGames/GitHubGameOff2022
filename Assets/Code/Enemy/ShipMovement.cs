@@ -1,40 +1,113 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ShipMovement
 {
-    private Vector3 _topPosition;
-    private bool _isMovingLeft = true;
-    private float _movementSpeed;
+    public event Action<Vector3> OnReachStop;
+
+    private float _stopLength;
+    private float _remainingStopWait;
+    private bool isAtStop = false, _IsSpawning;
 
     private Vector3 _currentPos;
+    private float _movementSpeed;
+    private Vector3 _targetPos;
 
+    private List<ShipPath> _paths;
+    private int _pathIndex;
+    private Queue<Vector3> _stops;
+    private MobSpawner _MobSpawner;
 
-    public ShipMovement(Vector3 topPosition, float movementSpeed)
+    public ShipMovement(float movementSpeed, float stopLength, Vector3 currentPos, List<ShipPath> shipPaths, MobSpawner mobSpawner)
     {
-        _topPosition = topPosition;
-        _currentPos = topPosition;
         _movementSpeed = movementSpeed;
+        _currentPos = currentPos;
+        _paths = shipPaths;
+        _stops = GetNextSetOfStops();
+        _stopLength = stopLength;
+
+        _targetPos = GetNextPosition();
+        _MobSpawner = mobSpawner;
+
+        _MobSpawner.OnSpawnComplete += SpawnComplete;
     }
 
-    public Vector3 GetNewPosition()
+    private void SpawnComplete()
     {
-        if (_isMovingLeft)
+        _IsSpawning = false;
+    }
+
+    public Vector3 MoveTowardsStop()
+    {
+        if (isAtStop)
         {
-            _currentPos.x -= Time.deltaTime * _movementSpeed;
+            CountDownStop();
+            return _currentPos;
         }
-        else
+
+        if (_currentPos == _targetPos)
         {
-            _currentPos.x += Time.deltaTime * _movementSpeed;
+            StartStopTimer();
+            InvokeStop();
+            _targetPos = GetNextPosition();
+            return _currentPos;
         }
+
+        if(_IsSpawning)
+        {
+            return _currentPos;
+        }
+
+        var newPos = Vector3.MoveTowards(_currentPos, _targetPos, _movementSpeed * Time.deltaTime);
+        _currentPos = newPos;
         
-        return _currentPos;
+        return newPos;
     }
 
-    public void ChangeDirection()
+    private void StartStopTimer()
     {
-        _isMovingLeft = !_isMovingLeft;
+        isAtStop = true;
+        _remainingStopWait = _stopLength;
+    }
+
+    private void CountDownStop()
+    {
+        _remainingStopWait -= Time.deltaTime;
+        if (_remainingStopWait <= 0) { isAtStop = false; }
+    }
+
+    private void InvokeStop()
+    {
+        if(_IsSpawning)
+        {
+            return;
+        }
+
+        _IsSpawning = true;
+        OnReachStop?.Invoke(_currentPos);
+    }
+
+    private Vector3 GetNextPosition()
+    {
+        if (_stops.Count == 0)
+        {
+            _stops = GetNextSetOfStops();
+        }
+
+        return _stops.Dequeue();
+    }
+
+    private Queue<Vector3> GetNextSetOfStops()
+    {
+        _pathIndex++;
+        if (_pathIndex > _paths.Count - 1)
+        {
+            _pathIndex = 0;
+        }
+
+        return _paths[_pathIndex].GetPath();
     }
 
 

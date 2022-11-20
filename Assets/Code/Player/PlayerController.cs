@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
 
     private void TryShoot()
     {
-        if(_CombatState == CombatState.Shooting && _CanShoot)
+        if(_CombatState == CombatState.Shooting) // && _CanShoot)
         {
             Shoot(1);
         }
