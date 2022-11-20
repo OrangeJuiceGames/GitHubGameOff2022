@@ -34,10 +34,16 @@ public class ShipController : MonoBehaviour
         _MobSpawner = GetComponent<MobSpawner>();
     }
 
+    [SerializeField] List<ShipPath> Paths;
+
     // Start is called before the first frame update
     void Start()
     {
-        _shipMovement = new ShipMovement(this.transform.position, 2f);
+        _shipMovement = new ShipMovement(4f, 0.5f, transform.position, Paths);
+        _MobSpawner = transform.GetComponent<MobSpawner>();
+
+        _shipMovement.OnReachStop += _MobSpawner.SpawnMob;
+
     }
 
     // Update is called once per frame
@@ -47,16 +53,15 @@ public class ShipController : MonoBehaviour
         {
             return;
         }
-        transform.position = _shipMovement.GetNewPosition();
+        transform.position = _shipMovement.MoveTowardsStop();
     }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "RightBlocker" || collision.gameObject.name == "LeftBlocker")
-        {
-            _shipMovement.ChangeDirection();
-        }
+
     }
+
+
 
 }

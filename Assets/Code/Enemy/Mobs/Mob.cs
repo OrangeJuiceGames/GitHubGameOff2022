@@ -50,15 +50,21 @@ public class Mob : MonoBehaviour, IPoolable
     private float _ReturnTimer = 10f;
     private bool _WillReturn;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         _Rig = GetComponent<Rigidbody2D>();
         _Animator = GetComponent<Animator>();
+
         _SkinMob = new StateActionMap<MobType>();
         _SkinMob.RegisterEnter(MobType.Cat, OnEnter_Cat);
         _SkinMob.RegisterEnter(MobType.CatWithHelmet, OnEnter_CatWithHelmet);
         _SkinMob.RegisterEnter(MobType.Dog, OnEnter_Dog);
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
     }
 
     private void Update()
@@ -105,6 +111,9 @@ public class Mob : MonoBehaviour, IPoolable
             case "Floor":
                 var floor = collision.gameObject.GetComponent<Floor>();
                 HandelFloorCollision(floor);
+                break;
+            case "Collector":
+                Return();
                 break;
         }
     }

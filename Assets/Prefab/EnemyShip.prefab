@@ -177,6 +177,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _model: {fileID: 9086860784839752701}
+  Paths:
+  - {fileID: 11400000, guid: b2e403b8efda52d4380bf81882de6577, type: 2}
 --- !u!114 &9086860785348869041
 MonoBehaviour:
   m_ObjectHideFlags: 0

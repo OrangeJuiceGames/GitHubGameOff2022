@@ -11,8 +11,6 @@ public class MobSpawner : MonoBehaviour
 
     [SerializeField] Mob MobPrefab;
     private List<(MobType, int)> _percentChanceOfMobs;
-    private float _distanceBetweenSpawns = 1f;
-    private Vector3 lastSpawnLocation = new Vector3();
 
     private int _mobPoolSize = 20;
     private Pool _mobPool;
@@ -27,19 +25,9 @@ public class MobSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_IsSpawning)
-        {
-            RandSpawnMob();
-        }
+
     }
 
-    private void RandSpawnMob()
-    {
-        if (ShouldSpawnMob())
-        {
-            SpawnMob();
-        }
-    }
 
     private Pool BuildMobPool(int poolSize)
     {
@@ -49,20 +37,14 @@ public class MobSpawner : MonoBehaviour
             poolSize--;
             Mob mob = Instantiate(MobPrefab);
             mobs.Add(mob);
+
             mob.transform.position = transform.position;
         }
 
         return new Pool(mobs.ToArray());
     }
 
-    private bool ShouldSpawnMob()
-    {
-        var distance = Vector3.Distance(lastSpawnLocation, transform.position);
-
-        return distance >= _distanceBetweenSpawns;
-    }
-
-    private void SpawnMob()
+    public void SpawnMob()
     {
         float randNum = Random.Range(0, 100);
 
@@ -84,10 +66,10 @@ public class MobSpawner : MonoBehaviour
             var mob = (Mob)_mobPool.GetPoolable();
 
             mob.ChangeMobType(selectedMobType);
-            mob.transform.position = transform.position;
+            
             mob.SetActive(true);
 
-            lastSpawnLocation = transform.position;
+            mob.transform.position = transform.position;
         }
         else
         {
