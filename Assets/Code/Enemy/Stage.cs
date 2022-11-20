@@ -8,5 +8,8 @@ public class Stage : MonoBehaviour
     private ShipFactory _ShipFactory;
     [SerializeField]
     private Floor _Floor;
+
     public Floor Floor => _Floor;
+    public ShipFactory ShipFactory => _ShipFactory;
+
 }

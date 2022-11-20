@@ -8,11 +8,25 @@ public class WaveSystem : Updatable
     public event Action<int> OnWaveStarted;
     public event Action OnRestComplete;
     
+    /*
     public void StartWave(List<ShipController> ships)
     {
         _SpinControllers = ships;
         _WavePhase.StateChange(WavePhase.StartOfWave);
         Register();
+    }
+    */
+
+    public void Init()
+    {
+        _Wave = 0;
+        _SpinControllers = new List<ShipController>();
+        var ship = _Stage.ShipFactory.BuidShip();
+        ship.SetActive(false);
+        _SpinControllers.Add(ship);
+        Register();
+
+        _WavePhase.StateChange(WavePhase.Rest);
     }
 
     public WaveSystem(Stage stage)
@@ -71,8 +85,6 @@ public class WaveSystem : Updatable
 
     private void BuildWavePhase()
     {
-        _Wave = 0;
-
         _WavePhase = new StateActionMap<WavePhase>();
         _WavePhase.RegisterEnter(WavePhase.Rest, OnEnter_Rest);
         _RestTimer.OnTimerComplete += OnRestTimerComplete;
@@ -95,19 +107,30 @@ public class WaveSystem : Updatable
 
     private void OnRestTimerComplete()
     {
+        Debug.Log("OnRestComplete");
+        _WavePhase.StateChange(WavePhase.StartOfWave);
         OnRestComplete?.Invoke();
     }
 
     private void OnEnter_StartOfWave()
     {
         _Wave++;
+
+        for(int i = 0; i < _SpinControllers.Count; i++)
+        {
+            _SpinControllers[i].SetActive(true);
+        }
+
         _WavePhase.StateChange(WavePhase.Spawning);
         OnWaveStarted?.Invoke(_Wave);
     }        
 
     private void OnEnter_Spawning()
     {
-        //_MobSpwaner.StartSpawning(_Wave);
+        for (int i = 0; i < _SpinControllers.Count; i++)
+        {
+            _SpinControllers[i].SetSpawning(true);
+        }
     }
 
     private Timer _StartBossTimer = new Timer();

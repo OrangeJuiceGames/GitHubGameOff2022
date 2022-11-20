@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class MobSpawner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    [SerializeField] Mob MobPrefab;
-
-    public void StartSpawning(int wave)
+ 
+    public void SetSpawning(bool isActive)
     {
-        _IsSpawning = true;
+        _IsSpawning = isActive;
     }
 
+    [SerializeField] Mob MobPrefab;
     private List<(MobType, int)> _percentChanceOfMobs;
     private float _distanceBetweenSpawns = 1f;
     private Vector3 lastSpawnLocation = new Vector3();

@@ -10,9 +10,12 @@ public partial class GameScreenView : MonoBehaviour, IStateView
     private PlayerController _Player;
     [SerializeField]
     private Stage _Stage;
+    [SerializeField]
+    private Story _Story;
 
     public PlayerController Player => _Player;
     public Stage Stage => _Stage;
+    public Story Story => _Story;
 
     public virtual void SetActive(bool isActive)
     {

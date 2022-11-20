@@ -7,14 +7,42 @@ public class Mob : MonoBehaviour, IPoolable
 {
     public event Action<IPoolable> OnReturnRequest;
 
+    [SerializeField]
+    private RuntimeAnimatorController _Dog, _Cat;
+
     private MobType _mobType = MobType.Cat;
     private Vector3 _impulseForce = new Vector3(0, 20f);
     private Rigidbody2D _Rig;
+    private Animator _Animator;
+
+    private StateActionMap<MobType> _SkinMob;
 
     // Start is called before the first frame update
     void Start()
     {
-        _Rig = GetComponent<Rigidbody2D>();        
+        _Rig = GetComponent<Rigidbody2D>();
+        _Animator = GetComponent<Animator>();
+        _SkinMob = new StateActionMap<MobType>();
+        _SkinMob.RegisterEnter(MobType.Cat, OnEnter_Cat);
+        _SkinMob.RegisterEnter(MobType.CatWithHelmet, OnEnter_CatWithHelmet);
+        _SkinMob.RegisterEnter(MobType.Dog, OnEnter_Dog);
+    }
+
+    private void OnEnter_Cat()
+    {
+        _Animator.runtimeAnimatorController = _Cat;
+        //remove helmet
+    }
+
+    private void OnEnter_CatWithHelmet()
+    {
+        _Animator.runtimeAnimatorController = _Cat;
+        //turn on helmet
+    }
+
+    private void OnEnter_Dog()
+    {
+        _Animator.runtimeAnimatorController = _Dog;
     }
 
     // Update is called once per frame
@@ -26,7 +54,7 @@ public class Mob : MonoBehaviour, IPoolable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Mob collided with " + collision.gameObject.name);
+        //Debug.Log("Mob collided with " + collision.gameObject.name);
         switch (collision.gameObject.name)
         {
             case "Shot(Clone)":
@@ -37,9 +65,6 @@ public class Mob : MonoBehaviour, IPoolable
                 {
                     return;
                 }
-                Return();
-                break;
-            case "collector!":
                 Return();
                 break;
         }
@@ -64,6 +89,11 @@ public class Mob : MonoBehaviour, IPoolable
     public void SetActive(bool isActive)
     {
         gameObject.SetActive(isActive);
+        if(isActive)
+        {
+            _SkinMob.StateChange(_mobType);
+        }
+        
     }
 
     public void Return()

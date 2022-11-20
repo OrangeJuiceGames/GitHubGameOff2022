@@ -10,7 +10,19 @@ public class ShipController : MonoBehaviour
     public event Action<ShipController> OnActivated;
 
     public MobSpawner MobSpwaner => _MobSpawner;
-    public bool IsActive { get; set; }
+    public bool IsActive => _IsActive;
+
+    public void SetActive(bool isActive)
+    {
+        _IsActive = isActive;
+        gameObject.SetActive(isActive);
+    }
+
+    public void SetSpawning(bool isActive)
+    {
+        _MobSpawner.SetSpawning(isActive);
+    }
+
 
     [SerializeField] SpriteRenderer _model;
     private MobSpawner _MobSpawner;

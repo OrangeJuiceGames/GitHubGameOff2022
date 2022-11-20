@@ -8,6 +8,8 @@ public class GameScreen : State<GameState>
     {
         _View.SetActive(true);
         _View.Player.Register();
+
+        _View.Story.Intro();
     }
 
     public override void OnExit() 
@@ -26,6 +28,7 @@ public class GameScreen : State<GameState>
 
     private GameData _GameData = GameData.Instance;
     private GameScreenView _View;
+
     // Game componets
     private InputProcessor _Input;
     private Upgrade _UpgradeSystem;
@@ -43,6 +46,12 @@ public class GameScreen : State<GameState>
         _UpgradeSystem = new Upgrade(_View.Stage, _View.Player.Model);
         _WaveSystem = new WaveSystem(_View.Stage);
         _View.Player.Init(_Input, _UpgradeSystem);
+        _View.Story.OnStoryComplete += StoryComplete;
+    }
+
+    private void StoryComplete()
+    {
+        _WaveSystem.Init();
     }
 }
 
