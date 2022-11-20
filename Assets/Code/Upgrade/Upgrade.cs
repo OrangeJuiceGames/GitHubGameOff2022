@@ -11,16 +11,16 @@ public class Upgrade
     private float _LevelUpFactor = 0.3f;
     private List<float> _UpgradePotency = new List<float>() { 0.01f, 0.02f, 0.03f };
 
-    private Floor _Floor;
+    private Stage _Stage;
     private PlayerModel _PlayerData;
     private Dictionary<int, Action> _UpgradeOptions;
     private WTMK _Tools = WTMK.Instance;
 
-    public Upgrade(Floor floor, PlayerModel playerData)
+    public Upgrade(Stage stage, PlayerModel playerData)
     {
         _PlayerData = playerData;
-        _Floor = floor;
-        _Floor.OnUpgradeCollected += UpgradeCollected;
+        _Stage = stage;
+        _Stage.Floor.OnUpgradeCollected += UpgradeCollected;
         BuildOptions();
     }
 

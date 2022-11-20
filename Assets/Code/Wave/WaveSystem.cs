@@ -6,16 +6,18 @@ using UnityEngine;
 public class WaveSystem : Updatable
 {
     public event Action<int> OnWaveStarted;
+    public event Action OnRestComplete;
     
     public void StartWave(List<ShipController> ships)
     {
         _SpinControllers = ships;
+        _WavePhase.StateChange(WavePhase.StartOfWave);
         Register();
     }
 
-    public WaveSystem(MobSpawner mobSpwaner)
+    public WaveSystem(Stage stage)
     {
-        _MobSpwaner = mobSpwaner;
+        _Stage = stage;
         BuildWavePhase();
     }
 
@@ -28,7 +30,7 @@ public class WaveSystem : Updatable
     private float _InvasionTime;
     private List<ShipController> _SpinControllers;
     private StateActionMap<WavePhase> _WavePhase;
-    private MobSpawner _MobSpwaner;
+    private Stage _Stage;
 
     private void Register()
     {
@@ -73,24 +75,27 @@ public class WaveSystem : Updatable
 
         _WavePhase = new StateActionMap<WavePhase>();
         _WavePhase.RegisterEnter(WavePhase.Rest, OnEnter_Rest);
-        _RestTimer.OnTimerComplete += OnRestComplete;
+        _RestTimer.OnTimerComplete += OnRestTimerComplete;
 
+        _WavePhase.RegisterEnter(WavePhase.StartOfWave, OnEnter_StartOfWave);
         _WavePhase.RegisterEnter(WavePhase.Spawning, OnEnter_Spawning);
 
         _WavePhase.RegisterEnter(WavePhase.ShipsDestroyed, OnEnter_ShipsDestroyed);
+        _StartBossTimer.OnTimerComplete += OnStartBossTimerComplete;
 
+        _WavePhase.RegisterEnter(WavePhase.Boss, OnEnter_Boss);
     }
 
     private Timer _RestTimer = new Timer();
-    private float _RestTime = 1000;
+    private float _RestTime = 1000f;
     private void OnEnter_Rest()
     {
         _RestTimer.Start(_RestTime);
     }
 
-    private void OnRestComplete()
+    private void OnRestTimerComplete()
     {
-        _WavePhase.StateChange(WavePhase.StartOfWave);
+        OnRestComplete?.Invoke();
     }
 
     private void OnEnter_StartOfWave()
@@ -102,12 +107,24 @@ public class WaveSystem : Updatable
 
     private void OnEnter_Spawning()
     {
-        _MobSpwaner.StartSpawning(_Wave);
+        //_MobSpwaner.StartSpawning(_Wave);
     }
 
+    private Timer _StartBossTimer = new Timer();
+    private float _WaitTimeForBoss = 1000f;
     private void OnEnter_ShipsDestroyed()
     {
+        _StartBossTimer.Start(_WaitTimeForBoss);
+    }
 
+    private void OnStartBossTimerComplete()
+    {
+        _WavePhase.StateChange(WavePhase.Boss);
+    }
+
+    private void OnEnter_Boss()
+    {
+        Debug.Log("Boss Phase");
     }
 
 }
