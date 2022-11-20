@@ -39,7 +39,7 @@ public class ShipController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _shipMovement = new ShipMovement(4f, 0.5f, transform.position, Paths, _MobSpawner);
+        _shipMovement = new ShipMovement(1.25f, 0.5f, transform.position, Paths, _MobSpawner);
         _shipMovement.OnReachStop += _MobSpawner.SpawnMob;
     }
 

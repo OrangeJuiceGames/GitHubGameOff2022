@@ -9,8 +9,10 @@ public class Mob : MonoBehaviour, IPoolable
 
     public void Spawn(MobType mobType, Vector3 pos)
     {
+        _Rig.mass = 4.75f;
         _Rig.velocity = Vector3.zero;
         _Rig.angularVelocity = 0f;
+        _Rig.gravityScale = 0.325f;
         transform.position = pos;
         ChangeMobType(mobType);
         SetActive(true);
