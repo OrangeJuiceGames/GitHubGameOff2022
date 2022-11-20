@@ -7,6 +7,15 @@ public class Mob : MonoBehaviour, IPoolable
 {
     public event Action<IPoolable> OnReturnRequest;
 
+    public void Spawn(MobType mobType, Vector3 pos)
+    {
+        _Rig.velocity = Vector3.zero;
+        _Rig.angularVelocity = 0f;
+        transform.position = pos;
+        ChangeMobType(mobType);
+        SetActive(true);
+    }
+
     public void Return()
     {
         _Rig.velocity = Vector2.zero;

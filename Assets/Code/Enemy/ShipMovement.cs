@@ -5,11 +5,11 @@ using System;
 
 public class ShipMovement
 {
-    public event Action OnReachStop;
+    public event Action<Vector3> OnReachStop;
 
     private float _stopLength;
     private float _remainingStopWait;
-    private bool isAtStop = false;
+    private bool isAtStop = false, _IsSpawning;
 
     private Vector3 _currentPos;
     private float _movementSpeed;
@@ -18,8 +18,9 @@ public class ShipMovement
     private List<ShipPath> _paths;
     private int _pathIndex;
     private Queue<Vector3> _stops;
+    private MobSpawner _MobSpawner;
 
-    public ShipMovement(float movementSpeed, float stopLength, Vector3 currentPos, List<ShipPath> shipPaths)
+    public ShipMovement(float movementSpeed, float stopLength, Vector3 currentPos, List<ShipPath> shipPaths, MobSpawner mobSpawner)
     {
         _movementSpeed = movementSpeed;
         _currentPos = currentPos;
@@ -28,6 +29,14 @@ public class ShipMovement
         _stopLength = stopLength;
 
         _targetPos = GetNextPosition();
+        _MobSpawner = mobSpawner;
+
+        _MobSpawner.OnSpawnComplete += SpawnComplete;
+    }
+
+    private void SpawnComplete()
+    {
+        _IsSpawning = false;
     }
 
     public Vector3 MoveTowardsStop()
@@ -43,13 +52,17 @@ public class ShipMovement
             StartStopTimer();
             InvokeStop();
             _targetPos = GetNextPosition();
+            return _currentPos;
+        }
 
+        if(_IsSpawning)
+        {
             return _currentPos;
         }
 
         var newPos = Vector3.MoveTowards(_currentPos, _targetPos, _movementSpeed * Time.deltaTime);
         _currentPos = newPos;
-
+        
         return newPos;
     }
 
@@ -67,7 +80,13 @@ public class ShipMovement
 
     private void InvokeStop()
     {
-        OnReachStop?.Invoke();
+        if(_IsSpawning)
+        {
+            return;
+        }
+
+        _IsSpawning = true;
+        OnReachStop?.Invoke(_currentPos);
     }
 
     private Vector3 GetNextPosition()
