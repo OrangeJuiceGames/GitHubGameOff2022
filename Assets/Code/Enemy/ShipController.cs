@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ShipController : MonoBehaviour
 {
+    public event Action<ShipController> OnDestroyed;
+    public event Action<ShipController> OnActivated;
+
     [SerializeField] SpriteRenderer _model;
     private ShipMovement _shipMovement;
 

@@ -20,6 +20,7 @@ public class GameScreen : State<GameState>
     public override bool OnUpdate() 
     {
         _Input.Update();
+        _WaveSystem.Update();
         return _Ready;
     }
 
@@ -28,6 +29,7 @@ public class GameScreen : State<GameState>
     // Game componets
     private InputProcessor _Input;
     private Upgrade _UpgradeSystem;
+    private WaveSystem _WaveSystem;
 
     public GameScreen(GameScreenView view, GameState tag) : base(tag)
     {
@@ -39,6 +41,7 @@ public class GameScreen : State<GameState>
     {
         _Input = new InputProcessor();
         _UpgradeSystem = new Upgrade(_View.Floor, _View.Player.Model);
+        _WaveSystem = new WaveSystem();
         _View.Player.Init(_Input, _UpgradeSystem);
     }
 }
