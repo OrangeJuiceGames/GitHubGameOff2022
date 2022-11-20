@@ -22,8 +22,6 @@ public class Collector : MonoBehaviour
 
     private void Collect(Mob mob)
     {
-        mob.Return();
-
         if (mob.GetMobType() == MobType.Cat)
         {
             Debug.Log("Socred Cat!");
@@ -32,6 +30,7 @@ public class Collector : MonoBehaviour
         {
             Debug.Log("Socred Dog!");
             OnScore?.Invoke(_Dog);
+            mob.Return();
         }
     }    
 }

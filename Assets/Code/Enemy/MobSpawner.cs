@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MobSpawner : MonoBehaviour
 {
- 
     public void SetSpawning(bool isActive)
     {
         _IsSpawning = isActive;
