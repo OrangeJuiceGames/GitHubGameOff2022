@@ -6,20 +6,16 @@ using UnityEngine;
 public class WaveSystem : Updatable
 {
     public event Action<int> OnWaveStarted;
-    private int _Wave, _ShipsActive;
-    private float _InvasionTime;
-    private List<ShipController> _SpinControllers;
-    private StateActionMap<WavePhase> _WavePhase;
-
+    
     public void StartWave(List<ShipController> ships)
     {
         _SpinControllers = ships;
         Register();
     }
 
-    public WaveSystem()
+    public WaveSystem(MobSpawner mobSpwaner)
     {
-        _Wave = 0;        
+        _MobSpwaner = mobSpwaner;
         BuildWavePhase();
     }
 
@@ -27,6 +23,12 @@ public class WaveSystem : Updatable
     {
         UpdateTimer();
     }
+
+    private int _Wave, _ShipsActive;
+    private float _InvasionTime;
+    private List<ShipController> _SpinControllers;
+    private StateActionMap<WavePhase> _WavePhase;
+    private MobSpawner _MobSpwaner;
 
     private void Register()
     {
@@ -56,7 +58,7 @@ public class WaveSystem : Updatable
         _ShipsActive--;
         if(_ShipsActive <= 0)
         {
-            
+            _WavePhase.StateChange(WavePhase.ShipsDestroyed);
         }
     }
 
@@ -67,9 +69,16 @@ public class WaveSystem : Updatable
 
     private void BuildWavePhase()
     {
+        _Wave = 0;
+
         _WavePhase = new StateActionMap<WavePhase>();
         _WavePhase.RegisterEnter(WavePhase.Rest, OnEnter_Rest);
         _RestTimer.OnTimerComplete += OnRestComplete;
+
+        _WavePhase.RegisterEnter(WavePhase.Spawning, OnEnter_Spawning);
+
+        _WavePhase.RegisterEnter(WavePhase.ShipsDestroyed, OnEnter_ShipsDestroyed);
+
     }
 
     private Timer _RestTimer = new Timer();
@@ -87,8 +96,19 @@ public class WaveSystem : Updatable
     private void OnEnter_StartOfWave()
     {
         _Wave++;
+        _WavePhase.StateChange(WavePhase.Spawning);
         OnWaveStarted?.Invoke(_Wave);
     }        
+
+    private void OnEnter_Spawning()
+    {
+        _MobSpwaner.StartSpawning(_Wave);
+    }
+
+    private void OnEnter_ShipsDestroyed()
+    {
+
+    }
 
 }
 

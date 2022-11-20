@@ -12,9 +12,12 @@ public partial class GameScreenView : MonoBehaviour, IStateView
     private GameObject _Stage;
     [SerializeField]
     private Floor _Floor;
+    [SerializeField]
+    private MobSpawner _MobSpawner;
 
     public PlayerController Player => _Player;
     public Floor Floor => _Floor;
+    public MobSpawner MobSpawner => _MobSpawner;
 
     public virtual void SetActive(bool isActive)
     {

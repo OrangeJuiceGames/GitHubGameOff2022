@@ -156,6 +156,7 @@ MonoBehaviour:
   _Player: {fileID: 3612812035225362461}
   _Stage: {fileID: 463616774}
   _Floor: {fileID: 671124882}
+  _MobSpawner: {fileID: 1389664733}
 --- !u!4 &16287598
 Transform:
   m_ObjectHideFlags: 0

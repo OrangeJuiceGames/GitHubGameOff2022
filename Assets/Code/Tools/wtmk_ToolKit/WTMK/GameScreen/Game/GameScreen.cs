@@ -41,7 +41,7 @@ public class GameScreen : State<GameState>
     {
         _Input = new InputProcessor();
         _UpgradeSystem = new Upgrade(_View.Floor, _View.Player.Model);
-        _WaveSystem = new WaveSystem();
+        _WaveSystem = new WaveSystem(_View.MobSpawner);
         _View.Player.Init(_Input, _UpgradeSystem);
     }
 }

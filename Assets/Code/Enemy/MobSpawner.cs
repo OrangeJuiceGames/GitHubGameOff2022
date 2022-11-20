@@ -7,12 +7,18 @@ public class MobSpawner : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] Mob MobPrefab;
 
+    public void StartSpawning(int wave)
+    {
+        _IsSpawning = true;
+    }
+
     private List<(MobType, int)> _percentChanceOfMobs;
     private float _distanceBetweenSpawns = 1f;
     private Vector3 lastSpawnLocation = new Vector3();
 
     private int _mobPoolSize = 20;
     private Pool _mobPool;
+    private bool _IsSpawning;
 
     void Start()
     {
@@ -23,7 +29,10 @@ public class MobSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RandSpawnMob();
+        if(_IsSpawning)
+        {
+            RandSpawnMob();
+        }
     }
 
     private void RandSpawnMob()
