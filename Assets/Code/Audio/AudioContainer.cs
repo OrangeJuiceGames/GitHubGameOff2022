@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent( typeof( AudioSource ) )]
+[ RequireComponent(typeof( AudioSource )) ]
 public class AudioContainer : MonoBehaviour
 {
     [ SerializeField, Tooltip( "Allows clip to overlap when enabled" ) ] 
@@ -13,7 +13,8 @@ public class AudioContainer : MonoBehaviour
     [ SerializeField, Space ] 
     private AudioSource audioSource;
     
-    public void Play(float volume, float pitch)
+    
+    public void Play( float volume = 1f, float pitch = 1f )
     {
         audioSource.volume = volume;
         audioSource.pitch = pitch;
