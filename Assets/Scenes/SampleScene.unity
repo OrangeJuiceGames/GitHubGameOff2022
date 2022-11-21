@@ -248,10 +248,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c42abba7fa6ce0647b8f7cf0d3dbee4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goodTestKey: 112
+  badTestKey: 111
   volumeRange: 0.1
   pitchRange: 0.2
   audioPoolContainer: {fileID: 2045152228}
-  typesOfEnums_Unused: 0
+  typesOfEnums_Demo: 0
   audioClipPrefabs:
   - {fileID: 6054048621157786876, guid: b38fb627754092b4293171ed544fdf28, type: 3}
   - {fileID: 3563329957408411631, guid: f0778e55228f2c541b17920668ceef5e, type: 3}
@@ -3275,7 +3277,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2045152229}
   m_Layer: 0
-  m_Name: Audio Object Pool
+  m_Name: Audio Pool Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

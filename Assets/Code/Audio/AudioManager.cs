@@ -4,7 +4,15 @@ using RNG = UnityEngine.Random;
 
 public class AudioManager : MonoBehaviour
 {
-    [ Header( "Audio Modifiers" ) ] 
+    [Header("Test Keys")]
+    [ SerializeField ] 
+    private KeyCode goodTestKey = KeyCode.P;
+    
+    [ SerializeField ] 
+    private KeyCode badTestKey = KeyCode.O;
+    
+    
+    [ Header( "Audio Modifiers" ) ]
     [ SerializeField, Range( 0f, 0.5f ) ]
     private float volumeRange = 0f;
     
@@ -29,10 +37,14 @@ public class AudioManager : MonoBehaviour
     private readonly Dictionary<int, AudioContainer> _audioDictionary = new Dictionary<int, AudioContainer>();
     
     // Plays audio based on input enum type. Use AudioType enum order for reference.
-    public void PlayAudioByEnumType( AudioType audioType )
+    public void PlayAudioByEnumType( AudioType audioType, bool useModifiers = true )
     {
         var audioContainer = _audioDictionary[ ( int ) audioType ];
-        audioContainer.Play( GetRandomVolume(), GetRandomPitch() );
+        
+        if( useModifiers )
+            audioContainer.Play( GetRandomVolume(), GetRandomPitch() );
+        else
+            audioContainer.Play();
     }
     
     // Used to alter the pitch of the sound based on PitchRange for audio variance.
@@ -41,7 +53,7 @@ public class AudioManager : MonoBehaviour
     // Used to alter the volume of the sound based on VolumeRange for audio variance.
     private float GetRandomVolume() => RNG.Range( 1 - volumeRange, 1 );
     
-    // Populate the audioDictionary
+    // Instantiate and populate the audioDictionary
     private void Awake()
     {
         Instance = this;
@@ -61,11 +73,13 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        if ( Input.GetKeyDown( KeyCode.P ) )
+        // Test Good sound WITH audio modifiers
+        if ( Input.GetKeyDown( goodTestKey ) )
             PlayAudioByEnumType( AudioType.testGood );
 
-        if ( Input.GetKeyDown( KeyCode.O ) )
-            PlayAudioByEnumType( AudioType.testBad );
+        // Test Bad sound WITHOUT audio modifiers
+        if ( Input.GetKeyDown( badTestKey ) )
+            PlayAudioByEnumType( AudioType.testBad, false );
     }
 }
 

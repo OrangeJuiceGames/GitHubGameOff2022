@@ -12,8 +12,8 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioContainer.cs" />
+      <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioManager.cs" />
     </changedPaths>
   </component>
   <component name="TaskManager">
