@@ -33,6 +33,8 @@ public class GameScreen : State<GameState>
     private InputProcessor _Input;
     private Upgrade _UpgradeSystem;
     private WaveSystem _WaveSystem;
+    private ScoreSystem _ScoreSystem;
+
 
     public GameScreen(GameScreenView view, GameState tag) : base(tag)
     {
@@ -47,6 +49,8 @@ public class GameScreen : State<GameState>
         _WaveSystem = new WaveSystem(_View.Stage);
         _View.Player.Init(_Input, _UpgradeSystem);
         _View.Story.OnStoryComplete += StoryComplete;
+
+        _ScoreSystem = new ScoreSystem(_View.Stage);
     }
 
     private void StoryComplete()

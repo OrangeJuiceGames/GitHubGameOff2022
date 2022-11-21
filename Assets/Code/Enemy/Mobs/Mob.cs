@@ -31,7 +31,6 @@ public class Mob : MonoBehaviour, IPoolable
         {
             _SkinMob.StateChange(_mobType);
         }
-
     }
 
     public MobType GetMobType()
