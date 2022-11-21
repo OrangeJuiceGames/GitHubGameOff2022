@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private int _ShotPoolSize;
 
     public PlayerModel Model => _Model;
+    public Collector Collector => _Collector;
     
     public void Register()
     {
@@ -128,7 +129,7 @@ public class PlayerController : MonoBehaviour
         {
             _GunObject.SetActive(true);
             _CollectorObject.SetActive(false);
-            Debug.Log("GunSwapped");
+            //Debug.Log("GunSwapped");  
         }
     }
     private void SwapToBasket(float basketValue)
@@ -137,7 +138,7 @@ public class PlayerController : MonoBehaviour
         {
             _CollectorObject.SetActive(true);
             _GunObject.SetActive(false);
-            Debug.Log("CollectorSwapped");
+            //Debug.Log("CollectorSwapped");
         }
     }
 

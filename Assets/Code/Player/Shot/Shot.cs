@@ -47,4 +47,19 @@ public class Shot : MonoBehaviour, IPoolable
             Return();
         }
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        switch (collision.gameObject.name)
+        {
+            case "Cat":
+                Return();
+                break;
+            case "Dog":
+                Return();
+                break;
+            case "EnemyShip(Clone)":
+                Return();
+                break;
+        }
+    }
 }

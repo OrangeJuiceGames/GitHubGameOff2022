@@ -19,4 +19,9 @@ public class Floor : MonoBehaviour
         OnInvasionIncrease?.Invoke(value);
     }
 
+    public void UpgradeCollected(UpgradeMaterial material)
+    {
+        OnUpgradeCollected?.Invoke(material);
+    }
+
 }

@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MobSpawner : MonoBehaviour
 {
+    public event Action OnSpawnComplete;
+
     public void SetSpawning(bool isActive)
     {
         _IsSpawning = isActive;
@@ -12,22 +15,16 @@ public class MobSpawner : MonoBehaviour
     [SerializeField] Mob MobPrefab;
     private List<(MobType, int)> _percentChanceOfMobs;
 
-    private int _mobPoolSize = 20;
+    private int _mobPoolSize = 100;
     private Pool _mobPool;
     private bool _IsSpawning;
+    private WTMK _Tool = WTMK.Instance;
 
     void Start()
     {
         _percentChanceOfMobs = SetMobPercentage();
         _mobPool = BuildMobPool(_mobPoolSize);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
 
     private Pool BuildMobPool(int poolSize)
     {
@@ -44,9 +41,9 @@ public class MobSpawner : MonoBehaviour
         return new Pool(mobs.ToArray());
     }
 
-    public void SpawnMob()
+    public void SpawnMob(Vector3 pos)
     {
-        float randNum = Random.Range(0, 100);
+        float randNum = _Tool.Rando.Next(0, 100);
 
         int sum = 0;
         MobType selectedMobType = MobType.Cat;
@@ -64,12 +61,8 @@ public class MobSpawner : MonoBehaviour
         if(_mobPool.QueueCount > 0)
         {
             var mob = (Mob)_mobPool.GetPoolable();
-
-            mob.ChangeMobType(selectedMobType);
-            
-            mob.SetActive(true);
-
-            mob.transform.position = transform.position;
+            mob.Spawn(selectedMobType, pos);
+            OnSpawnComplete?.Invoke();
         }
         else
         {
