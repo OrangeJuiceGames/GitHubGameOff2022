@@ -49,16 +49,20 @@ public class Mob : MonoBehaviour, IPoolable
     [SerializeField]
     private Helmet _Helmet;
     [SerializeField]
+    private Transform _Stage;
+    [SerializeField]
     private float _CatReturnTime = 10f;
 
     private MobType _mobType = MobType.Cat;
     private Vector3 _impulseForce = new Vector3(0, 20f);
+    private Vector3 _HelmetPosition;    
     private Rigidbody2D _Rig;
     private Animator _Animator;
 
     private StateActionMap<MobType> _SkinMob;
     private float _ReturnTimer = 10f;
     private bool _WillReturn;
+    
 
     private void Awake()
     {
@@ -69,12 +73,10 @@ public class Mob : MonoBehaviour, IPoolable
         _SkinMob.RegisterEnter(MobType.Cat, OnEnter_Cat);
         _SkinMob.RegisterEnter(MobType.CatWithHelmet, OnEnter_CatWithHelmet);
         _SkinMob.RegisterEnter(MobType.Dog, OnEnter_Dog);
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
+        _Helmet.OnReturn += ReturnHelmet;
 
+        _HelmetPosition = _Helmet.transform.position;
     }
 
     private void Update()
@@ -101,6 +103,7 @@ public class Mob : MonoBehaviour, IPoolable
     {
         _Animator.runtimeAnimatorController = _Cat;
         _Helmet.gameObject.SetActive(true);
+        _Helmet.transform.SetParent(_Stage);
         //turn on helmet
     }
 
@@ -156,5 +159,12 @@ public class Mob : MonoBehaviour, IPoolable
                 Return();
                 break;
         }
+    }
+
+    private void ReturnHelmet(Helmet helmet)
+    {
+        helmet.transform.SetParent(transform);
+        helmet.transform.position = _HelmetPosition;
+        helmet.gameObject.SetActive(false);
     }
 }
