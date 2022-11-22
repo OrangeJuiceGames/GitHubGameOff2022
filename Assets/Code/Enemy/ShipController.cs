@@ -7,7 +7,6 @@ using UnityEngine;
 public class ShipController : MonoBehaviour
 {
     public event Action<ShipController> OnDestroyed;
-    public event Action<ShipController> OnActivated;
 
     public MobSpawner MobSpwaner => _MobSpawner;
     public bool IsActive => _IsActive;
@@ -53,12 +52,20 @@ public class ShipController : MonoBehaviour
         transform.position = _shipMovement.MoveTowardsStop();
     }
 
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
+        switch (collision.gameObject.name)
+        {
+            case "Shot(Clone)":
+                var shot = collision.gameObject.GetComponent<Shot>();
+                HandelShotCollision(shot);
+                break;
+        }
     }
 
-
-
+    private void HandelShotCollision(Shot shot)
+    {
+        //deal damage to ship 
+        OnDestroyed?.Invoke(this);
+    }
 }
