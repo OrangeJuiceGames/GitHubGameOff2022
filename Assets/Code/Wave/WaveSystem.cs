@@ -76,7 +76,7 @@ public class WaveSystem : Updatable
         var count = 0;
         while(count < SHIPS_ACTIVE_MAX)
         {    
-            var ship = _Stage.ShipFactory.BuidShip();
+            var ship = _Stage.ShipFactory.BuidShip(_Wave);
             ship.SetActive(false);
             _SpinControllers.Add(ship);
             count++;
