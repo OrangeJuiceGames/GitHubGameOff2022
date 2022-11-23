@@ -32,15 +32,15 @@ public class WaveSystem : Updatable
 
     private int _Wave, _ShipsActive; 
     private float _InvasionTime;
-    private List<ShipController> _SpinControllers;
+    private List<ShipController> _ShipControllers;
     private StateActionMap<WavePhase> _WavePhase;
     private Stage _Stage;
 
     private void Register()
     {
-        for(int i = 0; i < _SpinControllers.Count; i++)
+        for(int i = 0; i < _ShipControllers.Count; i++)
         {
-            _SpinControllers[i].OnDestroyed += ShipDestroyed;
+            _ShipControllers[i].OnDestroyed += ShipDestroyed;
         }
 
         _Stage.Boss.OnDestroyed += BossDestroyed;
@@ -52,7 +52,7 @@ public class WaveSystem : Updatable
         var count = 0;
         while(count < _ShipsActive)
         {
-            _SpinControllers[count].SetActive(true);
+            _ShipControllers[count].SetActive(true);
             count++;
         }
     }
@@ -71,14 +71,14 @@ public class WaveSystem : Updatable
 
     private void BuildShipControllers()
     {
-        _SpinControllers = new List<ShipController>();
+        _ShipControllers = new List<ShipController>();
 
         var count = 0;
         while(count < SHIPS_ACTIVE_MAX)
         {    
             var ship = _Stage.ShipFactory.BuidShip(_Wave);
             ship.SetActive(false);
-            _SpinControllers.Add(ship);
+            _ShipControllers.Add(ship);
             count++;
         }
     }
@@ -127,10 +127,6 @@ public class WaveSystem : Updatable
         _Wave++;
         //set number of active ships +1 for every 3 rounds to a max
         ActivateShips();
-        for (int i = 0; i < _SpinControllers.Count; i++)
-        {
-            _SpinControllers[i].SetActive(true);
-        }
 
         _WavePhase.StateChange(WavePhase.Spawning);
         OnWaveStarted?.Invoke(_Wave);
@@ -138,9 +134,9 @@ public class WaveSystem : Updatable
 
     private void OnEnter_Spawning()
     {
-        for (int i = 0; i < _SpinControllers.Count; i++)
+        for (int i = 0; i < _ShipControllers.Count; i++)
         {
-            _SpinControllers[i].SetSpawning(true);
+            _ShipControllers[i].SetSpawning(true);
         }
     }
 
