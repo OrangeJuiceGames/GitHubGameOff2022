@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Floor : MonoBehaviour
 {
+    public event Action<MobType> OnCatEscaped;
     public event Action<int> OnInvasionIncrease;
     public event Action<int> OnDogKilled;
     public event Action<UpgradeMaterial> OnUpgradeCollected;
@@ -13,6 +14,11 @@ public class Floor : MonoBehaviour
     {
         OnDogKilled?.Invoke(1);
     }    
+
+    public void CatEscaped()
+    {
+        OnCatEscaped?.Invoke(MobType.Cat);
+    }
 
     public void IncreaseInvasion(int value)
     {

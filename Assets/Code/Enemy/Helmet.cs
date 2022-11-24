@@ -20,6 +20,11 @@ public class Helmet : MonoBehaviour, UpgradeMaterial
         Destroy(_Rig);
     }
 
+    public void Destroy()
+    {
+        OnReturn?.Invoke(this);
+    }
+
     [SerializeField]
     private float _UpForce = 3f;
     private Rigidbody2D _Rig;

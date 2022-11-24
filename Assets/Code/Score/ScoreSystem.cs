@@ -18,7 +18,9 @@ public class ScoreSystem
         _Stage = stage;
         _Stage.Floor.OnDogKilled += DogKilled;
         _Stage.Floor.OnInvasionIncrease += InvasionIncreased;
+        _Stage.Floor.OnCatEscaped += MobScored;
         _Stage.Player.Collector.OnScore += MobScored;
+        _Stage.Player.Collector.OnUpgradeCollected += UpgradeCollected;
     }
 
     private void DogKilled(int value)
@@ -45,5 +47,10 @@ public class ScoreSystem
         }
 
         _Stage.ScoreView.Score.SetText($"{_Model.Score}");
+    }
+
+    private void UpgradeCollected(UpgradeMaterial upgrade)
+    {
+        _Stage.Floor.UpgradeCollected(upgrade);
     }
 }
