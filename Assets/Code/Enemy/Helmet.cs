@@ -74,8 +74,15 @@ public class Helmet : MonoBehaviour, UpgradeMaterial
 
     private void RollRandomForce()
     {
-        var roll = _Tools.Rando.NextDouble();
-        _RandomForce = new Vector3((float)roll, _UpForce);
+        var direction = _Tools.Rando.NextDouble();
+        var roll = _Tools.Rando.Next(10);
+
+        if(roll >= 4)
+        {
+            direction *= -1;
+        }
+
+        _RandomForce = new Vector3((float)direction, _UpForce);
     }
 
 }
