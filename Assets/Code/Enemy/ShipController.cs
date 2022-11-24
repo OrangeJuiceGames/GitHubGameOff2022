@@ -7,7 +7,6 @@ using UnityEngine;
 public class ShipController : MonoBehaviour
 {
     public event Action<ShipController> OnDestroyed;
-    public event Action<ShipController> OnActivated;
 
     public MobSpawner MobSpwaner => _MobSpawner;
     public bool IsActive => _IsActive;
@@ -23,6 +22,12 @@ public class ShipController : MonoBehaviour
         _MobSpawner.SetSpawning(isActive);
     }
 
+    public void SetShipStats(float newMovementSpeed, float newStopLength)
+    {
+        _shipMovement.UpdateMoveSpeed(newMovementSpeed);
+        _shipMovement.UpdateStopLength(newStopLength);
+    }
+
 
     [SerializeField] SpriteRenderer _model;
     private MobSpawner _MobSpawner;
@@ -32,6 +37,8 @@ public class ShipController : MonoBehaviour
     private void Awake()
     {
         _MobSpawner = GetComponent<MobSpawner>();
+
+        _shipMovement = new ShipMovement(1.25f, 0.5f, transform.position, Paths);
     }
 
     [SerializeField] List<ShipPath> Paths;
@@ -39,8 +46,8 @@ public class ShipController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _shipMovement = new ShipMovement(1.25f, 0.5f, transform.position, Paths, _MobSpawner);
         _shipMovement.OnReachStop += _MobSpawner.SpawnMob;
+        _MobSpawner.OnSpawnComplete += _shipMovement.SpawnComplete;
     }
 
     // Update is called once per frame
@@ -53,12 +60,20 @@ public class ShipController : MonoBehaviour
         transform.position = _shipMovement.MoveTowardsStop();
     }
 
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
+        switch (collision.gameObject.name)
+        {
+            case "Shot(Clone)":
+                var shot = collision.gameObject.GetComponent<Shot>();
+                HandelShotCollision(shot);
+                break;
+        }
     }
 
-
-
+    private void HandelShotCollision(Shot shot)
+    {
+        //deal damage to ship 
+        OnDestroyed?.Invoke(this);
+    }
 }

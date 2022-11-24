@@ -5,12 +5,20 @@ using UnityEngine;
 
 public class Collector : MonoBehaviour
 {
-    public event Action<int> OnScore;
-    [SerializeField]
-    private int _Cat, _Dog;
+    public event Action<MobType> OnScore;
+    public event Action<UpgradeMaterial> OnUpgradeCollected;
 
+    private List<MobType> _Scoreable = new List<MobType>() { MobType.Cat, MobType.Dog };
     private void OnCollisionEnter2D(Collision2D collision)
     {         
+        if(collision.gameObject.name == "Helmet")
+        {
+            var helmet = collision.gameObject.GetComponent<Helmet>();
+            OnUpgradeCollected?.Invoke(helmet);
+            helmet.Destroy();
+            return;
+        }
+
         var mob = collision.gameObject.GetComponent<Mob>();
         if(mob == null)
         {
@@ -22,15 +30,14 @@ public class Collector : MonoBehaviour
 
     private void Collect(Mob mob)
     {
-        if (mob.GetMobType() == MobType.Cat)
+        var type = mob.GetMobType();
+
+        if(!_Scoreable.Contains(type))
         {
-            Debug.Log("Socred Cat!");
-            OnScore?.Invoke(_Cat);
-        }else if(mob.GetMobType() == MobType.Dog)
-        {
-            Debug.Log("Socred Dog!");
-            OnScore?.Invoke(_Dog);
-            mob.Return();
+            return;
         }
+
+        mob.Return();       
+        OnScore?.Invoke(type);
     }    
 }

@@ -31,7 +31,6 @@ public class Mob : MonoBehaviour, IPoolable
         {
             _SkinMob.StateChange(_mobType);
         }
-
     }
 
     public MobType GetMobType()
@@ -50,16 +49,20 @@ public class Mob : MonoBehaviour, IPoolable
     [SerializeField]
     private Helmet _Helmet;
     [SerializeField]
+    private Transform _Stage;
+    [SerializeField]
     private float _CatReturnTime = 10f;
 
     private MobType _mobType = MobType.Cat;
     private Vector3 _impulseForce = new Vector3(0, 20f);
+    private Vector3 _HelmetPosition;    
     private Rigidbody2D _Rig;
     private Animator _Animator;
 
     private StateActionMap<MobType> _SkinMob;
     private float _ReturnTimer = 10f;
     private bool _WillReturn;
+    
 
     private void Awake()
     {
@@ -70,12 +73,10 @@ public class Mob : MonoBehaviour, IPoolable
         _SkinMob.RegisterEnter(MobType.Cat, OnEnter_Cat);
         _SkinMob.RegisterEnter(MobType.CatWithHelmet, OnEnter_CatWithHelmet);
         _SkinMob.RegisterEnter(MobType.Dog, OnEnter_Dog);
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
+        _Helmet.OnReturn += ReturnHelmet;
 
+        _HelmetPosition = _Helmet.transform.position;
     }
 
     private void Update()
@@ -94,19 +95,22 @@ public class Mob : MonoBehaviour, IPoolable
 
     private void OnEnter_Cat()
     {
+        _mobType = _SkinMob.CurrentState;
         _Animator.runtimeAnimatorController = _Cat;
-        //remove helmet
+        transform.DetachChildren();
+        _Helmet.Detatch();
     }
 
     private void OnEnter_CatWithHelmet()
     {
+        _mobType = _SkinMob.CurrentState;
         _Animator.runtimeAnimatorController = _Cat;
         _Helmet.gameObject.SetActive(true);
-        //turn on helmet
     }
 
     private void OnEnter_Dog()
     {
+        _mobType = _SkinMob.CurrentState;
         _Animator.runtimeAnimatorController = _Dog;
         _Helmet.gameObject.SetActive(false);
     }
@@ -117,7 +121,8 @@ public class Mob : MonoBehaviour, IPoolable
         switch (collision.gameObject.name)
         {
             case "Shot(Clone)":
-                AddUpwardsImpulse();
+                var shot = collision.gameObject.GetComponent<Shot>();
+                HandelShotCollision(shot);
                 break;
             case "Floor":
                 var floor = collision.gameObject.GetComponent<Floor>();
@@ -126,6 +131,18 @@ public class Mob : MonoBehaviour, IPoolable
             case "Collector":
                 Return();
                 break;
+        }
+    }
+
+    private void HandelShotCollision(Shot shot)
+    {
+        shot.Return();
+
+        AddUpwardsImpulse();
+
+        if(_mobType == MobType.CatWithHelmet)
+        {
+            _SkinMob.StateChange(MobType.Cat);
         }
     }
 
@@ -157,5 +174,13 @@ public class Mob : MonoBehaviour, IPoolable
                 Return();
                 break;
         }
+    }
+
+    private void ReturnHelmet(Helmet helmet)
+    {
+        helmet.Attach();
+        helmet.transform.SetParent(transform);
+        helmet.transform.position = _HelmetPosition;
+        helmet.gameObject.SetActive(false);
     }
 }

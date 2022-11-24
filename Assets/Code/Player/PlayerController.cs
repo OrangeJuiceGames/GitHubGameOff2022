@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private int _ShotPoolSize;
 
     public PlayerModel Model => _Model;
+    public Collector Collector => _Collector;
     
     public void Register()
     {
@@ -59,15 +60,15 @@ public class PlayerController : MonoBehaviour
 
     public void Init(InputProcessor input, Upgrade upgradeSystem)
     {
-        SetDefaultStats();
-        BuildShotPool();
-
         _Input = input;
         _UpgradeSystem = upgradeSystem;
         _MoveVector = new Vector2(0, 0);
         _Gun.gameObject.SetActive(false);
 
         _CombatState = CombatState.Collecting;
+
+        SetDefaultStats();
+        BuildShotPool();
     }
 
     
@@ -101,8 +102,7 @@ public class PlayerController : MonoBehaviour
     }
     private void SetDefaultStats()
     {
-        _Model = new PlayerModel();
-        _Model.RateOfFire = 3f;
+        _Model = _UpgradeSystem.PlayerModel;
     }
 
     private void MoveHorizontal(float moveValue)
@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
         {
             _GunObject.SetActive(true);
             _CollectorObject.SetActive(false);
-            Debug.Log("GunSwapped");
+            //Debug.Log("GunSwapped");  
         }
     }
     private void SwapToBasket(float basketValue)
@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour
         {
             _CollectorObject.SetActive(true);
             _GunObject.SetActive(false);
-            Debug.Log("CollectorSwapped");
+            //Debug.Log("CollectorSwapped");
         }
     }
 

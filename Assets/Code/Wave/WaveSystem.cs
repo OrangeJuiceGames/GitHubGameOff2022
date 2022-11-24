@@ -7,25 +7,11 @@ public class WaveSystem : Updatable
 {
     public event Action<int> OnWaveStarted;
     public event Action OnRestComplete;
-    
-    /*
-    public void StartWave(List<ShipController> ships)
-    {
-        _SpinControllers = ships;
-        _WavePhase.StateChange(WavePhase.StartOfWave);
-        Register();
-    }
-    */
 
     public void Init()
     {
         _Wave = 0;
-        _SpinControllers = new List<ShipController>();
-        var ship = _Stage.ShipFactory.BuidShip();
-        ship.SetActive(false);
-        _SpinControllers.Add(ship);
-        Register();
-
+        _ShipsActive = 1;
         _WavePhase.StateChange(WavePhase.Rest);
     }
 
@@ -33,6 +19,8 @@ public class WaveSystem : Updatable
     {
         _Stage = stage;
         BuildWavePhase();
+        BuildShipControllers();
+        Register();
     }
 
     public void Update()
@@ -40,47 +28,65 @@ public class WaveSystem : Updatable
         UpdateTimer();
     }
 
-    private int _Wave, _ShipsActive;
+    private static readonly int SHIPS_ACTIVE_MAX = 3;
+
+    private int _Wave, _ShipsActive; 
     private float _InvasionTime;
-    private List<ShipController> _SpinControllers;
+    private List<ShipController> _ShipControllers;
     private StateActionMap<WavePhase> _WavePhase;
     private Stage _Stage;
 
     private void Register()
     {
-        for(int i = 0; i < _SpinControllers.Count; i++)
+        for(int i = 0; i < _ShipControllers.Count; i++)
         {
-            _SpinControllers[i].OnActivated += ShipActivated;
-            _SpinControllers[i].OnDestroyed += ShipDestroyed;
+            _ShipControllers[i].OnDestroyed += ShipDestroyed;
         }
+
+        _Stage.Boss.OnDestroyed += BossDestroyed;
+        _Stage.Boss.gameObject.SetActive(false);
     }
 
-    private void Unregister()
+    private void ActivateShips()
     {
-        for (int i = 0; i < _SpinControllers.Count; i++)
+        var count = 0;
+        while(count < _ShipsActive)
         {
-            _SpinControllers[i].OnActivated -= ShipActivated;
-            _SpinControllers[i].OnDestroyed -= ShipDestroyed;
+            _ShipControllers[count].SetActive(true);
+            count++;
         }
-    }
-
-    private void ShipActivated(ShipController ship)
-    {
-        _ShipsActive++;
     }
 
     private void ShipDestroyed(ShipController ship)
     {
-        _ShipsActive--;
-        if(_ShipsActive <= 0)
+        if(_WavePhase.CurrentState == WavePhase.Spawning)
         {
-            _WavePhase.StateChange(WavePhase.ShipsDestroyed);
+            _ShipsActive--;
+            if (_ShipsActive <= 0)
+            {
+                _WavePhase.StateChange(WavePhase.ShipsDestroyed);
+            }
+        }
+    }
+
+    private void BuildShipControllers()
+    {
+        _ShipControllers = new List<ShipController>();
+
+        var count = 0;
+        while(count < SHIPS_ACTIVE_MAX)
+        {    
+            var ship = _Stage.ShipFactory.BuidShip(_Wave);
+            ship.SetActive(false);
+            _ShipControllers.Add(ship);
+            count++;
         }
     }
 
     private void UpdateTimer()
     {
         _RestTimer.Update();
+        _StartBossTimer.Update();
     }
 
     private void BuildWavePhase()
@@ -96,6 +102,9 @@ public class WaveSystem : Updatable
         _StartBossTimer.OnTimerComplete += OnStartBossTimerComplete;
 
         _WavePhase.RegisterEnter(WavePhase.Boss, OnEnter_Boss);
+
+        _WavePhase.RegisterEnter(WavePhase.BossDestroyed, OnEnter_BossDestroyed);
+        _BossDestroyedTimer.OnTimerComplete += OnBossDestroyedTimerComplete;
     }
 
     private Timer _RestTimer = new Timer();
@@ -108,18 +117,16 @@ public class WaveSystem : Updatable
     private void OnRestTimerComplete()
     {
         Debug.Log("OnRestComplete");
-        _WavePhase.StateChange(WavePhase.StartOfWave);
         OnRestComplete?.Invoke();
+
+        _WavePhase.StateChange(WavePhase.StartOfWave);
     }
 
     private void OnEnter_StartOfWave()
     {
         _Wave++;
-
-        for(int i = 0; i < _SpinControllers.Count; i++)
-        {
-            _SpinControllers[i].SetActive(true);
-        }
+        //set number of active ships +1 for every 3 rounds to a max
+        ActivateShips();
 
         _WavePhase.StateChange(WavePhase.Spawning);
         OnWaveStarted?.Invoke(_Wave);
@@ -127,9 +134,9 @@ public class WaveSystem : Updatable
 
     private void OnEnter_Spawning()
     {
-        for (int i = 0; i < _SpinControllers.Count; i++)
+        for (int i = 0; i < _ShipControllers.Count; i++)
         {
-            _SpinControllers[i].SetSpawning(true);
+            _ShipControllers[i].SetSpawning(true);
         }
     }
 
@@ -148,8 +155,26 @@ public class WaveSystem : Updatable
     private void OnEnter_Boss()
     {
         Debug.Log("Boss Phase");
+        _Stage.Boss.gameObject.SetActive(true);
     }
 
+    private void BossDestroyed()
+    {
+        _WavePhase.StateChange(WavePhase.BossDestroyed);
+    }
+
+    private Timer _BossDestroyedTimer = new Timer();
+    private float _WaitTimeForRest = 1000f;
+    private void OnEnter_BossDestroyed()
+    {
+        _Stage.Boss.gameObject.SetActive(false);
+        _BossDestroyedTimer.Start(_WaitTimeForRest);
+    }
+
+    private void OnBossDestroyedTimerComplete()
+    {
+        _WavePhase.StateChange(WavePhase.Rest);
+    }
 }
 
 public enum WavePhase

@@ -18,9 +18,8 @@ public class ShipMovement
     private List<ShipPath> _paths;
     private int _pathIndex;
     private Queue<Vector3> _stops;
-    private MobSpawner _MobSpawner;
 
-    public ShipMovement(float movementSpeed, float stopLength, Vector3 currentPos, List<ShipPath> shipPaths, MobSpawner mobSpawner)
+    public ShipMovement(float movementSpeed, float stopLength, Vector3 currentPos, List<ShipPath> shipPaths)
     {
         _movementSpeed = movementSpeed;
         _currentPos = currentPos;
@@ -29,12 +28,9 @@ public class ShipMovement
         _stopLength = stopLength;
 
         _targetPos = GetNextPosition();
-        _MobSpawner = mobSpawner;
-
-        _MobSpawner.OnSpawnComplete += SpawnComplete;
     }
 
-    private void SpawnComplete()
+    public void SpawnComplete()
     {
         _IsSpawning = false;
     }
@@ -64,6 +60,21 @@ public class ShipMovement
         _currentPos = newPos;
         
         return newPos;
+    }
+
+    public void UpdateMoveSpeed(float newMovementSpeed)
+    {
+        _movementSpeed = newMovementSpeed;
+    }
+
+    public void UpdateStopLength(float newStopLength)
+    {
+        if (_remainingStopWait > 0)
+        {
+            float difference = newStopLength - _stopLength;
+            _remainingStopWait = _remainingStopWait + difference >= 0 ? _remainingStopWait + difference : 0;
+        }
+        _stopLength = newStopLength;
     }
 
     private void StartStopTimer()
