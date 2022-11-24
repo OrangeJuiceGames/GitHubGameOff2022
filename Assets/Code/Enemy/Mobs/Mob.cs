@@ -96,15 +96,14 @@ public class Mob : MonoBehaviour, IPoolable
     private void OnEnter_Cat()
     {
         _Animator.runtimeAnimatorController = _Cat;
-        //remove helmet
+        transform.DetachChildren();
+        _Helmet.Detatch();
     }
 
     private void OnEnter_CatWithHelmet()
     {
         _Animator.runtimeAnimatorController = _Cat;
         _Helmet.gameObject.SetActive(true);
-        _Helmet.transform.SetParent(_Stage);
-        //turn on helmet
     }
 
     private void OnEnter_Dog()
@@ -119,7 +118,8 @@ public class Mob : MonoBehaviour, IPoolable
         switch (collision.gameObject.name)
         {
             case "Shot(Clone)":
-                AddUpwardsImpulse();
+                var shot = collision.gameObject.GetComponent<Shot>();
+                HandelShotCollision(shot);
                 break;
             case "Floor":
                 var floor = collision.gameObject.GetComponent<Floor>();
@@ -128,6 +128,18 @@ public class Mob : MonoBehaviour, IPoolable
             case "Collector":
                 Return();
                 break;
+        }
+    }
+
+    private void HandelShotCollision(Shot shot)
+    {
+        shot.Return();
+
+        AddUpwardsImpulse();
+
+        if(_mobType == MobType.CatWithHelmet)
+        {
+            _SkinMob.StateChange(MobType.Cat);
         }
     }
 
@@ -163,6 +175,7 @@ public class Mob : MonoBehaviour, IPoolable
 
     private void ReturnHelmet(Helmet helmet)
     {
+        helmet.Attach();
         helmet.transform.SetParent(transform);
         helmet.transform.position = _HelmetPosition;
         helmet.gameObject.SetActive(false);
