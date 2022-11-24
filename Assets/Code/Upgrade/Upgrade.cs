@@ -5,9 +5,11 @@ using System.Collections.Generic;
 public class Upgrade
 {
     public event Action<UpgradeResult> OnUpgradeActive;
+    public PlayerModel PlayerModel => _PlayerData;
+
     private int _Level = 0;
     private float _Exp = 0;
-    private float _ExpMax = 10;
+    private float _ExpMax = 6;
     private float _LevelUpFactor = 0.3f;
     private List<float> _UpgradePotency = new List<float>() { 0.01f, 0.02f, 0.03f };
 
@@ -16,9 +18,11 @@ public class Upgrade
     private Dictionary<int, Action> _UpgradeOptions;
     private WTMK _Tools = WTMK.Instance;
 
-    public Upgrade(Stage stage, PlayerModel playerData)
+    public Upgrade(Stage stage)
     {
-        _PlayerData = playerData;
+        _PlayerData = new PlayerModel();
+        _PlayerData.RateOfFire = 3f;
+
         _Stage = stage;
         _Stage.Floor.OnUpgradeCollected += UpgradeCollected;
         BuildOptions();
@@ -49,7 +53,7 @@ public class Upgrade
         if (_Exp == _ExpMax)
         {
             _Level++;
-            _ExpMax *= (_Level * _LevelUpFactor);
+            _ExpMax *= _ExpMax + (_Level * _LevelUpFactor);
             _Exp = 0;
 
             var roll = _Tools.Rando.Next(_UpgradeOptions.Count);

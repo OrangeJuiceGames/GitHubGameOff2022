@@ -45,7 +45,7 @@ public class GameScreen : State<GameState>
     private void InitGameComponets()
     {
         _Input = new InputProcessor();
-        _UpgradeSystem = new Upgrade(_View.Stage, _View.Player.Model);
+        _UpgradeSystem = new Upgrade(_View.Stage);
         _WaveSystem = new WaveSystem(_View.Stage);
         _View.Player.Init(_Input, _UpgradeSystem);
         _View.Story.OnStoryComplete += StoryComplete;

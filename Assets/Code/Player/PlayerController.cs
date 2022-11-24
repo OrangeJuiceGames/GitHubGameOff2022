@@ -60,15 +60,15 @@ public class PlayerController : MonoBehaviour
 
     public void Init(InputProcessor input, Upgrade upgradeSystem)
     {
-        SetDefaultStats();
-        BuildShotPool();
-
         _Input = input;
         _UpgradeSystem = upgradeSystem;
         _MoveVector = new Vector2(0, 0);
         _Gun.gameObject.SetActive(false);
 
         _CombatState = CombatState.Collecting;
+
+        SetDefaultStats();
+        BuildShotPool();
     }
 
     
@@ -102,8 +102,7 @@ public class PlayerController : MonoBehaviour
     }
     private void SetDefaultStats()
     {
-        _Model = new PlayerModel();
-        _Model.RateOfFire = 3f;
+        _Model = _UpgradeSystem.PlayerModel;
     }
 
     private void MoveHorizontal(float moveValue)
