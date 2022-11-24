@@ -95,6 +95,7 @@ public class Mob : MonoBehaviour, IPoolable
 
     private void OnEnter_Cat()
     {
+        _mobType = _SkinMob.CurrentState;
         _Animator.runtimeAnimatorController = _Cat;
         transform.DetachChildren();
         _Helmet.Detatch();
@@ -102,12 +103,14 @@ public class Mob : MonoBehaviour, IPoolable
 
     private void OnEnter_CatWithHelmet()
     {
+        _mobType = _SkinMob.CurrentState;
         _Animator.runtimeAnimatorController = _Cat;
         _Helmet.gameObject.SetActive(true);
     }
 
     private void OnEnter_Dog()
     {
+        _mobType = _SkinMob.CurrentState;
         _Animator.runtimeAnimatorController = _Dog;
         _Helmet.gameObject.SetActive(false);
     }
