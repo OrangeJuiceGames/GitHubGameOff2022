@@ -55,6 +55,7 @@ public class MobSpawner : MonoBehaviour
             if (randNum <= sum)
             {
                 selectedMobType = _percentChanceOfMobs[i].Item1;
+                break;
             }
         }
 
