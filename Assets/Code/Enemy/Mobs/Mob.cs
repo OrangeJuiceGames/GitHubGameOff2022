@@ -7,12 +7,29 @@ public class Mob : MonoBehaviour, IPoolable
 {
     public event Action<IPoolable> OnReturnRequest;
 
+    public void SetAnimationTrigger(string id)
+    {
+        _Animator.SetTrigger(id);
+    }
+
+    public void SetAnimationBool(string id, bool isActive)
+    {
+        _Animator.SetBool(id, isActive);
+    }
+
+    public void PlayAnimation(string anim)
+    {
+        _Animator.Play(anim);
+    }
+
+    private float _DefaultGravityScale = 0.325f;
+
     public void Spawn(MobType mobType, Vector3 pos)
     {
         _Rig.mass = 4.75f;
         _Rig.velocity = Vector3.zero;
         _Rig.angularVelocity = 0f;
-        _Rig.gravityScale = 0.325f;
+        _Rig.gravityScale = _DefaultGravityScale;
         transform.position = pos;
         ChangeMobType(mobType);
         SetActive(true);
@@ -20,7 +37,9 @@ public class Mob : MonoBehaviour, IPoolable
 
     public void Return()
     {
+        _Collider.isTrigger = false;
         _Rig.velocity = Vector2.zero;
+        _Rig.gravityScale = _DefaultGravityScale;
         OnReturnRequest?.Invoke(this);
     }
 
@@ -58,6 +77,7 @@ public class Mob : MonoBehaviour, IPoolable
     private Vector3 _HelmetPosition, _ReturnPosition;    
     private Rigidbody2D _Rig;
     private Animator _Animator;
+    private BoxCollider2D _Collider;
 
     private StateActionMap<MobType> _SkinMob;
     private float _ReturnTimer = 4f;
@@ -69,6 +89,7 @@ public class Mob : MonoBehaviour, IPoolable
     {
         _Rig = GetComponent<Rigidbody2D>();
         _Animator = GetComponent<Animator>();
+        _Collider = GetComponent<BoxCollider2D>();
 
         _SkinMob = new StateActionMap<MobType>();
         _SkinMob.RegisterEnter(MobType.Cat, OnEnter_Cat);
@@ -87,12 +108,29 @@ public class Mob : MonoBehaviour, IPoolable
 
     private void Update()
     {
-        if(_WillReturn)
+        DoReturn();
+    }
+
+    private void DoReturn()
+    {
+        if (_WillReturn)
         {
             _ReturnTimer -= Time.deltaTime;
             var pos = MoveToReturnPosition();
-            transform.position = new Vector3(pos.x, transform.position.y, 0f);
-            if(_ReturnTimer <= 0)
+            var target = new Vector3(pos.x, pos.y, 0f);
+
+            if (_mobType == MobType.Dog)
+            {
+                target.x = transform.position.x;
+                transform.position = target;
+            }
+            else
+            {
+                target.y = transform.position.y;
+                transform.position = target;
+            }
+
+            if (_ReturnTimer <= 0)
             {
                 _WillReturn = false;
                 _ReturnTimer = _CatReturnTime;
@@ -159,7 +197,7 @@ public class Mob : MonoBehaviour, IPoolable
         _Rig.AddForce(_impulseForce, ForceMode2D.Impulse);
     }
 
-    private void StartCatReturnTimer()
+    private void StartReturnTimer()
     {
         _ReturnTimer = _CatReturnTime;
         _WillReturn = true;
@@ -172,22 +210,32 @@ public class Mob : MonoBehaviour, IPoolable
             case MobType.CatWithHelmet:
                 floor.IncreaseInvasion(2);
                 SetReturnPosition();
-                StartCatReturnTimer();
+                StartReturnTimer();
                 break;
             case MobType.Cat:
                 SetReturnPosition();
                 floor.CatEscaped();
-                StartCatReturnTimer();
+                StartReturnTimer();
                 break;
             case MobType.Dog:
+                _Collider.isTrigger = true;
                 floor.DogKilled();
-                Return();
+                SetReturnPosition();
+                SetAnimationTrigger("Dead");
+                StartReturnTimer();
                 break;
         }
     }
 
     private void SetReturnPosition()
     {
+        if(_mobType == MobType.Dog)
+        {
+            _Rig.gravityScale = -_DefaultGravityScale;
+            _ReturnPosition = _Stage.Roof.position;
+            return;
+        }
+
         var roll = _Tools.Rando.Next(9);
         if (roll >= 4)
         {

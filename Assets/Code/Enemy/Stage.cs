@@ -15,7 +15,7 @@ public class Stage : MonoBehaviour
     [SerializeField]
     private Boss _Boss;
     [SerializeField]
-    private Transform _LeftWall, _RightWall;
+    private Transform _LeftWall, _RightWall, _Roof;
 
     public Floor Floor => _Floor;
     public ShipFactory ShipFactory => _ShipFactory;
@@ -24,4 +24,5 @@ public class Stage : MonoBehaviour
     public Boss Boss => _Boss;
     public Transform LeftWall => _LeftWall;
     public Transform RightWall => _RightWall;
+    public Transform Roof => _Roof;
 }
