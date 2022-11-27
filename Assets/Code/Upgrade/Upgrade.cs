@@ -53,7 +53,7 @@ public class Upgrade
         if (_Exp == _ExpMax)
         {
             _Level++;
-            _ExpMax *= _ExpMax + (_Level * _LevelUpFactor);
+            _ExpMax += (_Level * _LevelUpFactor);
             _Exp = 0;
 
             var roll = _Tools.Rando.Next(_UpgradeOptions.Count);

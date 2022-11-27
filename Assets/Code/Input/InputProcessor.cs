@@ -17,6 +17,7 @@ public class InputProcessor : Updatable
     public event Action OnLeftControlDown;
     public event Action OnLeftAltDown;
     public event Action OnSpaceDown;
+    public event Action OnEnterDown;
 
 
     private float _Horizontal;
@@ -65,6 +66,11 @@ public class InputProcessor : Updatable
         if (Input.GetKeyDown(KeyCode.Space))
         {
             OnSpaceDown?.Invoke();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Return))
+        {
+            OnEnterDown?.Invoke();
         }
 
         OnHorizontalMovement?.Invoke(_Horizontal);

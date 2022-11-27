@@ -6,15 +6,26 @@ public class GameScreen : State<GameState>
 {
     public override void OnEnter() 
     {
+        if(_Paused)
+        {
+            _Paused = false;
+            return;
+        }
+
         _View.SetActive(true);
         _View.Player.Register();
-
         _View.Story.Intro();
     }
 
     public override void OnExit() 
     {
         _Ready = false;
+
+        if(_Paused)
+        {
+            return;
+        }
+
         _View.Player.Unregister();
         _View.SetActive(false);
     }
@@ -34,12 +45,14 @@ public class GameScreen : State<GameState>
     private Upgrade _UpgradeSystem;
     private WaveSystem _WaveSystem;
     private ScoreSystem _ScoreSystem;
+    private bool _Paused;
 
 
     public GameScreen(GameScreenView view, GameState tag) : base(tag)
     {
         _View = view;
         InitGameComponets();
+        RegisterInput();
     }
 
     private void InitGameComponets()
@@ -53,9 +66,26 @@ public class GameScreen : State<GameState>
         _ScoreSystem = new ScoreSystem(_View.Stage);
     }
 
+    private void RegisterInput()
+    {
+        _Input.OnEnterDown += TryPause;
+    }
+
+    private void TryPause()
+    {
+        TransitionToPause();
+    }
+
     private void StoryComplete()
     {
         _WaveSystem.Init();
+    }
+
+    private void TransitionToPause()
+    {
+        _Paused = true;
+        NextState = GameState.Help;
+        _Ready = true;
     }
 }
 

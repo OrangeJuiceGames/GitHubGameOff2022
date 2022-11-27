@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Rigidbody2D _Rig;
     [SerializeField]
+    private Animator _Animator;
+    [SerializeField]
     private float _MovePower = 1.3f;
     [SerializeField]
     private Collector _Collector;
@@ -40,6 +42,9 @@ public class PlayerController : MonoBehaviour
         _Input.OnSpaceDown += TryShoot;
 
         _UpgradeSystem.OnUpgradeActive += LevelUp;
+
+        _Collector.OnScore += Catch;
+        _Collector.OnUpgradeCollected += Catch;
     }
 
     public void Unregister()
@@ -70,8 +75,6 @@ public class PlayerController : MonoBehaviour
         SetDefaultStats();
         BuildShotPool();
     }
-
-    
 
     private Pool _ShotPool;
     private List<IPoolable> _Shots;
@@ -128,7 +131,7 @@ public class PlayerController : MonoBehaviour
         {
             _GunObject.SetActive(true);
             _CollectorObject.SetActive(false);
-            //Debug.Log("GunSwapped");  
+            _Animator.SetBool("HasGun", true);
         }
     }
     private void SwapToBasket(float basketValue)
@@ -137,7 +140,7 @@ public class PlayerController : MonoBehaviour
         {
             _CollectorObject.SetActive(true);
             _GunObject.SetActive(false);
-            //Debug.Log("CollectorSwapped");
+            _Animator.SetBool("HasGun", false);
         }
     }
 
@@ -157,9 +160,20 @@ public class PlayerController : MonoBehaviour
             _RateOfFire = _Model.RateOfFire;
             var currentShot = (Shot)_ShotPool.GetPoolable();
             currentShot.Fire(_Gun.ShotSpawnPoint.position);
+            _Animator.SetTrigger("Shoot");
         }
     }
-    
+
+    private void Catch(MobType type)
+    {
+        _Animator.SetTrigger("Catch");
+    }
+
+    private void Catch(UpgradeMaterial type)
+    {
+        _Animator.SetTrigger("Catch");
+    }
+
     private void LevelUp(UpgradeResult upgrade)
     {
         Debug.Log("level up");
@@ -173,7 +187,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _Rig.velocity = _MoveVector * _MovePower;
+        _Rig.velocity = _MoveVector * _MovePower * Time.deltaTime;
     }
 
     private void HandleFireRate()

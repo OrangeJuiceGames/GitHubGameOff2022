@@ -14,11 +14,15 @@ public class Stage : MonoBehaviour
     private ScoreView _ScoreView;
     [SerializeField]
     private Boss _Boss;
+    [SerializeField]
+    private Transform _LeftWall, _RightWall, _Roof;
 
     public Floor Floor => _Floor;
     public ShipFactory ShipFactory => _ShipFactory;
     public PlayerController Player => _Player;
     public ScoreView ScoreView => _ScoreView;
     public Boss Boss => _Boss;
-
+    public Transform LeftWall => _LeftWall;
+    public Transform RightWall => _RightWall;
+    public Transform Roof => _Roof;
 }

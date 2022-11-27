@@ -26,7 +26,7 @@ public class ScoreSystem
     private void DogKilled(int value)
     {
         _Model.DogsDead++;
-        _Stage.ScoreView.DogsDead.SetText($"Dogs Killed : {_Model.DogsDead}");
+        _Stage.ScoreView.DogsDead.SetText($"Dogs in after life : {_Model.DogsDead}");
     }
 
     private void InvasionIncreased(int value)
