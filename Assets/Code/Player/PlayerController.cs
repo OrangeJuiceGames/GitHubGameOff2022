@@ -159,6 +159,7 @@ public class PlayerController : MonoBehaviour
             _CanShoot = false;
             _RateOfFire = _Model.RateOfFire;
             var currentShot = (Shot)_ShotPool.GetPoolable();
+            currentShot.SetShotDamage(_Model.Damage);
             currentShot.Fire(_Gun.ShotSpawnPoint.position);
             _Animator.SetTrigger("Shoot");
         }
