@@ -179,6 +179,9 @@ MonoBehaviour:
   _model: {fileID: 9086860784839752701}
   Paths:
   - {fileID: 11400000, guid: b2e403b8efda52d4380bf81882de6577, type: 2}
+  - {fileID: 11400000, guid: 37580970eb760d04793d999e507176ef, type: 2}
+  - {fileID: 11400000, guid: d13d000c02a1b5047b3672daae0069da, type: 2}
+  - {fileID: 11400000, guid: 495b6ffe102eecd44b45dc28d4d4c30d, type: 2}
 --- !u!114 &9086860785348869041
 MonoBehaviour:
   m_ObjectHideFlags: 0

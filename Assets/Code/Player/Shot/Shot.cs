@@ -8,6 +8,7 @@ public class Shot : MonoBehaviour, IPoolable
     public event Action<IPoolable> OnReturnRequest;
     public float AliveTime = 0f;
     public float FireForce = 10f;
+    public float Damage = 10f;
 
     public void Fire(Vector3 pos)
     {

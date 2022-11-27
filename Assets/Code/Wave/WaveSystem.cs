@@ -11,7 +11,7 @@ public class WaveSystem : Updatable
     public void Init()
     {
         _Wave = 0;
-        _ShipsActive = 3;
+        _ShipsActive = 1;
         _WavePhase.StateChange(WavePhase.Rest);
     }
 

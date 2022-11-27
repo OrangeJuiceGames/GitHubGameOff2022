@@ -32,6 +32,7 @@ public class ShipController : MonoBehaviour
     [SerializeField] SpriteRenderer _model;
     private MobSpawner _MobSpawner;
     private ShipMovement _shipMovement;
+    private HealthController _healthController;
     private bool _IsActive;
 
     private void Awake()
@@ -39,6 +40,11 @@ public class ShipController : MonoBehaviour
         _MobSpawner = GetComponent<MobSpawner>();
 
         _shipMovement = new ShipMovement(1.25f, 0.5f, transform.position, Paths);
+        _healthController = new HealthController(100, .30f, .10f);
+
+        _healthController.OnReachZeroHealth += DestroyShip;
+        _healthController.OnReachCriticalHealth += ShowCriticalHealthAnim;
+        _healthController.OnReachLowHealth += ShowLowHealthAnim;
     }
 
     [SerializeField] List<ShipPath> Paths;
@@ -74,6 +80,21 @@ public class ShipController : MonoBehaviour
     private void HandelShotCollision(Shot shot)
     {
         //deal damage to ship 
+        _healthController.DamageHealth(shot.Damage);
+    }
+
+    private void DestroyShip()
+    {
         OnDestroyed?.Invoke(this);
+    }
+
+    private void ShowLowHealthAnim()
+    {
+        //trigger animation
+    }
+
+    private void ShowCriticalHealthAnim()
+    {
+        //trigger animation
     }
 }
