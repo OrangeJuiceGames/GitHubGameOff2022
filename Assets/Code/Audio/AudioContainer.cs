@@ -16,6 +16,12 @@ public class AudioContainer : MonoBehaviour
     
     public void Play( float volume = 1f, float pitch = 1f )
     {
+        if ( !audioClip )
+        {
+            Debug.Log("Missing audio clip", this);
+            return;
+        }
+        
         audioSource.volume = volume;
         audioSource.pitch = pitch;
         
