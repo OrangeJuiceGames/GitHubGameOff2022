@@ -16,12 +16,15 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/EDEF46C9-B2DB-4B87-8C98-495BFDC516FA/b9/d0f6473e/Action.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Code/Audio/AudioContainer.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioContainer.cs" />
+      <option value="$PROJECT_DIR$/Assets/Code/Input/InputProcessor.cs" />
+      <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Code/Player/PlayerController.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="2I9ACqUcTNflP7hmkLC037WIqmJ" />
@@ -67,7 +70,7 @@
       <option name="presentableId" value="Default" />
       <updated>1669583304914</updated>
       <workItem from="1669583310542" duration="96000" />
-      <workItem from="1669583440396" duration="1305000" />
+      <workItem from="1669583440396" duration="2829000" />
     </task>
     <servers />
   </component>

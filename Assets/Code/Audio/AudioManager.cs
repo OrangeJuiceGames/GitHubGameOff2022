@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using RNG = UnityEngine.Random;
@@ -56,8 +57,6 @@ public class AudioManager : MonoBehaviour
     // Instantiate and populate the audioDictionary
     private void Awake()
     {
-        Instance = this;
-        
         if ( audioClipPrefabs.Count == 0 )
         {
             Debug.Log( "No audio clips added to list", this );
@@ -69,6 +68,11 @@ public class AudioManager : MonoBehaviour
             var audioObject = Instantiate( audioClipPrefabs[ i ], audioPoolContainer.transform );
             _audioDictionary.Add( i, audioObject );
         }
+    }
+
+    private void Start()
+    {
+        Instance = this;
     }
 
     private void Update()
@@ -87,5 +91,9 @@ public class AudioManager : MonoBehaviour
 public enum AudioType
 {
     testGood,
-    testBad
+    testBad,
+    characterChangeDirection,
+    characterChangeWeapon,
+    characterFireWeapon,
+    characterWalk
 }

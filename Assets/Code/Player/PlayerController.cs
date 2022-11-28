@@ -85,7 +85,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 _180 = new Vector3(0, 180, 0);
     private CombatState _CombatState;
     private bool _CanShoot = true;
+    private bool _facingRight = true;
     private float _RateOfFire;
+    
 
     private void BuildShotPool()
     {
@@ -110,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
     private void MoveHorizontal(float moveValue)
     {
-        _MoveVector.x = moveValue;    
+        _MoveVector.x = moveValue;
     }
     private void TrySwap()
     {
@@ -132,6 +134,7 @@ public class PlayerController : MonoBehaviour
             _GunObject.SetActive(true);
             _CollectorObject.SetActive(false);
             _Animator.SetBool("HasGun", true);
+            AudioManager.Instance.PlayAudioByEnumType(AudioType.characterChangeWeapon);
         }
     }
     private void SwapToBasket(float basketValue)
@@ -141,6 +144,7 @@ public class PlayerController : MonoBehaviour
             _CollectorObject.SetActive(true);
             _GunObject.SetActive(false);
             _Animator.SetBool("HasGun", false);
+            AudioManager.Instance.PlayAudioByEnumType(AudioType.characterChangeWeapon);
         }
     }
 
@@ -162,6 +166,7 @@ public class PlayerController : MonoBehaviour
             currentShot.SetShotDamage(_Model.Damage);
             currentShot.Fire(_Gun.ShotSpawnPoint.position);
             _Animator.SetTrigger("Shoot");
+            AudioManager.Instance.PlayAudioByEnumType(AudioType.characterFireWeapon);
         }
     }
 
@@ -209,10 +214,23 @@ public class PlayerController : MonoBehaviour
         if (_MoveVector.x > 0)
         {
             transform.eulerAngles = Vector3.zero;
+
+            // Checks for change in facing direction.
+            if ( _facingRight )
+                return;
+
+            AudioManager.Instance.PlayAudioByEnumType(AudioType.characterChangeDirection);
+            _facingRight = !_facingRight;
         }
         else if (_MoveVector.x < 0)
         {
             transform.eulerAngles = _180;
+            
+            if ( !_facingRight )
+                return;
+
+            AudioManager.Instance.PlayAudioByEnumType(AudioType.characterChangeDirection);
+            _facingRight = !_facingRight;
         }
     }
 }

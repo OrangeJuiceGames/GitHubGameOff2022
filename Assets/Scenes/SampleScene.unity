@@ -259,6 +259,10 @@ MonoBehaviour:
   audioClipPrefabs:
   - {fileID: 6054048621157786876, guid: b38fb627754092b4293171ed544fdf28, type: 3}
   - {fileID: 3563329957408411631, guid: f0778e55228f2c541b17920668ceef5e, type: 3}
+  - {fileID: 3088655367097472271, guid: 01355d49aade5a14fb0202c8e89cff57, type: 3}
+  - {fileID: 4197114521049437876, guid: f17b303a54738fd419b88119a6cae741, type: 3}
+  - {fileID: 8415552828927000884, guid: 19b4081f6ef67ae4d94320a3dab86fe8, type: 3}
+  - {fileID: 6554024500524094720, guid: 08b6869c044ef154fab945f6739e86a5, type: 3}
 --- !u!4 &92933359
 Transform:
   m_ObjectHideFlags: 0
