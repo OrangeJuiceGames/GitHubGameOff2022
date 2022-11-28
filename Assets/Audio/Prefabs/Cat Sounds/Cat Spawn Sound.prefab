@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4496241848522036830}
   - component: {fileID: 6112218358331187734}
   m_Layer: 0
-  m_Name: Cat Initial Thrown Sound
+  m_Name: Cat Spawn Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

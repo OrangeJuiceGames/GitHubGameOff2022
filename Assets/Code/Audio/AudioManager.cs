@@ -95,5 +95,14 @@ public enum AudioType
     characterChangeDirection,
     characterChangeWeapon,
     characterFireWeapon,
-    characterWalk
+    characterWalk,
+    helmetKnockOff,
+    dogSpawn,
+    dogSuccessfulCatch,
+    dogFailureCatch,
+    catSpawn,
+    catSuccessfulCatch,
+    catLandWithoutHelmet,
+    catLandWithHelmet
+    
 }

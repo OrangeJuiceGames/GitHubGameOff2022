@@ -23,8 +23,11 @@
     <changedPaths>
       <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioContainer.cs" />
       <option value="$PROJECT_DIR$/Assets/Code/Input/InputProcessor.cs" />
-      <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Code/Enemy/Helmet.cs" />
       <option value="$PROJECT_DIR$/Assets/Code/Player/PlayerController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Code/Enemy/MobSpawner.cs" />
+      <option value="$PROJECT_DIR$/Assets/Code/Enemy/Mobs/Mob.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="2I9ACqUcTNflP7hmkLC037WIqmJ" />

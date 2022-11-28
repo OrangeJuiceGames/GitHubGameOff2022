@@ -33,6 +33,8 @@ public class Mob : MonoBehaviour, IPoolable
         transform.position = pos;
         ChangeMobType(mobType);
         SetActive(true);
+        
+        PlaySpawnAudioForAnimal( mobType );
     }
 
     public void Return()
@@ -139,6 +141,7 @@ public class Mob : MonoBehaviour, IPoolable
         }
     }
 
+    // heheheh, gross
     private void OnEnter_Cat()
     {
         _mobType = _SkinMob.CurrentState;
@@ -211,11 +214,13 @@ public class Mob : MonoBehaviour, IPoolable
                 floor.IncreaseInvasion(2);
                 SetReturnPosition();
                 StartReturnTimer();
+                AudioManager.Instance.PlayAudioByEnumType( AudioType.catLandWithHelmet );
                 break;
             case MobType.Cat:
                 SetReturnPosition();
                 floor.CatEscaped();
                 StartReturnTimer();
+                AudioManager.Instance.PlayAudioByEnumType( AudioType.catLandWithoutHelmet );
                 break;
             case MobType.Dog:
                 _Collider.isTrigger = true;
@@ -223,6 +228,7 @@ public class Mob : MonoBehaviour, IPoolable
                 SetReturnPosition();
                 SetAnimationTrigger("Dead");
                 StartReturnTimer();
+                AudioManager.Instance.PlayAudioByEnumType( AudioType.dogFailureCatch );
                 break;
         }
     }
@@ -258,5 +264,12 @@ public class Mob : MonoBehaviour, IPoolable
         helmet.transform.SetParent(transform);
         helmet.transform.position = _HelmetPosition;
         helmet.gameObject.SetActive(false);
+    }
+    
+    private void PlaySpawnAudioForAnimal( MobType mobThatSpawned )
+    {
+        AudioManager.Instance.PlayAudioByEnumType( mobThatSpawned == MobType.Dog
+            ? AudioType.dogSpawn
+            : AudioType.catSpawn );
     }
 }

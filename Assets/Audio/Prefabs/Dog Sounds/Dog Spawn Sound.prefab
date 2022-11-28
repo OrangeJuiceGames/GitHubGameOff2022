@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3781862342488086446}
   - component: {fileID: 6293871792276639114}
   m_Layer: 0
-  m_Name: Dog Initial Thrown Sound
+  m_Name: Dog Spawn Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

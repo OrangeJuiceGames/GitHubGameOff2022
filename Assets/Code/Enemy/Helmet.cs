@@ -12,6 +12,7 @@ public class Helmet : MonoBehaviour, UpgradeMaterial
         _Collider.enabled = true;
         _Rig = gameObject.AddComponent<Rigidbody2D>();
         AddRandomForce();
+        AudioManager.Instance.PlayAudioByEnumType( AudioType.helmetKnockOff );
     }
 
     public void Attach()

@@ -94,6 +94,5 @@ public class MobSpawner : MonoBehaviour
             throw new System.Exception("Percent chances of mob do not add up to 100!");
         }
     }
-
-
+    
 }
