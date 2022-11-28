@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using RNG = UnityEngine.Random;
 
@@ -57,6 +58,12 @@ public class AudioContainer : MonoBehaviour
     
     // Used to alter the volume of the sound based on VolumeRange for audio variance.
     private float GetRandomVolume() => RNG.Range( maxVolume - volumeRange, maxVolume );
+
+    private void Awake()
+    {
+        if ( audioSource == null )
+            audioSource = this.GetComponent<AudioSource>();
+    }
 
     private void Start()
     {

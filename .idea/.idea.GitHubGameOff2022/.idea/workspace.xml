@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ef7fa89-4ee9-458e-9c00-ef22162ae457" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.GitHubGameOff2022/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GitHubGameOff2022/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Audio/Prefabs/Character Sounds/Character Fire Weapon Sound.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Audio/Prefabs/Character Sounds/Character Fire Weapon Sound.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Audio/Prefabs/TestBad Prefab.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Audio/Prefabs/TestBad Prefab.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Audio/Prefabs/TestGood Prefab.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Audio/Prefabs/TestGood Prefab.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Code/Audio/AudioContainer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Audio/AudioContainer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Audio/AudioManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Audio/AudioManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Enemy/Helmet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Enemy/Helmet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Enemy/Mobs/Mob.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Enemy/Mobs/Mob.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Player/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,8 +23,8 @@
       <option value="$PROJECT_DIR$/Assets/Code/Player/PlayerController.cs" />
       <option value="$PROJECT_DIR$/Assets/Code/Enemy/MobSpawner.cs" />
       <option value="$PROJECT_DIR$/Assets/Code/Enemy/Mobs/Mob.cs" />
-      <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioContainer.cs" />
       <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioContainer.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="2I9ACqUcTNflP7hmkLC037WIqmJ" />
@@ -82,7 +71,7 @@
       <updated>1669583304914</updated>
       <workItem from="1669583310542" duration="96000" />
       <workItem from="1669583440396" duration="3271000" />
-      <workItem from="1669619854978" duration="1702000" />
+      <workItem from="1669619854978" duration="2055000" />
     </task>
     <servers />
   </component>
