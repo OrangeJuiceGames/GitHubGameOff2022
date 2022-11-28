@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
             _GunObject.SetActive(true);
             _CollectorObject.SetActive(false);
             _Animator.SetBool("HasGun", true);
-            AudioManager.Instance.PlayAudioByEnumType( AudioType.characterChangeWeapon );
+            AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterChangeWeapon );
         }
     }
     private void SwapToBasket(float basketValue)
@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
             _CollectorObject.SetActive(true);
             _GunObject.SetActive(false);
             _Animator.SetBool("HasGun", false);
-            AudioManager.Instance.PlayAudioByEnumType( AudioType.characterChangeWeapon );
+            AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterChangeWeapon );
         }
     }
 
@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour
             currentShot.SetShotDamage(_Model.Damage);
             currentShot.Fire(_Gun.ShotSpawnPoint.position);
             _Animator.SetTrigger("Shoot");
-            AudioManager.Instance.PlayAudioByEnumType( AudioType.characterFireWeapon );
+            AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterFireWeapon );
         }
     }
 
@@ -196,7 +196,7 @@ public class PlayerController : MonoBehaviour
         _Rig.velocity = _MoveVector * _MovePower * Time.deltaTime;
         
         if(_MoveVector.x != 0)
-            AudioManager.Instance.PlayAudioByEnumType( AudioType.characterWalk );
+            AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterWalk );
     }
 
     private void HandleFireRate()
@@ -222,7 +222,7 @@ public class PlayerController : MonoBehaviour
             if ( _facingRight )
                 return;
 
-            AudioManager.Instance.PlayAudioByEnumType( AudioType.characterChangeDirection );
+            AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterChangeDirection );
             _facingRight = !_facingRight;
         }
         else if (_MoveVector.x < 0)
@@ -232,7 +232,7 @@ public class PlayerController : MonoBehaviour
             if ( !_facingRight )
                 return;
 
-            AudioManager.Instance.PlayAudioByEnumType( AudioType.characterChangeDirection );
+            AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterChangeDirection );
             _facingRight = !_facingRight;
         }
     }

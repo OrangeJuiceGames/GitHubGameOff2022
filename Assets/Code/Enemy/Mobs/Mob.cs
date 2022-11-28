@@ -214,13 +214,13 @@ public class Mob : MonoBehaviour, IPoolable
                 floor.IncreaseInvasion(2);
                 SetReturnPosition();
                 StartReturnTimer();
-                AudioManager.Instance.PlayAudioByEnumType( AudioType.catLandWithHelmet );
+                AudioManager.Instance.PlayAudioByEnumType( AudioType.CatLandWithHelmet );
                 break;
             case MobType.Cat:
                 SetReturnPosition();
                 floor.CatEscaped();
                 StartReturnTimer();
-                AudioManager.Instance.PlayAudioByEnumType( AudioType.catLandWithoutHelmet );
+                AudioManager.Instance.PlayAudioByEnumType( AudioType.CatLandWithoutHelmet );
                 break;
             case MobType.Dog:
                 _Collider.isTrigger = true;
@@ -228,7 +228,7 @@ public class Mob : MonoBehaviour, IPoolable
                 SetReturnPosition();
                 SetAnimationTrigger("Dead");
                 StartReturnTimer();
-                AudioManager.Instance.PlayAudioByEnumType( AudioType.dogFailureCatch );
+                AudioManager.Instance.PlayAudioByEnumType( AudioType.DogFailureCatch );
                 break;
         }
     }
@@ -269,7 +269,7 @@ public class Mob : MonoBehaviour, IPoolable
     private void PlaySpawnAudioForAnimal( MobType mobThatSpawned )
     {
         AudioManager.Instance.PlayAudioByEnumType( mobThatSpawned == MobType.Dog
-            ? AudioType.dogSpawn
-            : AudioType.catSpawn );
+            ? AudioType.DogSpawn
+            : AudioType.CatSpawn );
     }
 }
