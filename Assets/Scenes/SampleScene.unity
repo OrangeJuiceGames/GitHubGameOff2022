@@ -250,9 +250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c42abba7fa6ce0647b8f7cf0d3dbee4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVolume: 0.75
-  volumeRange: 0.1
-  pitchRange: 0.2
   audioPoolContainer: {fileID: 2045152228}
   typesOfEnums_Demo: 0
   audioClipPrefabs:
@@ -260,6 +257,8 @@ MonoBehaviour:
   - {fileID: 4197114521049437876, guid: f17b303a54738fd419b88119a6cae741, type: 3}
   - {fileID: 8415552828927000884, guid: 19b4081f6ef67ae4d94320a3dab86fe8, type: 3}
   - {fileID: 6554024500524094720, guid: 08b6869c044ef154fab945f6739e86a5, type: 3}
+  - {fileID: 876377434496726056, guid: ce62386070015834cb5b05d189d3f039, type: 3}
+  - {fileID: 6215356729051078383, guid: afaf977740ca86f4f80b39d36f3a4629, type: 3}
   - {fileID: 3459191943661601740, guid: bc2dfdf8c3e98174b801331da4194ee2, type: 3}
   - {fileID: 6293871792276639114, guid: 9e271a7c93b78f44f82a833b79906ad8, type: 3}
   - {fileID: 2221323595059398433, guid: dc7bbcb6d34237c459132767281d9ffe, type: 3}

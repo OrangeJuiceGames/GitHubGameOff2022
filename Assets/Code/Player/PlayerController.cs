@@ -173,16 +173,19 @@ public class PlayerController : MonoBehaviour
     private void Catch(MobType type)
     {
         _Animator.SetTrigger("Catch");
+        AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterCatch );
     }
 
     private void Catch(UpgradeMaterial type)
     {
         _Animator.SetTrigger("Catch");
+        AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterCatch );
     }
 
     private void LevelUp(UpgradeResult upgrade)
     {
         Debug.Log("level up");
+        AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterUpgrade );
     }
 
     private void Update()

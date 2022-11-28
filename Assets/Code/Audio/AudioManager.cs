@@ -53,6 +53,8 @@ public enum AudioType
     CharacterChangeWeapon,
     CharacterFireWeapon,
     CharacterWalk,
+    CharacterCatch,
+    CharacterUpgrade,
     HelmetKnockOff,
     DogSpawn,
     DogSuccessfulCatch,
