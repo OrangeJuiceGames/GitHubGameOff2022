@@ -194,6 +194,9 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         _Rig.velocity = _MoveVector * _MovePower * Time.deltaTime;
+        
+        if(_MoveVector.x != 0)
+            AudioManager.Instance.PlayAudioByEnumType(AudioType.characterWalk);
     }
 
     private void HandleFireRate()
