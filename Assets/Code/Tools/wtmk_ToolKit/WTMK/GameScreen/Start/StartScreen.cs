@@ -9,8 +9,8 @@ public class StartScreen : State<GameState>
         _View.bStart.onClick.AddListener(TransitionToGame);
         _View.SetActive(true);
         
-        var data = _Leaderboard.Get("https://rcad-backend.herokuapp.com/user");
-        _View.Leaderboard_Names.SetText(data);
+        //var data = _Leaderboard.Get("https://rcad-backend.herokuapp.com/user");
+        //_View.Leaderboard_Names.SetText(data);
     }
     
     public override void OnExit() 

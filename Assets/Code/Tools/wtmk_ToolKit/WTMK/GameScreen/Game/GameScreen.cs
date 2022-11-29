@@ -150,19 +150,14 @@ public class GameScreen : State<GameState>
 
     private void TryPause()
     {
-        TransitionToPause();
+        _Paused = true;
+        NextState = GameState.Help;
+        _Ready = true;
     }
 
     private void EndGameTriggerd()
     {
         _States.StateChange(GameScreenState.End);
-    }
-
-    private void TransitionToPause()
-    {
-        _Paused = true;
-        NextState = GameState.Help;
-        _Ready = true;
     }
 }
 
