@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class Stage : MonoBehaviour
 {
@@ -16,6 +18,10 @@ public class Stage : MonoBehaviour
     private Boss _Boss;
     [SerializeField]
     private Transform _LeftWall, _RightWall, _Roof;
+    [SerializeField]
+    private TextMeshProUGUI _Level;
+    [SerializeField]
+    private Image _ExpBar;
 
     public Floor Floor => _Floor;
     public ShipFactory ShipFactory => _ShipFactory;
@@ -25,4 +31,6 @@ public class Stage : MonoBehaviour
     public Transform LeftWall => _LeftWall;
     public Transform RightWall => _RightWall;
     public Transform Roof => _Roof;
+    public Image ExpBar => _ExpBar;
+    public TextMeshProUGUI Level => _Level;
 }

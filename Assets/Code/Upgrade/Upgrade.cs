@@ -17,6 +17,7 @@ public class Upgrade
     private PlayerModel _PlayerData;
     private Dictionary<int, Action> _UpgradeOptions;
     private WTMK _Tools = WTMK.Instance;
+    private Dood _Debug = Dood.Instance;
 
     public Upgrade(Stage stage)
     {
@@ -50,12 +51,16 @@ public class Upgrade
     private void UpgradeCollected(UpgradeMaterial upgrade)
     {
         _Exp += 1;
+        var exp = _Exp / _ExpMax * 100;
+        _Stage.ExpBar.fillAmount = exp * .01f;
+
         if (_Exp == _ExpMax)
         {
             _Level++;
             _ExpMax += (_Level * _LevelUpFactor);
             _Exp = 0;
-
+            _Stage.ExpBar.fillAmount = 0f;
+            _Stage.Level.SetText($"Level\n{_Level}");
             var roll = _Tools.Rando.Next(_UpgradeOptions.Count);
             if(_UpgradeOptions.ContainsKey(roll))
             {
@@ -69,6 +74,8 @@ public class Upgrade
                 throw new Exception();
             }
         }
+
+        
     }
 
     private void UpgradeShotSizeX()
