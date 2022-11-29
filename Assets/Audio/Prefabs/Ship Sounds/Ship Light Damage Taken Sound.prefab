@@ -141,5 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playOneShot: 1
-  audioClip: {fileID: 0}
+  useModifiers: 1
+  maxVolume: 0.75
+  volumeRange: 0.04
+  pitchRange: 0.04
+  audioClip: {fileID: 8300000, guid: a90e795fd88ee004e99a7dbe2c41a8cd, type: 3}
   audioSource: {fileID: 403808705705838832}

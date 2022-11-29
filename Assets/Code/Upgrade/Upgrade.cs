@@ -85,6 +85,8 @@ public class Upgrade
                 //we should never get here if things are not well
                 throw new Exception();
             }
+            
+            AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterUpgrade );
         }
 
         
