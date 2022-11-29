@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26893473be528614bb70c2a951988d73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _UI: {fileID: 0}
+  _UI: {fileID: 1490456333}
 --- !u!4 &32410299
 Transform:
   m_ObjectHideFlags: 0
@@ -18259,6 +18259,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1980888350985691655}
     - target: {fileID: 282927962002515533, guid: d74e121d056ac964087283e43b0311b1, type: 3}
+      propertyPath: _Level
+      value: 
+      objectReference: {fileID: 828188719}
+    - target: {fileID: 282927962002515533, guid: d74e121d056ac964087283e43b0311b1, type: 3}
+      propertyPath: _ExpBar
+      value: 
+      objectReference: {fileID: 716847672}
+    - target: {fileID: 282927962002515533, guid: d74e121d056ac964087283e43b0311b1, type: 3}
       propertyPath: _Player
       value: 
       objectReference: {fileID: 1274908452}
@@ -18274,6 +18282,10 @@ PrefabInstance:
       propertyPath: _ScoreView
       value: 
       objectReference: {fileID: 1922664711}
+    - target: {fileID: 282927962002515533, guid: d74e121d056ac964087283e43b0311b1, type: 3}
+      propertyPath: _InvasionTime
+      value: 
+      objectReference: {fileID: 1176467527}
     - target: {fileID: 282927962864341194, guid: d74e121d056ac964087283e43b0311b1, type: 3}
       propertyPath: m_RootOrder
       value: 4

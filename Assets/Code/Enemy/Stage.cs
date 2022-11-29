@@ -19,7 +19,7 @@ public class Stage : MonoBehaviour
     [SerializeField]
     private Transform _LeftWall, _RightWall, _Roof;
     [SerializeField]
-    private TextMeshProUGUI _Level;
+    private TextMeshProUGUI _Level, _InvasionTime;
     [SerializeField]
     private Image _ExpBar;
 
@@ -33,4 +33,5 @@ public class Stage : MonoBehaviour
     public Transform Roof => _Roof;
     public Image ExpBar => _ExpBar;
     public TextMeshProUGUI Level => _Level;
+    public TextMeshProUGUI InvasionTime => _InvasionTime;
 }

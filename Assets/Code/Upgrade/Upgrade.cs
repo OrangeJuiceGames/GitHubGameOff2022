@@ -54,7 +54,7 @@ public class Upgrade
         var exp = _Exp / _ExpMax * 100;
         _Stage.ExpBar.fillAmount = exp * .01f;
 
-        if (_Exp == _ExpMax)
+        if (_Exp >= _ExpMax)
         {
             _Level++;
             _ExpMax += (_Level * _LevelUpFactor);

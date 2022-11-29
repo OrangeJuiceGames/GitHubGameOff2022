@@ -26,13 +26,14 @@ public class WaveSystem : Updatable
     public void Update()
     {
         UpdateTimer();
+        HandelInvasionTimer();
     }
 
     private static readonly int SHIPS_ACTIVE_MAX = 3;
 
     private int _Wave, _ShipsActive;
-    private int _ShipsSpawned;
-    private float _InvasionTime;
+    private int _ShipsSpawned, _InvasionMin;
+    private float _InvasionSeconds;
     private List<ShipController> _ShipControllers;
     private StateActionMap<WavePhase> _WavePhase;
     private Stage _Stage;
@@ -93,6 +94,52 @@ public class WaveSystem : Updatable
         _RestTimer.Update();
         _StartBossTimer.Update();
         _ShipSpawnTimer.Update();
+    }
+
+    private int _SecondsRounder = 1;
+    private void HandelInvasionTimer()
+    {
+        _InvasionSeconds += Time.deltaTime;
+
+        if(_InvasionSeconds > _SecondsRounder)
+        {
+            _SecondsRounder++;
+
+            if(_SecondsRounder > 60)
+            {
+                _InvasionSeconds = 0f;
+                _SecondsRounder = 1;
+                _InvasionMin++;
+
+                if(_InvasionMin == 30)
+                {
+                    Debug.LogWarning("game over");
+                }
+            }
+
+            var text = "";
+
+            if(_InvasionMin > 9)
+            {
+                text = $"{_InvasionMin}";
+            }
+            else
+            {
+                text = $"0{_InvasionMin}";
+            }
+
+
+            if(_SecondsRounder > 9)
+            {
+                text += $":{_SecondsRounder}";
+            }
+            else
+            {
+                text += $":0{_SecondsRounder}";
+            }
+
+            _Stage.InvasionTime.SetText(text);
+        }
     }
 
     private void BuildWavePhase()

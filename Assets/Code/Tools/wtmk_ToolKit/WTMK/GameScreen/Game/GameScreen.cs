@@ -12,9 +12,13 @@ public class GameScreen : State<GameState>
             return;
         }
 
-        _View.SetActive(true);
-        _View.Player.Register();
-        _View.Story.Intro();
+        if(_States.CurrentState == GameScreenState.Init)
+        {
+            _View.SetActive(true);
+            _View.Player.Register();
+            
+            _States.StateChange(GameScreenState.Intro);
+        }
     }
 
     public override void OnExit() 
@@ -46,13 +50,52 @@ public class GameScreen : State<GameState>
     private WaveSystem _WaveSystem;
     private ScoreSystem _ScoreSystem;
     private bool _Paused;
-
+    private StateActionMap<GameScreenState> _States;
 
     public GameScreen(GameScreenView view, GameState tag) : base(tag)
     {
         _View = view;
+        BuildStates();
         InitGameComponets();
         RegisterInput();
+    }
+    
+    private void BuildStates()
+    {
+        _States = new StateActionMap<GameScreenState>();
+
+        _States.RegisterEnter(GameScreenState.Intro, OnEnter_Intro);
+        _States.RegisterEnter(GameScreenState.Game, OnEnter_Game);
+        _States.RegisterEnter(GameScreenState.End, OnEnter_End);
+        _States.RegisterEnter(GameScreenState.Paused, OnEnter_Paused);
+
+        _States.StateChange(GameScreenState.Init);
+    }
+
+    private void OnEnter_Intro()
+    {
+        _View.Story.Intro();
+    }
+
+    private void IntroComplete()
+    {
+        _States.StateChange(GameScreenState.Game);
+    }
+
+    private void OnEnter_Game()
+    {
+        _WaveSystem.Init(); //init wave system befoer this just set to be active here
+                            //so when we come from pause we dont need to have a extra case
+    }
+
+    private void OnEnter_End()
+    {
+
+    }
+
+    private void OnEnter_Paused()
+    {
+
     }
 
     private void InitGameComponets()
@@ -61,7 +104,7 @@ public class GameScreen : State<GameState>
         _UpgradeSystem = new Upgrade(_View.Stage);
         _WaveSystem = new WaveSystem(_View.Stage);
         _View.Player.Init(_Input, _UpgradeSystem);
-        _View.Story.OnStoryComplete += StoryComplete;
+        _View.Story.OnStoryComplete += IntroComplete;
 
         _ScoreSystem = new ScoreSystem(_View.Stage);
     }
@@ -76,11 +119,7 @@ public class GameScreen : State<GameState>
         TransitionToPause();
     }
 
-    private void StoryComplete()
-    {
-        _WaveSystem.Init();
-    }
-
+    
     private void TransitionToPause()
     {
         _Paused = true;
@@ -89,6 +128,14 @@ public class GameScreen : State<GameState>
     }
 }
 
+public enum GameScreenState
+{
+    Init,
+    Intro,
+    Game,
+    End,
+    Paused
+}
 
 public enum GameScreenEvent
 {
