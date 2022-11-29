@@ -42,7 +42,7 @@ public class StateActionMap<T>
 
     public void StateChange(T state)
     {
-        if(_StateExit.ContainsKey(state))
+        if(_StateExit.ContainsKey(_CurrentState))
         {
             _StateExit[_CurrentState]();
         }

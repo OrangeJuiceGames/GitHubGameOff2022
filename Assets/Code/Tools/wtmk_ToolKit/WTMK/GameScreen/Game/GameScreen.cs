@@ -36,8 +36,12 @@ public class GameScreen : State<GameState>
 
     public override bool OnUpdate() 
     {
-        _Input.Update();
-        _WaveSystem.Update();
+        if(_States.CurrentState == GameScreenState.Game)
+        {
+            _Input.Update();
+            _WaveSystem.Update();
+        }
+        
         return _Ready;
     }
 
@@ -66,8 +70,10 @@ public class GameScreen : State<GameState>
 
         _States.RegisterEnter(GameScreenState.Intro, OnEnter_Intro);
         _States.RegisterEnter(GameScreenState.Game, OnEnter_Game);
-        _States.RegisterEnter(GameScreenState.End, OnEnter_End);
+        _States.RegisterEnter(GameScreenState.End, OnEnter_End);        
         _States.RegisterEnter(GameScreenState.Paused, OnEnter_Paused);
+
+        _States.RegisterExit(GameScreenState.End, OnExit_End);
 
         _States.StateChange(GameScreenState.Init);
     }
@@ -84,13 +90,20 @@ public class GameScreen : State<GameState>
 
     private void OnEnter_Game()
     {
-        _WaveSystem.Init(); //init wave system befoer this just set to be active here
-                            //so when we come from pause we dont need to have a extra case
+        _WaveSystem.Init();
+        _ScoreSystem.Init();
+        _UpgradeSystem.Init();
     }
 
     private void OnEnter_End()
     {
+        Debug.Log("Game Over");
+        _View.GamEnd.SetActive(true);
+    }
 
+    private void OnExit_End()
+    {
+        _View.GamEnd.SetActive(false);
     }
 
     private void OnEnter_Paused()
@@ -98,20 +111,33 @@ public class GameScreen : State<GameState>
 
     }
 
+    private void RegisterInput()
+    {
+        _Input.OnEnterDown += TryPause;
+    }
+
+
     private void InitGameComponets()
     {
         _Input = new InputProcessor();
         _UpgradeSystem = new Upgrade(_View.Stage);
+        
         _WaveSystem = new WaveSystem(_View.Stage);
+        _WaveSystem.OnGameEnd += EndGameTriggerd;
+
         _View.Player.Init(_Input, _UpgradeSystem);
         _View.Story.OnStoryComplete += IntroComplete;
 
         _ScoreSystem = new ScoreSystem(_View.Stage);
+        _ScoreSystem.OnGameEnd += EndGameTriggerd;
+
+        _View.Restart.onClick.AddListener(TryRestart);
+        _View.GamEnd.SetActive(false);
     }
 
-    private void RegisterInput()
+    private void TryRestart()
     {
-        _Input.OnEnterDown += TryPause;
+        _States.StateChange(GameScreenState.Game);
     }
 
     private void TryPause()
@@ -119,7 +145,11 @@ public class GameScreen : State<GameState>
         TransitionToPause();
     }
 
-    
+    private void EndGameTriggerd()
+    {
+        _States.StateChange(GameScreenState.End);
+    }
+
     private void TransitionToPause()
     {
         _Paused = true;

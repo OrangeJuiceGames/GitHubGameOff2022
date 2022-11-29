@@ -12,6 +12,15 @@ public class ScoreSystem
 
     public ScoreModel Model => _Model;
 
+    public void Init()
+    {
+        _Model = new ScoreModel();
+        _Stage.ScoreView.DogsDead.SetText($"Dogs in after life : {_Model.DogsDead}");
+        var pre = _Model.InvasionScore * .01f;
+        _Stage.ScoreView.Invasion.SetText($"Invasion: {pre.ToString("p")}");
+        _Stage.ScoreView.Score.SetText($"{_Model.Score}");
+    }
+
     private Stage _Stage;
     private ScoreModel _Model;
     private WTMK _Tools = WTMK.Instance;

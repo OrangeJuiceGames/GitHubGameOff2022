@@ -7,6 +7,18 @@ public class Upgrade
     public event Action<UpgradeResult> OnUpgradeActive;
     public PlayerModel PlayerModel => _PlayerData;
 
+    public void Init()
+    {
+        _Level = 0;
+        _Exp = 0;
+        _ExpMax = 6;
+        _LevelUpFactor = 0.3f;
+        _Stage.ExpBar.fillAmount = 0f;
+        _Stage.Level.SetText($"Level\n{_Level}");
+
+        _PlayerData = new PlayerModel();
+    }
+
     private int _Level = 0;
     private float _Exp = 0;
     private float _ExpMax = 6;

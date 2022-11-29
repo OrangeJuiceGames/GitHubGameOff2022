@@ -28,6 +28,16 @@ public class ShipController : MonoBehaviour
         _shipMovement.UpdateStopLength(newStopLength);
     }
 
+    public void DoUpdate()
+    {
+        if (!_IsActive)
+        {
+            return;
+        }
+
+        transform.position = _shipMovement.MoveTowardsStop();
+    }
+
 
     [SerializeField] SpriteRenderer _model;
     private MobSpawner _MobSpawner;
@@ -59,11 +69,7 @@ public class ShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!_IsActive)
-        {
-            return;
-        }
-        transform.position = _shipMovement.MoveTowardsStop();
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

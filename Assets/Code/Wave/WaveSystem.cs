@@ -12,9 +12,16 @@ public class WaveSystem : Updatable
     public void Init()
     {
         _Wave = 0;
+        _ShipsSpawned = 0;
         _ShipsActive = 1;
+        _InvasionSeconds = 0;
+        _SecondsRounder = 1;
+
+        DeactivateShips();
+
         var text = $"00:01";
         _Stage.InvasionTime.SetText(text);
+
         _WavePhase.StateChange(WavePhase.Rest);
     }
 
@@ -30,6 +37,7 @@ public class WaveSystem : Updatable
     {
         UpdateTimer();
         HandelInvasionTimer();
+        UpdateShipControllers();
     }
 
     private static readonly int SHIPS_ACTIVE_MAX = 3;
@@ -52,6 +60,17 @@ public class WaveSystem : Updatable
         _Stage.Boss.gameObject.SetActive(false);
     }
 
+    private void UpdateShipControllers()
+    {
+        for (int i = 0; i < _ShipControllers.Count; i++)
+        {
+            if(_ShipControllers[i].IsActive)
+            {
+                _ShipControllers[i].DoUpdate();
+            }
+        }
+    }
+
     private Timer _ShipSpawnTimer = new Timer();
     private float _SpawnDelay = 1000f;
 
@@ -63,6 +82,14 @@ public class WaveSystem : Updatable
         if (_ShipsSpawned < _ShipsActive)
         {
             _ShipSpawnTimer.Start(_SpawnDelay);
+        }
+    }
+
+    private void DeactivateShips()
+    {
+        for (int i = 0; i < _ShipControllers.Count; i++)
+        {
+            _ShipControllers[i].SetActive(false);
         }
     }
 
@@ -117,6 +144,8 @@ public class WaveSystem : Updatable
                 if(_InvasionMin == _MaxWaveTimeInMin)
                 {
                     Debug.LogWarning("game over");
+
+
                     OnGameEnd?.Invoke();
                 }
             }
