@@ -19534,7 +19534,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1922664707
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21147,12 +21147,20 @@ PrefabInstance:
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7764365820424666024, guid: 32c6cc206a72d2f48bc294337f83908d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764365820424666024, guid: 32c6cc206a72d2f48bc294337f83908d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764365820424666024, guid: 32c6cc206a72d2f48bc294337f83908d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7764365820424666024, guid: 32c6cc206a72d2f48bc294337f83908d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.95
+      value: 11.33
       objectReference: {fileID: 0}
     - target: {fileID: 7764365820424666024, guid: 32c6cc206a72d2f48bc294337f83908d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -21192,6 +21200,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7764365820424666027, guid: 32c6cc206a72d2f48bc294337f83908d, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764365821889176670, guid: 32c6cc206a72d2f48bc294337f83908d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764365821889176670, guid: 32c6cc206a72d2f48bc294337f83908d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764365821889176671, guid: 32c6cc206a72d2f48bc294337f83908d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4dac3cb04bffba34184be00d5a679876, type: 3}
+    - target: {fileID: 7764365821889176671, guid: 32c6cc206a72d2f48bc294337f83908d, type: 3}
+      propertyPath: m_Color.a
+      value: 0.49019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764365821889176671, guid: 32c6cc206a72d2f48bc294337f83908d, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764365821889176671, guid: 32c6cc206a72d2f48bc294337f83908d, type: 3}
+      propertyPath: m_Color.g
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

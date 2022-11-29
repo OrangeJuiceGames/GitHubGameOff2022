@@ -192,6 +192,7 @@ public class PlayerController : MonoBehaviour
     {
         Flip();
         HandleFireRate();
+        HandleWalkingAnimation();
     }
 
     private void FixedUpdate()
@@ -200,6 +201,13 @@ public class PlayerController : MonoBehaviour
         
         if(_MoveVector.x != 0)
             AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterWalk );
+    }
+
+    private void HandleWalkingAnimation()
+    {
+
+        bool isWalking = _MoveVector.x != 0;
+        _Animator.SetBool("Walking", isWalking);
     }
 
     private void HandleFireRate()
