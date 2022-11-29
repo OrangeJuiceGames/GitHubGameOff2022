@@ -8,6 +8,9 @@ public class StartScreen : State<GameState>
     {
         _View.bStart.onClick.AddListener(TransitionToGame);
         _View.SetActive(true);
+        
+        var data = _Leaderboard.Get("https://rcad-backend.herokuapp.com/user");
+        _View.Leaderboard_Names.SetText(data);
     }
     
     public override void OnExit() 
@@ -27,10 +30,20 @@ public class StartScreen : State<GameState>
 
     private StartScreenView _View;    
     private Dood _Dood = Dood.Instance;
+    private Leaderboard _Leaderboard;
 
     public StartScreen(StartScreenView view, GameState tag) : base(tag)
     {
         _View = view;
+        _Leaderboard = new Leaderboard();
+
+        _View.Credits.onClick.AddListener(OnClick_Credits);
+    }
+
+    private void OnClick_Credits()
+    {
+        NextState = GameState.Credits;
+        _Ready = true;
     }
 
     private void TransitionToGame()

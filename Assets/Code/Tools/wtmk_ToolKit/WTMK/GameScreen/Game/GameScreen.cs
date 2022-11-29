@@ -32,6 +32,7 @@ public class GameScreen : State<GameState>
 
         _View.Player.Unregister();
         _View.SetActive(false);
+        _States.StateChange(GameScreenState.Init);
     }
 
     public override bool OnUpdate() 
@@ -131,13 +132,20 @@ public class GameScreen : State<GameState>
         _ScoreSystem = new ScoreSystem(_View.Stage);
         _ScoreSystem.OnGameEnd += EndGameTriggerd;
 
-        _View.Restart.onClick.AddListener(TryRestart);
+        _View.Restart.onClick.AddListener(OnClick_Restart);
+        _View.Exit.onClick.AddListener(OnClick_Exit);
         _View.GamEnd.SetActive(false);
     }
 
-    private void TryRestart()
+    private void OnClick_Restart()
     {
         _States.StateChange(GameScreenState.Game);
+    }
+
+    private void OnClick_Exit()
+    {
+        NextState = GameState.Credits;
+        _Ready = true;
     }
 
     private void TryPause()
