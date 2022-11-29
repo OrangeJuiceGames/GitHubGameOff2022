@@ -40,13 +40,16 @@ public class ShipController : MonoBehaviour
 
 
     [SerializeField] SpriteRenderer _model;
+    [SerializeField] Animator _EffectAnimator;
     private MobSpawner _MobSpawner;
     private ShipMovement _shipMovement;
     private HealthController _healthController;
     private bool _IsActive;
+    private Instantiation _DeathExplosion;
 
     private void Awake()
     {
+        _DeathExplosion = GetComponent<Instantiation>();
         _MobSpawner = GetComponent<MobSpawner>();
 
         _shipMovement = new ShipMovement(1.25f, 0.5f, transform.position, Paths);
@@ -86,11 +89,13 @@ public class ShipController : MonoBehaviour
     private void HandelShotCollision(Shot shot)
     {
         //deal damage to ship 
+        _EffectAnimator.SetTrigger("Hit");
         _healthController.DamageHealth(shot.Damage);
     }
 
     private void DestroyShip()
     {
+        _DeathExplosion.DoExplode();
         OnDestroyed?.Invoke(this);
     }
 

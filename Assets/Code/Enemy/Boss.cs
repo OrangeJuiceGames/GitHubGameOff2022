@@ -6,6 +6,9 @@ using UnityEngine;
 public class Boss : MonoBehaviour
 {
     public event Action OnDestroyed;
+    [SerializeField]
+    private Animator _Effect;
+
     public void Destroy()
     {
         OnDestroyed?.Invoke();
@@ -25,6 +28,9 @@ public class Boss : MonoBehaviour
     private void HandelShotCollision(Shot shot)
     {
         //deal damage to ship 
-        OnDestroyed?.Invoke();
+        _Effect.transform.position = shot.transform.position;
+        _Effect.SetTrigger("Hit");
+
+        //OnDestroyed?.Invoke();
     }
 }

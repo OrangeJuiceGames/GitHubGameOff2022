@@ -230,7 +230,7 @@ public class Mob : MonoBehaviour, IPoolable
                 break;
             case MobType.Dog:
                 _Collider.isTrigger = true;
-                floor.DogKilled();
+                floor.DogKilled(transform.position);
                 SetReturnPosition();
                 SetAnimationTrigger("Dead");
                 StartReturnTimer();
