@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ScoreSystem 
 {
+    public event Action OnGameEnd;
+
     public static readonly int _CAT_VALUE = 3;
     public static readonly int _DOG_VALUE = 2;
 
@@ -11,6 +14,7 @@ public class ScoreSystem
 
     private Stage _Stage;
     private ScoreModel _Model;
+    private WTMK _Tools = WTMK.Instance;
     public ScoreSystem(Stage stage)
     {
         _Model = new ScoreModel();
@@ -23,16 +27,31 @@ public class ScoreSystem
         _Stage.Player.Collector.OnUpgradeCollected += UpgradeCollected;
     }
 
+    private int _DogKillLimit = 6;
     private void DogKilled(int value)
     {
         _Model.DogsDead++;
         _Stage.ScoreView.DogsDead.SetText($"Dogs in after life : {_Model.DogsDead}");
+
+        if(_Model.DogsDead > _DogKillLimit)
+        {
+            Debug.LogWarning("game over");
+            OnGameEnd?.Invoke();
+        }
     }
 
+    private int _MaxInvasion = 100;
     private void InvasionIncreased(int value)
     {
-        _Model.InvasionScore++;
-        _Stage.ScoreView.Invasion.SetText($"Invasion: {_Model.InvasionScore.ToString("p")}");
+        _Model.InvasionScore += (float)_Tools.Rando.NextDouble();
+        var pre =  _Model.InvasionScore * .01f;
+        _Stage.ScoreView.Invasion.SetText($"Invasion: {pre.ToString("p")}");
+
+        if(_Model.InvasionScore > _MaxInvasion)
+        {
+            Debug.LogWarning("game over");
+            OnGameEnd?.Invoke();
+        }
     }
 
     private void MobScored(MobType type)

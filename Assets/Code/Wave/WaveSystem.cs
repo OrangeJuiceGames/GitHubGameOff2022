@@ -7,11 +7,14 @@ public class WaveSystem : Updatable
 {
     public event Action<int> OnWaveStarted;
     public event Action OnRestComplete;
+    public event Action OnGameEnd;
 
     public void Init()
     {
         _Wave = 0;
         _ShipsActive = 1;
+        var text = $"00:01";
+        _Stage.InvasionTime.SetText(text);
         _WavePhase.StateChange(WavePhase.Rest);
     }
 
@@ -96,7 +99,7 @@ public class WaveSystem : Updatable
         _ShipSpawnTimer.Update();
     }
 
-    private int _SecondsRounder = 1;
+    private int _SecondsRounder = 1, _OneSec = 60, _MaxWaveTimeInMin = 30;
     private void HandelInvasionTimer()
     {
         _InvasionSeconds += Time.deltaTime;
@@ -105,15 +108,16 @@ public class WaveSystem : Updatable
         {
             _SecondsRounder++;
 
-            if(_SecondsRounder > 60)
+            if(_SecondsRounder > _OneSec)
             {
                 _InvasionSeconds = 0f;
                 _SecondsRounder = 1;
                 _InvasionMin++;
 
-                if(_InvasionMin == 30)
+                if(_InvasionMin == _MaxWaveTimeInMin)
                 {
                     Debug.LogWarning("game over");
+                    OnGameEnd?.Invoke();
                 }
             }
 
