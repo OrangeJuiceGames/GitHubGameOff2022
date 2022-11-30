@@ -66,6 +66,7 @@ public enum AudioType
     ShipFlying,
     ShipLightDamageTaken,
     ShipHeavyDamageTaken,
-    ShipDestroyed
+    ShipDestroyed,
+    ShipThrowAnimal
 
 }

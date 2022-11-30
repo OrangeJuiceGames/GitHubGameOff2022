@@ -276,6 +276,8 @@ public class Mob : MonoBehaviour, IPoolable
     
     private void PlaySpawnAudioForAnimal( MobType mobThatSpawned )
     {
+        AudioManager.Instance.PlayAudioByEnumType( AudioType.ShipThrowAnimal );
+        
         AudioManager.Instance.PlayAudioByEnumType( mobThatSpawned == MobType.Dog
             ? AudioType.DogSpawn
             : AudioType.CatSpawn );
