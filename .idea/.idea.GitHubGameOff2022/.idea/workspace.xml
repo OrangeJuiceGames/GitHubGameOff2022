@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ef7fa89-4ee9-458e-9c00-ef22162ae457" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Audio/Prefabs/Cat Sounds/Cat Spawn Sound.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Audio/Prefabs/Cat Sounds/Cat Spawn Sound.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Audio/Prefabs/Dog Sounds/Dog Failure Catch Sound.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Audio/Prefabs/Dog Sounds/Dog Failure Catch Sound.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Audio/Prefabs/Dog Sounds/Dog Spawn Sound.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Audio/Prefabs/Dog Sounds/Dog Spawn Sound.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Audio/AudioManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Audio/AudioManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Code/Enemy/Mobs/Mob.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Enemy/Mobs/Mob.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Code/Audio/AudioContainer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Code/Audio/AudioContainer.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,10 +24,10 @@
       <option value="$PROJECT_DIR$/Assets/Code/Player/PlayerController.cs" />
       <option value="$PROJECT_DIR$/Assets/Code/Enemy/MobSpawner.cs" />
       <option value="$PROJECT_DIR$/Assets/Code/Upgrade/Upgrade.cs" />
-      <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioContainer.cs" />
       <option value="$PROJECT_DIR$/Assets/Code/Enemy/ShipController.cs" />
       <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Code/Enemy/Mobs/Mob.cs" />
+      <option value="$PROJECT_DIR$/Assets/Code/Audio/AudioContainer.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="2I9ACqUcTNflP7hmkLC037WIqmJ" />

@@ -13,7 +13,7 @@ public class AudioContainer : MonoBehaviour
     private bool useModifiers = true;
     
     [ SerializeField, Range( 0.1f, 1f ) ]
-    private float maxVolume = 0.75f;
+    private float maxVolume = 0.35f;
     
     [ SerializeField, Range( 0f, 0.5f ) ]
     private float volumeRange = 0.1f;
@@ -73,7 +73,7 @@ public class AudioContainer : MonoBehaviour
     private void OnValidate()
     {
         if ( maxVolume < 0 || maxVolume > 1f )
-            maxVolume = 0.75f;
+            maxVolume = 0.35f;
         
         if ( volumeRange < 0 || volumeRange > 0.5f )
             volumeRange = 0.1f;
