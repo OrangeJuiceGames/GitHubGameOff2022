@@ -8,6 +8,7 @@ public class Shot : MonoBehaviour, IPoolable
     public event Action<IPoolable> OnReturnRequest;
     public float AliveTime = 0f;
     public float FireForce = 10f;
+    public float Damage => _ShotDamage;
 
     public void Fire(Vector3 pos)
     {
@@ -27,7 +28,13 @@ public class Shot : MonoBehaviour, IPoolable
         gameObject.SetActive(isActive);
     }
 
+    public void SetShotDamage(float shotDamage)
+    {
+        _ShotDamage = shotDamage;
+    }
+
     private Rigidbody2D _Rig;
+    private float _ShotDamage = 10f;
 
     void Awake()
     {

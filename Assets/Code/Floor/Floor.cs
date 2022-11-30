@@ -10,8 +10,13 @@ public class Floor : MonoBehaviour
     public event Action<int> OnDogKilled;
     public event Action<UpgradeMaterial> OnUpgradeCollected;
 
-    public void DogKilled()
+    [SerializeField]
+    private Animator _Effect;
+
+    public void DogKilled(Vector3 pos)
     {
+        _Effect.transform.position = pos;
+        _Effect.SetTrigger("DogHit");
         OnDogKilled?.Invoke(1);
     }    
 

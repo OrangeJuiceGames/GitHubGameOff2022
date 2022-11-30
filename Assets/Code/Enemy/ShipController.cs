@@ -28,17 +28,36 @@ public class ShipController : MonoBehaviour
         _shipMovement.UpdateStopLength(newStopLength);
     }
 
+    public void DoUpdate()
+    {
+        if (!_IsActive)
+        {
+            return;
+        }
+
+        transform.position = _shipMovement.MoveTowardsStop();
+    }
+
 
     [SerializeField] SpriteRenderer _model;
+    [SerializeField] Animator _EffectAnimator;
     private MobSpawner _MobSpawner;
     private ShipMovement _shipMovement;
+    private HealthController _healthController;
     private bool _IsActive;
+    private Instantiation _DeathExplosion;
 
     private void Awake()
     {
+        _DeathExplosion = GetComponent<Instantiation>();
         _MobSpawner = GetComponent<MobSpawner>();
 
         _shipMovement = new ShipMovement(1.25f, 0.5f, transform.position, Paths);
+        _healthController = new HealthController(100, .30f, .10f);
+
+        _healthController.OnReachZeroHealth += DestroyShip;
+        _healthController.OnReachCriticalHealth += ShowCriticalHealthAnim;
+        _healthController.OnReachLowHealth += ShowLowHealthAnim;
     }
 
     [SerializeField] List<ShipPath> Paths;
@@ -53,11 +72,7 @@ public class ShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!_IsActive)
-        {
-            return;
-        }
-        transform.position = _shipMovement.MoveTowardsStop();
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -74,6 +89,25 @@ public class ShipController : MonoBehaviour
     private void HandelShotCollision(Shot shot)
     {
         //deal damage to ship 
+        _EffectAnimator.SetTrigger("Hit");
+        _healthController.DamageHealth(shot.Damage);
+        AudioManager.Instance.PlayAudioByEnumType( AudioType.ShipLightDamageTaken );
+    }
+
+    private void DestroyShip()
+    {
+        _DeathExplosion.DoExplode();
+        AudioManager.Instance.PlayAudioByEnumType( AudioType.ShipDestroyed );
         OnDestroyed?.Invoke(this);
+    }
+
+    private void ShowLowHealthAnim()
+    {
+        //trigger animation
+    }
+
+    private void ShowCriticalHealthAnim()
+    {
+        //trigger animation
     }
 }

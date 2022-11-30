@@ -7,6 +7,18 @@ public class Upgrade
     public event Action<UpgradeResult> OnUpgradeActive;
     public PlayerModel PlayerModel => _PlayerData;
 
+    public void Init()
+    {
+        _Level = 0;
+        _Exp = 0;
+        _ExpMax = 6;
+        _LevelUpFactor = 0.3f;
+        _Stage.ExpBar.fillAmount = 0f;
+        _Stage.Level.SetText($"Level\n{_Level}");
+
+        _PlayerData = new PlayerModel();
+    }
+
     private int _Level = 0;
     private float _Exp = 0;
     private float _ExpMax = 6;
@@ -17,6 +29,7 @@ public class Upgrade
     private PlayerModel _PlayerData;
     private Dictionary<int, Action> _UpgradeOptions;
     private WTMK _Tools = WTMK.Instance;
+    private Dood _Debug = Dood.Instance;
 
     public Upgrade(Stage stage)
     {
@@ -50,12 +63,16 @@ public class Upgrade
     private void UpgradeCollected(UpgradeMaterial upgrade)
     {
         _Exp += 1;
-        if (_Exp == _ExpMax)
+        var exp = _Exp / _ExpMax * 100;
+        _Stage.ExpBar.fillAmount = exp * .01f;
+
+        if (_Exp >= _ExpMax)
         {
             _Level++;
             _ExpMax += (_Level * _LevelUpFactor);
             _Exp = 0;
-
+            _Stage.ExpBar.fillAmount = 0f;
+            _Stage.Level.SetText($"Level\n{_Level}");
             var roll = _Tools.Rando.Next(_UpgradeOptions.Count);
             if(_UpgradeOptions.ContainsKey(roll))
             {
@@ -68,7 +85,11 @@ public class Upgrade
                 //we should never get here if things are not well
                 throw new Exception();
             }
+            
+            AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterUpgrade );
         }
+
+        
     }
 
     private void UpgradeShotSizeX()

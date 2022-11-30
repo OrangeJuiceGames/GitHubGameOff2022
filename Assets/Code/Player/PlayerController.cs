@@ -85,7 +85,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 _180 = new Vector3(0, 180, 0);
     private CombatState _CombatState;
     private bool _CanShoot = true;
+    private bool _facingRight = true;
     private float _RateOfFire;
+    
 
     private void BuildShotPool()
     {
@@ -110,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
     private void MoveHorizontal(float moveValue)
     {
-        _MoveVector.x = moveValue;    
+        _MoveVector.x = moveValue;
     }
     private void TrySwap()
     {
@@ -132,6 +134,7 @@ public class PlayerController : MonoBehaviour
             _GunObject.SetActive(true);
             _CollectorObject.SetActive(false);
             _Animator.SetBool("HasGun", true);
+            AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterChangeWeapon );
         }
     }
     private void SwapToBasket(float basketValue)
@@ -141,6 +144,7 @@ public class PlayerController : MonoBehaviour
             _CollectorObject.SetActive(true);
             _GunObject.SetActive(false);
             _Animator.SetBool("HasGun", false);
+            AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterChangeWeapon );
         }
     }
 
@@ -159,35 +163,51 @@ public class PlayerController : MonoBehaviour
             _CanShoot = false;
             _RateOfFire = _Model.RateOfFire;
             var currentShot = (Shot)_ShotPool.GetPoolable();
+            currentShot.SetShotDamage(_Model.Damage);
             currentShot.Fire(_Gun.ShotSpawnPoint.position);
             _Animator.SetTrigger("Shoot");
+            AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterFireWeapon );
         }
     }
 
     private void Catch(MobType type)
     {
         _Animator.SetTrigger("Catch");
+        AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterCatch );
     }
 
     private void Catch(UpgradeMaterial type)
     {
         _Animator.SetTrigger("Catch");
+        AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterCatch );
     }
 
     private void LevelUp(UpgradeResult upgrade)
     {
         Debug.Log("level up");
+        AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterUpgrade );
     }
 
     private void Update()
     {
         Flip();
         HandleFireRate();
+        HandleWalkingAnimation();
     }
 
     private void FixedUpdate()
     {
         _Rig.velocity = _MoveVector * _MovePower * Time.deltaTime;
+        
+        if(_MoveVector.x != 0)
+            AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterWalk );
+    }
+
+    private void HandleWalkingAnimation()
+    {
+
+        bool isWalking = _MoveVector.x != 0;
+        _Animator.SetBool("Walking", isWalking);
     }
 
     private void HandleFireRate()
@@ -208,10 +228,23 @@ public class PlayerController : MonoBehaviour
         if (_MoveVector.x > 0)
         {
             transform.eulerAngles = Vector3.zero;
+
+            // Checks for change in facing direction.
+            if ( _facingRight )
+                return;
+
+            AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterChangeDirection );
+            _facingRight = !_facingRight;
         }
         else if (_MoveVector.x < 0)
         {
             transform.eulerAngles = _180;
+            
+            if ( !_facingRight )
+                return;
+
+            AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterChangeDirection );
+            _facingRight = !_facingRight;
         }
     }
 }

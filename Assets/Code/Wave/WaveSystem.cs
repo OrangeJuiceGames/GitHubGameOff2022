@@ -7,11 +7,21 @@ public class WaveSystem : Updatable
 {
     public event Action<int> OnWaveStarted;
     public event Action OnRestComplete;
+    public event Action OnGameEnd;
 
     public void Init()
     {
         _Wave = 0;
-        _ShipsActive = 3;
+        _ShipsSpawned = 0;
+        _ShipsActive = 1;
+        _InvasionSeconds = 0;
+        _SecondsRounder = 1;
+
+        DeactivateShips();
+
+        var text = $"00:01";
+        _Stage.InvasionTime.SetText(text);
+
         _WavePhase.StateChange(WavePhase.Rest);
     }
 
@@ -26,13 +36,15 @@ public class WaveSystem : Updatable
     public void Update()
     {
         UpdateTimer();
+        HandelInvasionTimer();
+        UpdateShipControllers();
     }
 
     private static readonly int SHIPS_ACTIVE_MAX = 3;
 
     private int _Wave, _ShipsActive;
-    private int _ShipsSpawned;
-    private float _InvasionTime;
+    private int _ShipsSpawned, _InvasionMin;
+    private float _InvasionSeconds;
     private List<ShipController> _ShipControllers;
     private StateActionMap<WavePhase> _WavePhase;
     private Stage _Stage;
@@ -48,6 +60,17 @@ public class WaveSystem : Updatable
         _Stage.Boss.gameObject.SetActive(false);
     }
 
+    private void UpdateShipControllers()
+    {
+        for (int i = 0; i < _ShipControllers.Count; i++)
+        {
+            if(_ShipControllers[i].IsActive)
+            {
+                _ShipControllers[i].DoUpdate();
+            }
+        }
+    }
+
     private Timer _ShipSpawnTimer = new Timer();
     private float _SpawnDelay = 1000f;
 
@@ -59,6 +82,14 @@ public class WaveSystem : Updatable
         if (_ShipsSpawned < _ShipsActive)
         {
             _ShipSpawnTimer.Start(_SpawnDelay);
+        }
+    }
+
+    private void DeactivateShips()
+    {
+        for (int i = 0; i < _ShipControllers.Count; i++)
+        {
+            _ShipControllers[i].SetActive(false);
         }
     }
 
@@ -93,6 +124,55 @@ public class WaveSystem : Updatable
         _RestTimer.Update();
         _StartBossTimer.Update();
         _ShipSpawnTimer.Update();
+    }
+
+    private int _SecondsRounder = 1, _OneSec = 60, _MaxWaveTimeInMin = 30;
+    private void HandelInvasionTimer()
+    {
+        _InvasionSeconds += Time.deltaTime;
+
+        if(_InvasionSeconds > _SecondsRounder)
+        {
+            _SecondsRounder++;
+
+            if(_SecondsRounder > _OneSec)
+            {
+                _InvasionSeconds = 0f;
+                _SecondsRounder = 1;
+                _InvasionMin++;
+
+                if(_InvasionMin == _MaxWaveTimeInMin)
+                {
+                    Debug.LogWarning("game over");
+
+
+                    OnGameEnd?.Invoke();
+                }
+            }
+
+            var text = "";
+
+            if(_InvasionMin > 9)
+            {
+                text = $"{_InvasionMin}";
+            }
+            else
+            {
+                text = $"0{_InvasionMin}";
+            }
+
+
+            if(_SecondsRounder > 9)
+            {
+                text += $":{_SecondsRounder}";
+            }
+            else
+            {
+                text += $":0{_SecondsRounder}";
+            }
+
+            _Stage.InvasionTime.SetText(text);
+        }
     }
 
     private void BuildWavePhase()

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public partial class GameScreenView : MonoBehaviour, IStateView
 {
@@ -12,6 +14,10 @@ public partial class GameScreenView : MonoBehaviour, IStateView
     private Stage _Stage;
     [SerializeField]
     private Story _Story;
+    
+    public GameObject GamEnd;
+    public Button Restart;
+    public Button Exit;
 
     public PlayerController Player => _Player;
     public Stage Stage => _Stage;
