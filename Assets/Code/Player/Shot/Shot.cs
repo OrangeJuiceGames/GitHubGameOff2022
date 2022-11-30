@@ -7,15 +7,24 @@ public class Shot : MonoBehaviour, IPoolable
 {
     public event Action<IPoolable> OnReturnRequest;
     public float AliveTime = 0f;
-    public float FireForce = 10f;
-    public float Damage => _ShotDamage;
 
+    public float FireForce => _FireForce;
+    public float Damage => _ShotDamage;
+    
     public void Fire(Vector3 pos)
     {
         transform.position = pos;
         SetActive(true);
         _Rig.AddForce(Vector2.up * FireForce, ForceMode2D.Impulse);
         AliveTime = 3f;
+    }
+
+    private Vector3 _ShotSize = new Vector3(0.1f, 0.3f, 1f);
+    public void SetShotSize(float shotSize)
+    {
+        _ShotSize.x = shotSize;
+        _Rend.transform.localScale = _ShotSize;
+        _Collider.size = _ShotSize;
     }
 
     public void Return()
@@ -33,12 +42,20 @@ public class Shot : MonoBehaviour, IPoolable
         _ShotDamage = shotDamage;
     }
 
+    public void SetShotVelocity(float shotVelocity)
+    {
+        _FireForce = shotVelocity;
+    }
+
+    [SerializeField] SpriteRenderer _Rend;
     private Rigidbody2D _Rig;
-    private float _ShotDamage = 10f;
+    private BoxCollider2D _Collider;
+    private float _ShotDamage = 10f, _FireForce;
 
     void Awake()
     {
         _Rig = GetComponent<Rigidbody2D>();
+        _Collider = GetComponent<BoxCollider2D>();
     }
 
     void Update()

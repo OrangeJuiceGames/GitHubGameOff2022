@@ -101,6 +101,7 @@ public class GameScreen : State<GameState>
     private void OnEnter_End()
     {
         Debug.Log("Game Over");
+        _View.Stage.Boss.Destroy();
         _View.GamEnd.SetActive(true);
         _View.Stage.UID.SetText(_ScoreSystem.Model.Score.ToString());
         _View.StartCoroutine(Upload());

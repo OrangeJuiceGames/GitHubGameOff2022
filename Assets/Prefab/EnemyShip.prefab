@@ -265,7 +265,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 2, y: 0.5}
   m_EdgeRadius: 0
 --- !u!50 &9086860785348869046
 Rigidbody2D:
@@ -302,6 +302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _model: {fileID: 9086860784839752701}
   _EffectAnimator: {fileID: 5943491310934899725}
+  _Animator: {fileID: 7059380575519931348}
   Paths:
   - {fileID: 11400000, guid: b2e403b8efda52d4380bf81882de6577, type: 2}
   - {fileID: 11400000, guid: 37580970eb760d04793d999e507176ef, type: 2}

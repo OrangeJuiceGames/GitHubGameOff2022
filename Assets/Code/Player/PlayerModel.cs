@@ -19,5 +19,8 @@ public class PlayerModel
     public  PlayerModel()
     {
         this.MoveSpeed = 200f;
+        this.Damage = 10f;
+        this.ShotVelocity = 10f;
+        this.ShotSizeX = 0.1f;
     }
 }

@@ -93,12 +93,19 @@ public class WaveSystem : Updatable
         }
     }
 
+    private void DeactivateShip(ShipController ship)
+    {
+        ship.SetActive(false);
+    }
+
     private void ShipDestroyed(ShipController ship)
     {
-        if(_WavePhase.CurrentState == WavePhase.Spawning)
+        ship.Destory();
+
+        if (_WavePhase.CurrentState == WavePhase.Spawning)
         {
-            _ShipsActive--;
-            if (_ShipsActive <= 0)
+            _ShipsSpawned--;
+            if (_ShipsSpawned <= 0)
             {
                 _WavePhase.StateChange(WavePhase.ShipsDestroyed);
             }
@@ -124,6 +131,7 @@ public class WaveSystem : Updatable
         _RestTimer.Update();
         _StartBossTimer.Update();
         _ShipSpawnTimer.Update();
+        _BossDestroyedTimer.Update();
     }
 
     private int _SecondsRounder = 1, _OneSec = 60, _MaxWaveTimeInMin = 30;
@@ -196,6 +204,7 @@ public class WaveSystem : Updatable
     private float _RestTime = 1000f;
     private void OnEnter_Rest()
     {
+        _Stage.Wave.SetText($"Alive?");
         _RestTimer.Start(_RestTime);
     }
 
@@ -210,9 +219,21 @@ public class WaveSystem : Updatable
     private void OnEnter_StartOfWave()
     {
         _Wave++;
+        _Stage.Wave.SetText($"WAVE\n{_Wave}");
         //set number of active ships +1 for every 3 rounds to a max
-        ActivateShips();
+        if(_Wave > 9)
+        {
+            _ShipsActive = 3;
+        }else if(_Wave > 3)
+        {
+            _ShipsActive = 2;
+        }
+        else
+        {
+            _ShipsActive = 1;
+        }
 
+        ActivateShips();
         _WavePhase.StateChange(WavePhase.Spawning);
         OnWaveStarted?.Invoke(_Wave);
     }        
@@ -226,7 +247,7 @@ public class WaveSystem : Updatable
     }
 
     private Timer _StartBossTimer = new Timer();
-    private float _WaitTimeForBoss = 1000f;
+    private float _WaitTimeForBoss = 3000f;
     private void OnEnter_ShipsDestroyed()
     {
         _StartBossTimer.Start(_WaitTimeForBoss);
@@ -240,7 +261,7 @@ public class WaveSystem : Updatable
     private void OnEnter_Boss()
     {
         Debug.Log("Boss Phase");
-        _Stage.Boss.gameObject.SetActive(true);
+        _Stage.Boss.Activate(_Wave);
     }
 
     private void BossDestroyed()

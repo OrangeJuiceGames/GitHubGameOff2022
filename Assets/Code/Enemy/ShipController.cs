@@ -11,9 +11,18 @@ public class ShipController : MonoBehaviour
     public MobSpawner MobSpwaner => _MobSpawner;
     public bool IsActive => _IsActive;
 
+    public void Destory()
+    {
+        _IsActive = false;
+        _MobSpawner.SetSpawning(false);
+        
+    }
+
     public void SetActive(bool isActive)
     {
         _IsActive = isActive;
+        _Animator.SetTrigger("Reset");
+        _healthController.ResetHealth();
         gameObject.SetActive(isActive);
     }
 
@@ -40,20 +49,22 @@ public class ShipController : MonoBehaviour
 
 
     [SerializeField] SpriteRenderer _model;
-    [SerializeField] Animator _EffectAnimator;
+    [SerializeField] Animator _EffectAnimator, _Animator;
     private MobSpawner _MobSpawner;
     private ShipMovement _shipMovement;
     private HealthController _healthController;
-    private bool _IsActive;
+    private bool _IsActive, _IsDestroyed;
     private Instantiation _DeathExplosion;
+    private float _DestroyedTimer = 3f;
 
     private void Awake()
     {
         _DeathExplosion = GetComponent<Instantiation>();
+        _DeathExplosion.OnExplosionComplete += DeathExplosionComplete;
         _MobSpawner = GetComponent<MobSpawner>();
 
         _shipMovement = new ShipMovement(1.25f, 0.5f, transform.position, Paths);
-        _healthController = new HealthController(100, .30f, .10f);
+        _healthController = new HealthController(100, .60f, .30f);
 
         _healthController.OnReachZeroHealth += DestroyShip;
         _healthController.OnReachCriticalHealth += ShowCriticalHealthAnim;
@@ -83,6 +94,9 @@ public class ShipController : MonoBehaviour
                 var shot = collision.gameObject.GetComponent<Shot>();
                 HandelShotCollision(shot);
                 break;
+            case "Floor":
+                
+                break;
         }
     }
 
@@ -101,13 +115,18 @@ public class ShipController : MonoBehaviour
         OnDestroyed?.Invoke(this);
     }
 
+    private void DeathExplosionComplete()
+    {
+        SetActive(false);
+    }
+
     private void ShowLowHealthAnim()
     {
-        //trigger animation
+        _Animator.SetTrigger("Low");
     }
 
     private void ShowCriticalHealthAnim()
     {
-        //trigger animation
+        _Animator.SetTrigger("Crit");
     }
 }

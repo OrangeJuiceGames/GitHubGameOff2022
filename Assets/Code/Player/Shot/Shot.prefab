@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AliveTime: 0
-  FireForce: 10
+  _Rend: {fileID: 5594248977671396915}
 --- !u!50 &1658264940570253393
 Rigidbody2D:
   serializedVersion: 4

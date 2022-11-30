@@ -164,6 +164,8 @@ public class PlayerController : MonoBehaviour
             _RateOfFire = _Model.RateOfFire;
             var currentShot = (Shot)_ShotPool.GetPoolable();
             currentShot.SetShotDamage(_Model.Damage);
+            currentShot.SetShotVelocity(_Model.ShotVelocity);
+            currentShot.SetShotSize(_Model.ShotSizeX);
             currentShot.Fire(_Gun.ShotSpawnPoint.position);
             _Animator.SetTrigger("Shoot");
             AudioManager.Instance.PlayAudioByEnumType( AudioType.CharacterFireWeapon );

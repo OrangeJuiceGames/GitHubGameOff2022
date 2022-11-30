@@ -14,6 +14,13 @@ public class HealthController
 
     private float _lowHealthThreshold;
     private float _criticalHealthThreshold;
+
+    public void UpdateHealth(float totalHealth)
+    {
+        _maxHealth = totalHealth;
+        _currentHealth = totalHealth;
+    }
+
     public HealthController(float totalHealth, float lowHealthPercent, float criticalHealthPercent)
     {
         _maxHealth = totalHealth;

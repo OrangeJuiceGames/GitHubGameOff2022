@@ -12,6 +12,11 @@ public class MobSpawner : MonoBehaviour
         _IsSpawning = isActive;
     }
 
+    public void Set()
+    {
+
+    }
+
     [SerializeField] Mob MobPrefab;
     private List<(MobType, int)> _percentChanceOfMobs;
 
@@ -39,6 +44,22 @@ public class MobSpawner : MonoBehaviour
         }
 
         return new Pool(mobs.ToArray());
+    }
+
+    public void SpawnMob(Vector3 pos, MobType mobType)
+    {
+        float randNum = _Tool.Rando.Next(0, 100);
+        
+        if (_mobPool.QueueCount > 0)
+        {
+            var mob = (Mob)_mobPool.GetPoolable();
+            mob.Spawn(mobType, pos);
+            OnSpawnComplete?.Invoke();
+        }
+        else
+        {
+            Debug.LogError("Failed to spawn");
+        }
     }
 
     public void SpawnMob(Vector3 pos)
