@@ -20,7 +20,7 @@ public class WaveSystem : Updatable
         DeactivateShips();
 
         var text = $"00:01";
-        _Stage.InvasionTime.SetText(text);
+        _Stage.InvasionTime.SetText(SpriteTextUtility.ConvertToTextImage(text));
 
         _WavePhase.StateChange(WavePhase.Rest);
     }
@@ -144,8 +144,6 @@ public class WaveSystem : Updatable
                 if(_InvasionMin == _MaxWaveTimeInMin)
                 {
                     Debug.LogWarning("game over");
-
-
                     OnGameEnd?.Invoke();
                 }
             }
@@ -171,7 +169,7 @@ public class WaveSystem : Updatable
                 text += $":0{_SecondsRounder}";
             }
 
-            _Stage.InvasionTime.SetText(text);
+            _Stage.InvasionTime.SetText(SpriteTextUtility.ConvertToTextImage(text));
         }
     }
 

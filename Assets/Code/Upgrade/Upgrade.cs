@@ -14,7 +14,7 @@ public class Upgrade
         _ExpMax = 6;
         _LevelUpFactor = 0.3f;
         _Stage.ExpBar.fillAmount = 0f;
-        _Stage.Level.SetText($"Level\n{_Level}");
+        _Stage.Level.SetText($"Level: {_Level}");
 
         _PlayerData = new PlayerModel();
     }
@@ -50,13 +50,13 @@ public class Upgrade
         _UpgradeOptions.Add(1, UpgradeShotSizeY);
         _UpgradeOptions.Add(2, UpgradeShotVelocity);
         _UpgradeOptions.Add(3, UpgradeShotDamage);
-        _UpgradeOptions.Add(4, UpgradeFireRate);
-        _UpgradeOptions.Add(5, AddPenetration);
-        _UpgradeOptions.Add(6, AddMultiShot);
+        _UpgradeOptions.Add(4, UpgradeShotVelocity);
+        _UpgradeOptions.Add(5, UpgradeMoveSpeed);
+        _UpgradeOptions.Add(6, UpgradeShotVelocity);
         _UpgradeOptions.Add(7, UnlockDash);
         _UpgradeOptions.Add(8, UpgradeMoveSpeed);
         _UpgradeOptions.Add(9, LowerDashCoolDown);
-        _UpgradeOptions.Add(10, ActivateShield);
+        _UpgradeOptions.Add(10, UpgradeShotSizeX);
     }
 
 
@@ -66,15 +66,20 @@ public class Upgrade
         var exp = _Exp / _ExpMax * 100;
         _Stage.ExpBar.fillAmount = exp * .01f;
 
+        _Stage.ScrapomaticEffect.SetTrigger("Red");
+
         if (_Exp >= _ExpMax)
         {
             _Level++;
             _ExpMax += (_Level * _LevelUpFactor);
             _Exp = 0;
             _Stage.ExpBar.fillAmount = 0f;
-            _Stage.Level.SetText($"Level\n{_Level}");
+            _Stage.Level.SetText($"Level: {_Level}");
             var roll = _Tools.Rando.Next(_UpgradeOptions.Count);
-            if(_UpgradeOptions.ContainsKey(roll))
+
+            _Stage.ScrapomaticEffect.SetTrigger("Green");
+
+            if (_UpgradeOptions.ContainsKey(roll))
             {
                 _UpgradeOptions[roll]();
                 OnUpgradeActive?.Invoke(null);
@@ -148,7 +153,7 @@ public class Upgrade
     {
         var roll = _Tools.Rando.Next(_UpgradePotency.Count);
 
-        _PlayerData.MoveSpeed += _UpgradePotency[roll];
+        _PlayerData.MoveSpeed += 20f;//_UpgradePotency[roll];
     }
 
     private void LowerDashCoolDown()

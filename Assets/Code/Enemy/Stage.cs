@@ -22,6 +22,8 @@ public class Stage : MonoBehaviour
     private TextMeshProUGUI _Level, _InvasionTime, _UID;
     [SerializeField]
     private Image _ExpBar;
+    
+    public Animator ScrapomaticEffect;
 
     public Floor Floor => _Floor;
     public ShipFactory ShipFactory => _ShipFactory;

@@ -103,7 +103,7 @@ public class GameScreen : State<GameState>
         Debug.Log("Game Over");
         _View.GamEnd.SetActive(true);
         _View.Stage.UID.SetText(_ScoreSystem.Model.Score.ToString());
-       
+        _View.StartCoroutine(Upload());
         //_View.StartCoroutine(Post("https://rcad-backend.herokuapp.com/user",
         //    "{ user_id:" + _View.ID.Value + ", score:" + _ScoreSystem.Model.Score + "}"));
     }
@@ -169,9 +169,8 @@ public class GameScreen : State<GameState>
     IEnumerator Upload()
     {
         WWWForm form = new WWWForm();
-        form.AddField("user_id", _View.ID.Value);
-        form.AddField("score", _ScoreSystem.Model.Score);
-
+        form.AddField("user_id", "BK");
+        form.AddField("score", 1000);
 
         UnityWebRequest www = UnityWebRequest.Post("https://rcad-backend.herokuapp.com/user", form);
         yield return www.SendWebRequest();

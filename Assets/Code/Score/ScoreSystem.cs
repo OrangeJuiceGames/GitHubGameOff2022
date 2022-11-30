@@ -18,7 +18,8 @@ public class ScoreSystem
         _Stage.ScoreView.DogsDead.SetText($"Dogs in after life : {_Model.DogsDead}");
         var pre = _Model.InvasionScore * .01f;
         _Stage.ScoreView.Invasion.SetText($"Invasion: {pre.ToString("p")}");
-        _Stage.ScoreView.Score.SetText($"{_Model.Score}");
+
+        _Stage.ScoreView.Score.SetText(SpriteTextUtility.ConvertToTextImage($"{_Model.Score}"));
     }
 
     private Stage _Stage;
@@ -74,7 +75,7 @@ public class ScoreSystem
             _Model.Score += _CAT_VALUE;
         }
 
-        _Stage.ScoreView.Score.SetText($"{_Model.Score}");
+        _Stage.ScoreView.Score.SetText(SpriteTextUtility.ConvertToTextImage($"{_Model.Score}"));
     }
 
     private void UpgradeCollected(UpgradeMaterial upgrade)

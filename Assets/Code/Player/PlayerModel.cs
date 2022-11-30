@@ -15,4 +15,9 @@ public class PlayerModel
     public float MoveSpeed { get; set; }
     public float DashCoolDown { get; set; }
     public bool HasShield { get; set; } //give dogs shiels until one do pops it then you loose it
+
+    public  PlayerModel()
+    {
+        this.MoveSpeed = 200f;
+    }
 }
