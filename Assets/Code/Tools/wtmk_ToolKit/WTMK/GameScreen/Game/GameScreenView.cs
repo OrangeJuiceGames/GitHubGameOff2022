@@ -18,6 +18,7 @@ public partial class GameScreenView : MonoBehaviour, IStateView
     public GameObject GamEnd;
     public Button Restart;
     public Button Exit;
+    public UserID ID;
 
     public PlayerController Player => _Player;
     public Stage Stage => _Stage;

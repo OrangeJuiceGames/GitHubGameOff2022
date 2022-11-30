@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class GameScreen : State<GameState>
 {
@@ -100,6 +102,10 @@ public class GameScreen : State<GameState>
     {
         Debug.Log("Game Over");
         _View.GamEnd.SetActive(true);
+        _View.Stage.UID.SetText(_ScoreSystem.Model.Score.ToString());
+       
+        //_View.StartCoroutine(Post("https://rcad-backend.herokuapp.com/user",
+        //    "{ user_id:" + _View.ID.Value + ", score:" + _ScoreSystem.Model.Score + "}"));
     }
 
     private void OnExit_End()
@@ -158,6 +164,37 @@ public class GameScreen : State<GameState>
     private void EndGameTriggerd()
     {
         _States.StateChange(GameScreenState.End);
+    }
+
+    IEnumerator Upload()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("user_id", _View.ID.Value);
+        form.AddField("score", _ScoreSystem.Model.Score);
+
+
+        UnityWebRequest www = UnityWebRequest.Post("https://rcad-backend.herokuapp.com/user", form);
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+        }
+    }
+
+    IEnumerator Post(string url, string bodyJsonString)
+    {
+        var request = new UnityWebRequest(url, "POST");
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(bodyJsonString);
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+        yield return request.SendWebRequest();
+        Debug.Log("Status Code: " + request.responseCode);
     }
 }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 // This class should be duplicated since everything in it will be customized per game
 public class Main : MonoBehaviour
@@ -14,6 +15,8 @@ public class Main : MonoBehaviour
     private HelpScreenView _HelpScreenView;
     [SerializeField]
     private CreditsScreenView _CreditScreenView;
+    [SerializeField]
+    private UserID _UserId;
 
     // Game screens
     private StartScreen _StartScreen;
@@ -44,6 +47,11 @@ public class Main : MonoBehaviour
 
         _CurrentState = ApplicationState.Running;
 
+        if(_UserId.Value == "")
+        {
+            var date = DateTime.Now;
+            _UserId.Value = System.Environment.TickCount.ToString() + date.ToString();
+        }
     }
 
     private void Update()
