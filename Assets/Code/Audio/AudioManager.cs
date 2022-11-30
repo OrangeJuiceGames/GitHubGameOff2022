@@ -62,6 +62,10 @@ public enum AudioType
     CatSpawn,
     CatSuccessfulCatch,
     CatLandWithoutHelmet,
-    CatLandWithHelmet
-    
+    CatLandWithHelmet,
+    ShipFlying,
+    ShipLightDamageTaken,
+    ShipHeavyDamageTaken,
+    ShipDestroyed
+
 }

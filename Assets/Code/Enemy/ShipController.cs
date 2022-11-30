@@ -91,11 +91,13 @@ public class ShipController : MonoBehaviour
         //deal damage to ship 
         _EffectAnimator.SetTrigger("Hit");
         _healthController.DamageHealth(shot.Damage);
+        AudioManager.Instance.PlayAudioByEnumType( AudioType.ShipLightDamageTaken );
     }
 
     private void DestroyShip()
     {
         _DeathExplosion.DoExplode();
+        AudioManager.Instance.PlayAudioByEnumType( AudioType.ShipDestroyed );
         OnDestroyed?.Invoke(this);
     }
 
