@@ -27,7 +27,7 @@ public class HealthController
     {
         if (_currentHealth <= 0) { return; }
 
-        float newHealthAmount = damageAmount - _currentHealth;
+        float newHealthAmount = _currentHealth - damageAmount;
 
         if (newHealthAmount <= 0)
         {
