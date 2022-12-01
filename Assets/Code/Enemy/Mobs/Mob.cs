@@ -6,6 +6,7 @@ using UnityEngine;
 public class Mob : MonoBehaviour, IPoolable
 {
     public event Action<IPoolable> OnReturnRequest;
+    public bool HasCollected => _DogCollected;
 
     public void SetAnimationTrigger(string id)
     {
@@ -43,6 +44,24 @@ public class Mob : MonoBehaviour, IPoolable
         _Rig.velocity = Vector2.zero;
         _Rig.gravityScale = _DefaultGravityScale;
         OnReturnRequest?.Invoke(this);
+    }
+
+    public void DogCollected()
+    {
+        _DogCollected = true;
+        _ReturnTimer = _CatReturnTime;
+        _Animator.SetBool("Return", true);
+        var roll = _Tools.Rando.Next(9);
+        if (roll >= 4)
+        {
+            _ReturnPosition = _Stage.LeftWall.position;
+            transform.eulerAngles = Vector3.zero;
+        }
+        else
+        {
+            _ReturnPosition = _Stage.RightWall.position;
+            transform.eulerAngles = _180;
+        }
     }
 
     public void SetActive(bool isActive)
@@ -85,7 +104,7 @@ public class Mob : MonoBehaviour, IPoolable
 
     private StateActionMap<MobType> _SkinMob;
     private float _ReturnTimer = 4f;
-    private bool _WillReturn;
+    private bool _WillReturn, _DogCollected;
     private Vector3 _180 = new Vector3(0, 180, 0);
     private WTMK _Tools = WTMK.Instance;
 
@@ -140,6 +159,21 @@ public class Mob : MonoBehaviour, IPoolable
                 _ReturnTimer = _CatReturnTime;
                 Return();
             }
+        }else if(_DogCollected)
+        {
+            _ReturnTimer -= Time.deltaTime;
+            var pos = MoveToReturnPosition();
+            var target = new Vector3(pos.x, pos.y, 0f);
+
+            target.y = transform.position.y;
+            transform.position = target;
+
+            if (_ReturnTimer <= 0)
+            {
+                _DogCollected = false;
+                _ReturnTimer = _CatReturnTime;
+                Return();
+            }
         }
     }
 
@@ -177,8 +211,11 @@ public class Mob : MonoBehaviour, IPoolable
                 HandelShotCollision(shot);
                 break;
             case "Floor":
-                var floor = collision.gameObject.GetComponent<Floor>();
-                HandelFloorCollision(floor);
+                if(!_DogCollected)
+                {
+                    var floor = collision.gameObject.GetComponent<Floor>();
+                    HandelFloorCollision(floor);
+                }
                 break;
             case "Collector":
                 Return();

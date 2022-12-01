@@ -37,7 +37,21 @@ public class Collector : MonoBehaviour
             return;
         }
 
-        mob.Return();       
-        OnScore?.Invoke(type);
+        if(type == MobType.Dog)
+        {
+            if(!mob.HasCollected)
+            {
+                mob.DogCollected();
+            }
+        }
+        else
+        {
+            mob.Return();
+        }
+
+        if (!mob.HasCollected)
+        {
+            OnScore?.Invoke(type);
+        }
     }    
 }

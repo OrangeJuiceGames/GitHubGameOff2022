@@ -19,6 +19,8 @@ public class InputProcessor : Updatable
     public event Action OnSpaceDown;
     public event Action OnEnterDown;
 
+    public float Horizontal { get { return _Horizontal; } set { _Horizontal = value; } }
+    public bool Mobile { get; set; }
 
     private float _Horizontal;
     private float _SwapToGun;
@@ -31,11 +33,12 @@ public class InputProcessor : Updatable
     private readonly string Shoot = "Shoot";
     public void Update()
     {
-        _Horizontal = Input.GetAxis(_MoveAxis);
+        if(!Mobile)
+            _Horizontal = Input.GetAxis(_MoveAxis);
 
         if(Input.GetMouseButtonDown(0))
         {
-            OnMouse1Down?.Invoke();
+            //OnMouse1Down?.Invoke();
         }
 
         if(Input.GetKeyDown(KeyCode.F1))
@@ -83,5 +86,20 @@ public class InputProcessor : Updatable
         _SwapToBasket = Input.GetAxis(SwapToBasket);
         _Shoot = Input.GetAxis(Shoot);
         */
+    }
+
+    public void FireMouse1Down()
+    {
+        OnMouse1Down?.Invoke();
+    }
+
+    public void FireSpaceDown()
+    {
+        OnSpaceDown?.Invoke();
+    }
+
+    public void FireEDown()
+    {
+        OnEDown?.Invoke();
     }
 }

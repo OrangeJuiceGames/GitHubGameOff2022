@@ -22,7 +22,8 @@ public class Stage : MonoBehaviour
     private TextMeshProUGUI _Level, _InvasionTime, _UID, _Wave;
     [SerializeField]
     private Image _ExpBar;
-    
+
+    public MobileInput MobileInput;
     public Animator ScrapomaticEffect;
 
     public Floor Floor => _Floor;

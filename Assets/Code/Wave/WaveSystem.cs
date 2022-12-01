@@ -201,10 +201,11 @@ public class WaveSystem : Updatable
     }
 
     private Timer _RestTimer = new Timer();
-    private float _RestTime = 1000f;
+    private float _RestTime = 3000f;
+
     private void OnEnter_Rest()
     {
-        _Stage.Wave.SetText($"Alive?");
+        _Stage.Wave.SetText($"Alive?"); //set random things to say
         _RestTimer.Start(_RestTime);
     }
 
@@ -220,11 +221,20 @@ public class WaveSystem : Updatable
     {
         _Wave++;
         _Stage.Wave.SetText($"WAVE\n{_Wave}");
-        //set number of active ships +1 for every 3 rounds to a max
-        if(_Wave > 9)
+
+        SetNumberOfActiveShips();
+        ActivateShips();
+        _WavePhase.StateChange(WavePhase.Spawning);
+        OnWaveStarted?.Invoke(_Wave);
+    }        
+
+    private void SetNumberOfActiveShips()
+    {
+        if (_Wave > 9)
         {
             _ShipsActive = 3;
-        }else if(_Wave > 3)
+        }
+        else if (_Wave > 6)
         {
             _ShipsActive = 2;
         }
@@ -232,11 +242,7 @@ public class WaveSystem : Updatable
         {
             _ShipsActive = 1;
         }
-
-        ActivateShips();
-        _WavePhase.StateChange(WavePhase.Spawning);
-        OnWaveStarted?.Invoke(_Wave);
-    }        
+    }
 
     private void OnEnter_Spawning()
     {
@@ -247,7 +253,7 @@ public class WaveSystem : Updatable
     }
 
     private Timer _StartBossTimer = new Timer();
-    private float _WaitTimeForBoss = 3000f;
+    private float _WaitTimeForBoss = 4200f;
     private void OnEnter_ShipsDestroyed()
     {
         _StartBossTimer.Start(_WaitTimeForBoss);
