@@ -42,15 +42,12 @@ public class Collector : MonoBehaviour
             if(!mob.HasCollected)
             {
                 mob.DogCollected();
+                OnScore?.Invoke(type);
             }
         }
         else
         {
             mob.Return();
-        }
-
-        if (!mob.HasCollected)
-        {
             OnScore?.Invoke(type);
         }
     }    

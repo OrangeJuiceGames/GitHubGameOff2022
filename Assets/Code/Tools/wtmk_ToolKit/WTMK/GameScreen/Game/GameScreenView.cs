@@ -23,6 +23,7 @@ public partial class GameScreenView : MonoBehaviour, IStateView
     public PlayerController Player => _Player;
     public Stage Stage => _Stage;
     public Story Story => _Story;
+    
 
     public virtual void SetActive(bool isActive)
     {

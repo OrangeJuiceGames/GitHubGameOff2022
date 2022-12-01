@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
+using UnityEngine;
+using Newtonsoft.Json;
+using System.Linq;
 
 public class StartScreen : State<GameState>
 {
@@ -10,7 +13,6 @@ public class StartScreen : State<GameState>
         _View.bStart.onClick.AddListener(TransitionToGame);
         _View.SetActive(true);
 
-        
         _View.StartCoroutine(GetRequest("https://rcad-backend.herokuapp.com/user"));
     }
     
@@ -84,7 +86,20 @@ public class StartScreen : State<GameState>
                 case UnityWebRequest.Result.Success:
                     _Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
                     var data = webRequest.downloadHandler.text;
-                    _View.Leaderboard_Names.SetText(data);
+                    
+                    List<Root> myDeserializedClass = JsonConvert.DeserializeObject<List<Root>>(data);
+
+                    myDeserializedClass = myDeserializedClass.OrderByDescending(x => x.score).ToList();
+                    var lb = "";
+
+                    for (int i = 0; i < myDeserializedClass.Count; i++)
+                    {
+                        var usr = myDeserializedClass[i];
+                        var pos = 1 + i;
+                        lb += $"{pos} # {usr.user_id} : {usr.score}\n";
+                    }
+
+                    _View.Leaderboard_Names.SetText(lb);
                     break;
             }
         }

@@ -47,10 +47,21 @@ public class Main : MonoBehaviour
 
         _CurrentState = ApplicationState.Running;
 
-        if(_UserId.Value == "")
+        if(!PlayerPrefs.HasKey("userID"))
         {
+            PlayerPrefs.SetString("userID", "");
+            PlayerPrefs.Save();
+        }
+
+        string userID = PlayerPrefs.GetString("userID");
+
+        if(userID == "")
+        {
+            Debug.LogError("create id");
             var date = DateTime.Now;
-            _UserId.Value = System.Environment.TickCount.ToString() + date.ToString();
+            userID = System.Environment.TickCount.ToString();
+            PlayerPrefs.SetString("userID", userID);
+            PlayerPrefs.Save();
         }
     }
 

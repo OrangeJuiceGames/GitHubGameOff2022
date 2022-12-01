@@ -114,8 +114,26 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+        time: 0.1
+        value: 1
+        inSlope: 6
+        outSlope: 6
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.46666667
+        value: 9
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
         time: 0.5
-        value: 0
+        value: 0.9
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -142,6 +160,14 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: 4dac3cb04bffba34184be00d5a679876, type: 3}
+    - time: 0.26666668
+      value: {fileID: 21300000, guid: 65febc32600477042b893801cf543bfe, type: 3}
+    - time: 0.56666666
+      value: {fileID: 21300000, guid: 4dac3cb04bffba34184be00d5a679876, type: 3}
+    - time: 0.73333335
+      value: {fileID: 21300000, guid: 65febc32600477042b893801cf543bfe, type: 3}
+    - time: 0.9
+      value: {fileID: 21300000, guid: 65febc32600477042b893801cf543bfe, type: 3}
     - time: 1
       value: {fileID: 21300000, guid: 4dac3cb04bffba34184be00d5a679876, type: 3}
     attribute: m_Sprite
@@ -192,6 +218,10 @@ AnimationClip:
       isPPtrCurve: 0
     pptrCurveMapping:
     - {fileID: 21300000, guid: 4dac3cb04bffba34184be00d5a679876, type: 3}
+    - {fileID: 21300000, guid: 65febc32600477042b893801cf543bfe, type: 3}
+    - {fileID: 21300000, guid: 4dac3cb04bffba34184be00d5a679876, type: 3}
+    - {fileID: 21300000, guid: 65febc32600477042b893801cf543bfe, type: 3}
+    - {fileID: 21300000, guid: 65febc32600477042b893801cf543bfe, type: 3}
     - {fileID: 21300000, guid: 4dac3cb04bffba34184be00d5a679876, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
@@ -311,8 +341,26 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+        time: 0.1
+        value: 1
+        inSlope: 6
+        outSlope: 6
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.46666667
+        value: 9
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
         time: 0.5
-        value: 0
+        value: 0.9
         inSlope: 0
         outSlope: 0
         tangentMode: 136

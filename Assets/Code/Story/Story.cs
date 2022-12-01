@@ -9,8 +9,13 @@ public class Story : MonoBehaviour
 
     public void Intro()
     {
+        SetActive(true);
         _IntroTimer.Start(IntroTime);
+    }
 
+    public void SetActive(bool isActive)
+    {
+        gameObject.SetActive(isActive);
     }
 
     private Timer _IntroTimer = new Timer();

@@ -25,6 +25,7 @@ public class Stage : MonoBehaviour
 
     public MobileInput MobileInput;
     public Animator ScrapomaticEffect;
+    public TMP_InputField Input;
 
     public Floor Floor => _Floor;
     public ShipFactory ShipFactory => _ShipFactory;

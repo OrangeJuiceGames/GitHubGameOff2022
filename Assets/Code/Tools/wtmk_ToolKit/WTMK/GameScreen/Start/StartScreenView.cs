@@ -14,6 +14,8 @@ public class StartScreenView : MonoBehaviour, IStateView
     private Canvas _UI;
     public TextMeshProUGUI Leaderboard_Names;
 
+    public UserID UID;
+
     public void SetActive(bool isActive)
     {
         gameObject.SetActive(isActive);
