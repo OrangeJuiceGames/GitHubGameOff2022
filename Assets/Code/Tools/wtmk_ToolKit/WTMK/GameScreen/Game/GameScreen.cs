@@ -203,8 +203,8 @@ public class GameScreen : State<GameState>
         }
     }
 
-    private string BaseUrl = "http://localhost:3000/user";
-    private string RESTAPI = "https://rcad-backend.herokuapp.com/user"; 
+    public static string BaseUrl = "http://localhost:3000/user";
+    public static string RESTAPI = "https://rcad-backend.herokuapp.com/user"; 
 
 }
 

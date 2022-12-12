@@ -13,7 +13,7 @@ public class StartScreen : State<GameState>
         _View.bStart.onClick.AddListener(TransitionToGame);
         _View.SetActive(true);
 
-        _View.StartCoroutine(GetRequest("https://rcad-backend.herokuapp.com/user"));
+        _View.StartCoroutine(GetRequest(GameScreen.BaseUrl));
     }
     
     public override void OnExit() 
